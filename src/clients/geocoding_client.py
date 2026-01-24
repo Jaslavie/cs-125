@@ -7,7 +7,7 @@ from geopy.geocoders import Nominatim
 ssl_context = ssl.create_default_context(cafile=certifi.where())
 loc = Nominatim(user_agent="petr-parking", ssl_context=ssl_context)
 
-def address_to_lat_long(address: str):
+def address_to_lat_long(address: str) -> Location:
     """
     Input: valid location string
     """
@@ -17,8 +17,8 @@ def address_to_lat_long(address: str):
     longitude = getLoc.longitude
     return latitude, longitude
 
-# def get_user_location_radius(userLocation: Location):
-#     {lat, long} = userLocation 
+def get_user_location_radius(userLocation: Location) :
+    {lat, long} = userLocation 
 
 result = address_to_lat_long("New York City")
 print(result)

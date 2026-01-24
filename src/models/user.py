@@ -12,7 +12,7 @@ from enum import Enum
 @dataclass
 class Location:
     lat: float
-    lng: float
+    lon: float
 
 
 class BudgetRange(Enum):
@@ -83,3 +83,13 @@ class UserQuery:
     current_location: Location    # From device GPS
     current_time: datetime        # Auto-captured
     preferences: UserPreferences
+
+
+@dataclass
+class UserLocationRadius:
+    """
+    Computed meters within radius of the user
+    """
+    lat: float
+    lon: float
+    radius: float # meters

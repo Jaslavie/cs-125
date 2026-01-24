@@ -65,9 +65,9 @@ class CandidateMeter:
         meter: Meter,
         destination: Location,
         stay_duration_minutes: int
-    ) -> "CandidateSpot":
+    ) -> "CandidateMeter":
         """
-        Create a CandidateSpot from a Meter with computed fields.
+        Create a Candidate spot with Meter data
 
         Args:
             meter: The base meter data
