@@ -1,6 +1,9 @@
 # cs-125: Petr Parking
 
 ## Data Model
+Datasets:
+-"Inventory of all on-street metered parking spaces in the City of Los Angeles" [Link](https://data.lacity.org/Transportation/LADOT-Metered-Parking-Inventory-Policies/s49e-q6j2/about_data)
+-"Real-time parking availability at over 5,000 spaces" [Link](https://data.lacity.org/Transportation/LADOT-Parking-Meter-Occupancy/e7h6-4a3e/about_data)
 
 ### User Input (Per Query)
 
