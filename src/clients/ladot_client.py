@@ -16,19 +16,19 @@ headers={}
 headers["X-App-Token"] = os.getenv("LADOT_APP_TOKEN")
 
 """
-Get available meters in the user's location radius
-- Input: parsed coordinates of a user's location
+Get available meters in the user's destination location
+- Input: parsed coordinates 
 - Output: list of available meters
 """
 @app.post("/ladot-meters")
-def get_meters_in_area(userLocation: Location):
+def get_meters_in_area(destLocation: Location):
     url = "https://data.lacity.org/resource/s49e-q6j2.json"
     
-    radius = 100 # in meters
+    radius = 1609.34 # 1 mile radius in meters
 
     # Use the API's built in within_circle() function
     location_boundary = (
-        f"within_circle(latlng, {userLocation.lat}, {userLocation.lon}, {radius})"
+        f"within_circle(latlng, {destLocation.lat}, {destLocation.lon}, {radius})"
     )
 
     params = {
@@ -45,8 +45,8 @@ Get raw dataset of occupancy of each meter
 - Input: Meter object queried by space_id
 - Output: list of occupancy for meters
 """
-# @app.post("/ladot-occupancy")
-# def get_occupancy(meters: Meter) -> MeterOccupancies:
+@app.post("/ladot-occupancy")
+def get_occupancy(meters: Meter) -> MeterOccupancies:
 
 """
 Get all candidate meters open for the current time

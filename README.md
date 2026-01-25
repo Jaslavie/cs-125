@@ -39,7 +39,7 @@ You may also use the /docs extension for a cleaner UI to interact with the API
 ### API Endpoints
 
 #### Get Nearby Meters
-
+Gets meters within the radius of the target location
 ```bash
 curl -X POST "http://127.0.0.1:8000/ladot-meters" \
   -H "Content-Type: application/json" \
