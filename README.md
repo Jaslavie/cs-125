@@ -61,6 +61,23 @@ Example response:
 ]
 ```
 
+#### Get Meter Occupancy
+Gets the most recent occupancy status for specified meter IDs
+```bash
+curl -X POST "http://127.0.0.1:8000/ladot-occupancy" \
+  -H "Content-Type: application/json" \
+  -d '{"spaceids": ["HO450A", "HO525", "HO453"]}'
+```
+
+Example response:
+```json
+{
+  "HO450A": {"occupancystate": "VACANT", "eventtime": "2026-01-24T22:47:08.000"},
+  "HO525": {"occupancystate": "UNKNOWN", "eventtime": "2026-01-24T20:59:48.000"},
+  "HO453": {"occupancystate": "OCCUPIED", "eventtime": "2026-01-24T17:26:56.000"}
+}
+```
+
 ---
 
 ## Data Model

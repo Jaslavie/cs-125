@@ -1,8 +1,16 @@
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from pydantic import BaseModel
 import os
-import uvicorn
 import requests
+
+from ..models import RawLatLng, RawMeterInventory, RawMeterOccupancy
+
+# Create a base class to pass in as a JSON body to the query
+class MeterSearchRequest(BaseModel):
+    lat: float # destination latitude
+    lon: float # destination longitude
+    radius_m: float = 1609.34  # 1 mile in meters
 
 load_dotenv()
 
@@ -20,16 +28,12 @@ Get available meters in the user's destination location
 - Output: list of available meters
 """
 @app.post("/ladot-meters")
-def get_meters_in_area(
-        lat: float, # destination latitude
-        lon: float, # destination longitude
-        radius_m: int = 1609.34 # 1 mile in meters
-    ) -> list[dict]:
+def get_meters_in_area(request: MeterSearchRequest) -> list[RawMeterInventory]:
     url = "https://data.lacity.org/resource/s49e-q6j2.json"
 
     # Use the API's built in within_circle() function
     location_boundary = (
-        f"within_circle(latlng, {lat}, {lon}, {radius_m})"
+        f"within_circle(latlng, {request.lat}, {request.lon}, {request.radius_m})"
     )
 
     params = {
@@ -38,7 +42,23 @@ def get_meters_in_area(
     }
 
     r = requests.get(url, params=params, headers=headers)
-    return r.json()
+    
+    # Parse raw JSON into typed dataclass instances
+    return [
+        RawMeterInventory(
+            spaceid=item["spaceid"],
+            blockface=item["blockface"],
+            metertype=item["metertype"],
+            ratetype=item["ratetype"],
+            raterange=item["raterange"],
+            timelimit=item["timelimit"],
+            latlng=RawLatLng(
+                latitude=item["latlng"]["latitude"],
+                longitude=item["latlng"]["longitude"]
+            )
+        )
+        for item in r.json()
+    ]
 
 
 """
@@ -47,7 +67,7 @@ Return the most recent occupancy status of each parking meter
 - Output: list of occupancy for meters
 """
 @app.post("/ladot-occupancy")
-def get_occupancy(spaceids: list[str]) -> dict[str, dict]:
+def get_occupancy(spaceids: list[str]) -> dict[str, RawMeterOccupancy]:
     url = "https://data.lacity.org/resource/e7h6-4a3e.json"
 
     if not spaceids: 
@@ -65,17 +85,18 @@ def get_occupancy(spaceids: list[str]) -> dict[str, dict]:
     r = requests.get(url, params=params, headers=headers)
     r.raise_for_status()
 
-    # Only keep most recent pair
-    latest = {}
+    # Only keep most recent record per spaceid
+    latest: dict[str, RawMeterOccupancy] = {}
     for record in r.json():
         sid = record["spaceid"]
         
         # Add the first occurrence in the descending list 
         if sid not in latest:
-            latest[sid] = {
-                "occupancystate": record.get("occupancystate", "UNKNOWN"),
-                "eventtime": record.get("eventtime")
-            }
+            latest[sid] = RawMeterOccupancy(
+                spaceid=sid,
+                eventtime=record.get("eventtime", ""),
+                occupancystate=record.get("occupancystate", "UNKNOWN")
+            )
     
     return latest
 
