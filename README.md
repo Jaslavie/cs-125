@@ -92,9 +92,24 @@ Datasets:
 | `targetLocation` | `string` | `"Pantages Theatre"` | Free text, geocoded to lat/lng |
 | `currentLocation` | `{lat: float, lng: float}` | `{lat: 34.101, lng: -118.325}` | From device GPS |
 | `currentTime` | `ISO 8601 string` | `"2026-01-24T19:00:00"` | Auto-captured |
-| `budgetRangePreference` | `category` | `"medium"` → $10.00 - $20.00 | Affects scoring weights. Budget in USD |
-| `walkingDistancePreference` | `category` | `"close"` → x-y meters walk | Affects scoring weights. Distance in meters |
-| `stayTimePreference` | `category` | `"long"` → x-y minutes | Affects scoring weights. Time in minutes |
+| `budgetRangePreference` | `category` | `"medium"` | See category mappings below |
+| `stayTimePreference` | `category` | `"short"` | See category mappings below |
+
+#### Preference Category Mappings
+
+**Budget Range** (max total cost user is willing to pay)
+| Category | USD Range |
+|----------|-----------|
+| `"low"` | $0 - $10 |
+| `"medium"` | $10 - $20 |
+| `"high"` | $20 - $50 |
+
+**Stay Time** (how long user plans to park)
+| Category | Duration Range |
+|----------|----------------|
+| `"short"` | 0 - 60 minutes |
+| `"medium"` | 60 - 120 minutes |
+| `"long"` | 120 - 240 minutes |
 
 ### Meter Data (Retrieved)
 
@@ -124,7 +139,7 @@ Combined from Dataset 1 (Inventory) + Dataset 2 (Occupancy).
 | Field | Type | Example |
 |-------|------|---------|
 | `spaceid` | `string` | `"HO108"` |
-| `address` | `string` | `"6233 Hollywood Blvd"` |
+| `addressMeter` | `string` | `"6233 Hollywood Blvd"` |
 | `walkTime` | `integer` | `3` (minutes) |
 | `rate` | `float` | `2.00` ($/hr) |
 | `estimatedTotalCost` | `float` | `6.00` |
