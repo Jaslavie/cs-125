@@ -80,12 +80,13 @@ Example response:
 
 ---
 
-## Data Model
+# Data Model
 Datasets:
 - "Inventory of all on-street metered parking spaces in the City of Los Angeles" [Link](https://data.lacity.org/Transportation/LADOT-Metered-Parking-Inventory-Policies/s49e-q6j2/about_data)
 - "Real-time parking availability at over 5,000 spaces" [Link](https://data.lacity.org/Transportation/LADOT-Parking-Meter-Occupancy/e7h6-4a3e/about_data)
 
-### User Input (Per Query)
+## User Input
+User inputed data for each query
 
 | Field | Type | Example | Notes |
 |-------|------|---------|-------|
@@ -95,25 +96,23 @@ Datasets:
 | `budgetRangePreference` | `category` | `"medium"` | See category mappings below |
 | `stayTimePreference` | `category` | `"short"` | See category mappings below |
 
-#### Preference Category Mappings
-
-**Budget Range** (max total cost user is willing to pay)
+### Preference Category Mappings
+**`budgetRangePreference`** - max total cost user is willing to pay
 | Category | USD Range |
 |----------|-----------|
 | `"low"` | $0 - $10 |
 | `"medium"` | $10 - $20 |
 | `"high"` | $20 - $50 |
 
-**Stay Time** (how long user plans to park)
+**`stayTimePreference`** - how long user plans to park
 | Category | Duration Range |
 |----------|----------------|
 | `"short"` | 0 - 60 minutes |
 | `"medium"` | 60 - 120 minutes |
 | `"long"` | 120 - 240 minutes |
 
-### Meter Data (Retrieved)
-
-Combined from Dataset 1 (Inventory) + Dataset 2 (Occupancy).
+## Meter Data
+Raw data from API
 
 | Field | Type | Source | Example |
 |-------|------|--------|---------|
@@ -125,7 +124,8 @@ Combined from Dataset 1 (Inventory) + Dataset 2 (Occupancy).
 | `occupancyStatus` | `enum` | Occupancy API | `"VACANT"` / `"OCCUPIED"` |
 | `lastUpdated` | `ISO 8601 string` | Occupancy API | `"2026-01-24T19:03:24"` |
 
-### Computed Fields (Scoring)
+## Computed Fields
+After data cleaning, used for scoring
 
 | Field | Type | Derivation |
 |-------|------|------------|
@@ -134,7 +134,8 @@ Combined from Dataset 1 (Inventory) + Dataset 2 (Occupancy).
 | `estimatedTotalCost` | `float` | `rate × (duration / 60)` |
 | `score` | `float` | Weighted combo of distance, cost, user prefs |
 
-### Output (Ranked List)
+## Final output (Ranked List)
+This is what is displayed on the frontend and should follow the desired logical view
 
 | Field | Type | Example |
 |-------|------|---------|

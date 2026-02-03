@@ -57,7 +57,7 @@ class CandidateMeter:
     # Computed fields (calculated during retrieval)
     distance_meters: float        # Haversine distance to destination
     walk_time_minutes: int        # distance / 80 m/min
-    estimated_total_cost: float   # rate × (duration / 60)
+    estimated_total_cost: float   # rate × (duration / 60) 
 
     @classmethod
     def from_meter(
