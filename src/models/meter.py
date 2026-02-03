@@ -55,42 +55,23 @@ class CandidateMeter:
     occupancy: OccupancyStatus
 
     # Computed fields (calculated during retrieval)
-    distance_meters: float        # Haversine distance to destination
-    walk_time_minutes: int        # distance / 80 m/min
-    estimated_total_cost: float   # rate × (duration / 60) 
+    distance_to_destination_meters: float
+    walk_time_minutes: int
+    estimated_total_cost: float
 
-    @classmethod
-    def from_meter(
-        cls,
-        meter: Meter,
-        destination: Location,
-        stay_duration_minutes: int
-    ) -> "CandidateMeter":
-        """
-        Create a Candidate spot with Meter data
+@dataclass
+class OutputMeter:
+    """
+    Final output meter shown to user
+    """ 
+    spaceid: str
+    address: str
+    rate_per_hour: float
+    time_limit_minutes: int
+    occupancy: OccupancyStatus
+    distance_to_destination_meters: float
+    walk_time_minutes: int
+    estimated_total_cost: float
 
-        Args:
-            meter: The base meter data
-            destination: User's target location (for distance calc)
-            stay_duration_minutes: How long user plans to park
-
-        Returns:
-            CandidateSpot with all computed fields populated
-        """
-        from ..utils.geo import haversine_distance
-
-        distance = haversine_distance(meter.location, destination)
-        walk_time = int(distance / 80)  # avg walking speed ~80 m/min
-        total_cost = meter.rate_per_hour * (stay_duration_minutes / 60)
-
-        return cls(
-            spaceid=meter.spaceid,
-            location=meter.location,
-            address=meter.address,
-            rate_per_hour=meter.rate_per_hour,
-            time_limit_minutes=meter.time_limit_minutes,
-            occupancy=meter.occupancy,
-            distance_meters=distance,
-            walk_time_minutes=walk_time,
-            estimated_total_cost=total_cost,
-        )
+    # Ranking output
+    rank: int

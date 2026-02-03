@@ -132,7 +132,6 @@ After data cleaning, used for scoring
 | `distanceToDestination` | `float` | `Haversine(meter.latlng, destination.latlng)` in meters |
 | `walkTime` | `integer` | `distanceToDestination / 80` (avg walking speed m/min) |
 | `estimatedTotalCost` | `float` | `rate × (duration / 60)` |
-| `score` | `float` | Weighted combo of distance, cost, user prefs |
 
 ## Final output (Ranked List)
 This is what is displayed on the frontend and should follow the desired logical view
@@ -146,4 +145,3 @@ This is what is displayed on the frontend and should follow the desired logical 
 | `estimatedTotalCost` | `float` | `6.00` |
 | `timelimit` | `integer` | `240` (minutes) |
 | `rank` | `integer` | `1` |
-| `colorCode` | `enum` | `"green"` / `"yellow"` / `"orange"` |
