@@ -1,6 +1,6 @@
 const { rankParkingSpots } = require("../src/ranking/ranking");
 
-console.log("🚗 Running ranking test...");
+console.log("test running...");
 
 const destination = { lat: 34.100, lng: -118.324 };
 
@@ -36,7 +36,7 @@ console.table(
 );
 
 if (result[0].spaceid !== "CLOSE") {
-  throw new Error("❌ Test failed: CLOSE should rank first");
+  throw new Error(" Test failed: CLOSE should rank first");
 }
 
-console.log("✅ Test passed!");
+console.log("Test passed!");

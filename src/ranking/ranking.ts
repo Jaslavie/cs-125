@@ -20,14 +20,14 @@ export type UserPreferences = {
   stayTimePreference: "short" | "medium" | "long";
 };
 
-export type ParkingSpot = {
+export type ParkingSpot = { // parking spot == candidate meter in data layer
   spaceid: string;
   latlng: LatLng;
-  rate: number;        // $ per hour
-  timelimit: number;   // minutes
+  rate: number;        // $ per hour from raterange 
+  timelimit: number;   // minutes from 2hr
 };
 
-export type RankedParkingSpot = ParkingSpot & {
+export type RankedParkingSpot = ParkingSpot & { // ranked parking spot == ranked meter in data layer
   distanceToDestination: number; // in meters
   walkTime: number;              // in minutes
   estimatedTotalCost: number;    // cost 
