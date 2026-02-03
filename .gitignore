@@ -1,2 +1,7 @@
 # Misc
 .claude
+
+# Environment variables
+.env
+venv
+*__pycache__
