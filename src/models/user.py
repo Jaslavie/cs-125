@@ -7,6 +7,7 @@ User data models
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
+from pydantic import BaseModel
 
 @dataclass
 class Location:
@@ -39,6 +40,14 @@ class UserPreferences:
     budget_range: BudgetRange
     stay_time: StayTime
 
+class MeterSearchRequest(BaseModel):
+    """
+    Passed into the search body of the ladot api
+    """
+    lat: float # destination latitude
+    lon: float # destination longitude
+    radius_m: float = 1609.34  # 1 mile in meters
+
 @dataclass
 class UserQuery:
     """
@@ -49,7 +58,7 @@ class UserQuery:
     current_location: Location
     current_time: datetime
     # Defined by user
-    target_location: str
+    target_location_address: str
     preferences: UserPreferences
 
 
