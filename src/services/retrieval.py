@@ -1,3 +1,3 @@
-from models import Meter, CandidateMeter
+from models import CandidateMeter
 
 

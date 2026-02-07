@@ -4,9 +4,9 @@ from typing import List
 from src.constants.constants import DEFAULT_GEOHASH_PRECISION
 from src.models import RawMeterInventory
 
-def get_distance():
+def get_walking_distance():
     """
-    Returns distance to destination
+    Returns walking distance to destination from parking meter
     """
     pass
 

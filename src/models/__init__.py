@@ -9,7 +9,7 @@ Models:
 
 from .raw_api import RawLatLng, RawMeterInventory, RawMeterOccupancy
 from .user import Location, BudgetRange, StayTime, UserPreferences, UserQuery
-from .meter import OccupancyStatus, Meter, CandidateMeter
+from .meter import OccupancyStatus, CandidateMeter
 
 __all__ = [
     # Raw API
@@ -24,6 +24,5 @@ __all__ = [
     "UserQuery",
     # Meter
     "OccupancyStatus",
-    "Meter",
     "CandidateMeter",
 ]
