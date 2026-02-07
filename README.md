@@ -112,17 +112,48 @@ User inputed data for each query
 | `"long"` | 120 - 240 minutes |
 
 ## Meter Data
-Raw data from API
+
+### Raw API Fields
 
 | Field | Type | Source | Example |
 |-------|------|--------|---------|
 | `spaceid` | `string` | Inventory API | `"HO108"` |
-| `latlng` | `{lat: float, lng: float}` | Inventory API | `{lat: 34.086, lng: -118.294}` |
 | `blockface` | `string` | Inventory API | `"800 HELIOTROPE DR"` |
-| `rate` | `float` | Inventory API (parsed) | `1.50` ($/hr) |
-| `timelimit` | `integer` | Inventory API (parsed) | `360` (minutes) |
-| `occupancyStatus` | `enum` | Occupancy API | `"VACANT"` / `"OCCUPIED"` |
-| `lastUpdated` | `ISO 8601 string` | Occupancy API | `"2026-01-24T19:03:24"` |
+| `metertype` | `string` | Inventory API | `"Single-Space"` |
+| `ratetype` | `string` | Inventory API | `"TOD"` / `"FLAT"` / `"JUMP"` |
+| `raterange` | `string` | Inventory API | `"$2.00 - $3.00"` |
+| `timelimit` | `string` | Inventory API | `"2HR"` / `"30MIN"` |
+| `latlng` | `{latitude: string, longitude: string}` | Inventory API | `{latitude: "34.086", longitude: "-118.294"}` |
+| `occupancystate` | `string` | Occupancy API | `"VACANT"` / `"OCCUPIED"` |
+| `eventtime` | `ISO 8601 string` | Occupancy API | `"2026-01-24T19:03:24.000"` |
+
+### Parsed Fields (`CandidateMeter`)
+
+`parsers.clean_data()` converts raw strings into typed values:
+
+| Field | Type | Parsed from | Example |
+|-------|------|-------------|---------|
+| `spaceid` | `string` | passthrough | `"HO453"` |
+| `metertype` | `string` | passthrough | `"Single-Space"` |
+| `location` | `Location(lat, lon)` | `latlng` strings → floats | `Location(34.102, -118.326)` |
+| `address` | `string` | reverse geocode from lat/lon | `"1700 Vine St, Los Angeles, CA"` |
+| `rate_per_hour` | `tuple[float, float]` | `raterange` string | `(2.0, 3.0)` |
+| `time_limit_minutes` | `int` | `timelimit` string | `120` |
+| `occupancy` | `OccupancyStatus` enum | `occupancystate` string | `VACANT` |
+| `occupancy_time` | `datetime | None` | `eventtime` string | `2026-01-24T19:03:24` |
+
+#### Rate parsing rules
+| Raw `raterange` | Pattern | Parsed `rate_per_hour` |
+|-----------------|---------|----------------------|
+| `"$4.00"` | FLAT | `(4.0, 4.0)` |
+| `"$2.00 - $3.00"` | TOD (time-of-day range) | `(2.0, 3.0)` |
+| `"$1.5/H - $6/10H"` | JUMP (escalating) | `(1.5, 6.0)` |
+
+#### Time limit parsing rules
+| Raw `timelimit` | Parsed `time_limit_minutes` |
+|-----------------|---------------------------|
+| `"2HR"` | `120` |
+| `"30MIN"` | `30` |
 
 ## Geohash Inverted Index
 Meters are indexed by geohash cell for fast spatial lookup.
@@ -144,14 +175,14 @@ Meters are indexed by geohash cell for fast spatial lookup.
 
 At query time, we look up the user's cell + 8 neighbors (9 cells total) to find all nearby meters.
 
-## Computed Fields
-After data cleaning, used for scoring
+## Computed Fields (on `OutputMeter`)
+Computed per query in `retrieval.py` — these depend on the user's location and preferences, not the meter itself.
 
 | Field | Type | Derivation |
 |-------|------|------------|
-| `distanceToDestination` | `float` | `Haversine(meter.latlng, destination.latlng)` in meters |
-| `walkTime` | `integer` | `distanceToDestination / 80` (avg walking speed m/min) |
-| `estimatedTotalCost` | `float` | `rate × (duration / 60)` |
+| `distance_to_destination_meters` | `float` | `Haversine(meter.location, user.location)` |
+| `walk_time_minutes` | `int` | `distance / 80` (avg walking speed m/min) |
+| `estimated_total_cost` | `float` | `rate × (stay_time / 60)` |
 
 ## Final output (Ranked List)
 This is what is displayed on the frontend and should follow the desired logical view
@@ -159,9 +190,10 @@ This is what is displayed on the frontend and should follow the desired logical 
 | Field | Type | Example |
 |-------|------|---------|
 | `spaceid` | `string` | `"HO108"` |
-| `addressMeter` | `string` | `"6233 Hollywood Blvd"` |
-| `walkTime` | `integer` | `3` (minutes) |
-| `rate` | `float` | `2.00` ($/hr) |
-| `estimatedTotalCost` | `float` | `6.00` |
-| `timelimit` | `integer` | `240` (minutes) |
-| `rank` | `integer` | `1` |
+| `address` | `string` | `"6233 Hollywood Blvd"` |
+| `rate_per_hour` | `float` | `2.00` ($/hr) |
+| `time_limit_minutes` | `int` | `240` (minutes) |
+| `occupancy` | `OccupancyStatus` | `VACANT` |
+| `walk_time_minutes` | `int` | `3` (minutes) |
+| `estimated_total_cost` | `float` | `6.00` |
+| `rank` | `int` | `1` |
