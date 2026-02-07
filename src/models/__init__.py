@@ -8,7 +8,7 @@ Models:
 """
 
 from .raw_api import RawLatLng, RawMeterInventory, RawMeterOccupancy
-from .user import Location, BudgetRange, WalkingDistance, StayTime, UserPreferences, UserQuery
+from .user import Location, BudgetRange, StayTime, UserPreferences, UserQuery
 from .meter import OccupancyStatus, Meter, CandidateMeter
 
 __all__ = [
@@ -19,7 +19,6 @@ __all__ = [
     # User
     "Location",
     "BudgetRange",
-    "WalkingDistance",
     "StayTime",
     "UserPreferences",
     "UserQuery",
