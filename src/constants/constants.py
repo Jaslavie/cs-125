@@ -1,1 +1,1 @@
-DEFAULT_GEOHASH_PRECISION = 6
+DEFAULT_GEOHASH_PRECISION = 7 # ~ 1 mile per geohash square
