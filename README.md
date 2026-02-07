@@ -124,6 +124,26 @@ Raw data from API
 | `occupancyStatus` | `enum` | Occupancy API | `"VACANT"` / `"OCCUPIED"` |
 | `lastUpdated` | `ISO 8601 string` | Occupancy API | `"2026-01-24T19:03:24"` |
 
+## Geohash Inverted Index
+Meters are indexed by geohash cell for fast spatial lookup.
+
+- **Key**: geohash string (encodes a ~150m x 150m grid cell)
+- **Value**: list of `RawMeterInventory` objects in that cell
+
+```json
+{
+  "9q5ctr2": [
+    {"spaceid": "HO453", "blockface": "1700 VINE ST", ...},
+    {"spaceid": "HO454", "blockface": "1701 VINE ST", ...}
+  ],
+  "9q5ctr3": [
+    {"spaceid": "SV881", "blockface": "1400 VINE ST", ...}
+  ]
+}
+```
+
+At query time, we look up the user's cell + 8 neighbors (9 cells total) to find all nearby meters.
+
 ## Computed Fields
 After data cleaning, used for scoring
 
