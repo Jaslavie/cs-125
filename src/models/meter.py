@@ -19,8 +19,9 @@ class OccupancyStatus(Enum):
 @dataclass
 class CandidateMeter:
     """
-    Cleaned parking meter
+    Cleaned parking meter data
     Prepared for scoring and ranking
+    Only include data intrinsic to the meter
     """
     # Meter data
     spaceid: str        # Directly from raw api
@@ -28,27 +29,27 @@ class CandidateMeter:
     location: Location  # LATLONG
     address: str        # Full address
     rate_per_hour: tuple[float, float] # (4, 5) = $4-$5
-    time_limit_hours: int # 4 Hours
+    time_limit_minutes: int # 60 mins
 
     # Occupancy data
-    occupancy_time: datetime # datetime
-    occupancy: OccupancyStatus # VACANT
-
-    # Computed fields
-    walk_time_minutes: int
-    walk_time_distance_miles: float
-    estimated_total_cost: float
+    occupancy: OccupancyStatus  # VACANT / OCCUPIED / UNKNOWN
+    occupancy_time: Optional[datetime.datetime] = None
 
 @dataclass
 class OutputMeter:
     """
     Final output meter shown to user
+    We will show the computed metrics here 
+    relative to the user's inputs (ex: walking distance)
     """ 
+    # From meter data
     spaceid: str
     address: str
     rate_per_hour: float
     time_limit_minutes: int
     occupancy: OccupancyStatus
+
+    # Computed metrics
     distance_to_destination_meters: float
     walk_time_minutes: int
     estimated_total_cost: float
