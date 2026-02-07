@@ -1,13 +1,14 @@
 """
-Normalized Meter data model
+Meter data models
 """
 
 from dataclasses import dataclass
-from datetime import datetime
 from enum import Enum
 from typing import Optional
+import datetime
 
 from .user import Location
+from .raw_api import RawLatLng
 
 
 class OccupancyStatus(Enum):
@@ -15,48 +16,27 @@ class OccupancyStatus(Enum):
     OCCUPIED = "OCCUPIED"
     UNKNOWN = "UNKNOWN"
 
-
-@dataclass
-class Meter:
-    """
-    Combined Meter object from /ladot-meters and /ladot-occupancy
-    """
-    # Identity
-    spaceid: str                  # "HO108"
-
-    # Location
-    location: Location            # Parsed from string lat/lng
-    address: str                  # "800 HELIOTROPE DR" (from blockface)
-
-    # Pricing & rules
-    rate_per_hour: float          # 1.50 (parsed from "$1.5/H - $6/6H")
-    time_limit_minutes: int       # 360 (parsed from "6HR")
-
-    # Real-time status
-    occupancy: OccupancyStatus
-    last_updated: Optional[datetime]  # From occupancy API eventtime
-
-    # Optional regional data (from Socrata computed fields)
-    neighborhood_council: Optional[str] = None
-    city_council_district: Optional[str] = None
-    census_tract: Optional[str] = None
-
 @dataclass
 class CandidateMeter:
     """
-    A parking meter enriched with computed fields for scoring.
+    Cleaned parking meter
+    Prepared for scoring and ranking
     """
-    # Base meter data
-    spaceid: str
-    location: Location
-    address: str
-    rate_per_hour: float
-    time_limit_minutes: int
-    occupancy: OccupancyStatus
+    # Meter data
+    spaceid: str        # Directly from raw api
+    metertype: str      # Directly from raw api
+    location: Location  # LATLONG
+    address: str        # Full address
+    rate_per_hour: tuple[float, float] # (4, 5) = $4-$5
+    time_limit_hours: int # 4 Hours
 
-    # Computed fields (calculated during retrieval)
-    distance_to_destination_meters: float
+    # Occupancy data
+    occupancy_time: datetime # datetime
+    occupancy: OccupancyStatus # VACANT
+
+    # Computed fields
     walk_time_minutes: int
+    walk_time_distance_miles: float
     estimated_total_cost: float
 
 @dataclass
