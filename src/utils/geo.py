@@ -1,11 +1,14 @@
 import pygeohash as pgh
-import ..constants.constants
-from ..models import RawMeterInventory
+from typing import List
 
-def get_distance()
+from src.constants.constants import DEFAULT_GEOHASH_PRECISION
+from src.models import RawMeterInventory
+
+def get_distance():
     """
     Returns distance to destination
     """
+    pass
 
 def encode_geohash(latitude: str, longitude: str, precision: int = DEFAULT_GEOHASH_PRECISION):
     """
@@ -31,7 +34,7 @@ class GeoIndex:
         self.geohash_inverted_index: dict[str, list[RawMeterInventory]] = {} 
         self.seen_meters: set[str] = set() # enforce uniqueness
     
-    def add_meters_to_geohash():
+    def add_meters_to_geohash(self, meters: list[RawMeterInventory]) -> int:
         """
         Add a meter to a geohash index
         """
@@ -39,7 +42,7 @@ class GeoIndex:
 
         for meter in meters:
             # Skip if meter already exists in inverted index list
-            if meter.spaceid in self.seen:
+            if meter.spaceid in self.seen_meters:
                 continue
 
             # Create new geohash
@@ -75,10 +78,21 @@ class GeoIndex:
         # Lookup the 8 neighboring grids
         # Find the meters within this 1 mile radius
         # Lookup occurs at query time
-        neighbors = pgh.neighbors(geohash)
-
+        top = pgh.get_adjacent(gh, "top")
+        bottom = pgh.get_adjacent(gh, "bottom")
+        
         # Concatenate main grid cell and surrounding ones
-        cells_to_check = [gh] + list(neighbors.values())
+        cells_to_check = [
+            gh,
+            top,
+            pgh.get_adjacent(top, "left"),
+            pgh.get_adjacent(top, "right"),
+            bottom,
+            pgh.get_adjacent(bottom, "left"),
+            pgh.get_adjacent(bottom, "right"),
+            pgh.get_adjacent(gh, "left"),
+            pgh.get_adjacent(gh, "right"),
+        ]
         
         # Check each cell and add to results list
         results: List[RawMeterInventory] = []
