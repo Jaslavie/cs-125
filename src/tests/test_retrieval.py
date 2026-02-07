@@ -221,7 +221,7 @@ def test_full_pipeline(monkeypatch):
     monkeypatch.setattr("src.services.retrieval.address_to_lat_long", lambda addr: (34.1020, -118.3260))
     monkeypatch.setattr("src.services.retrieval.get_meters_in_area", lambda req: fake_meters)
     monkeypatch.setattr("src.services.retrieval.get_occupancy", lambda ids: fake_occupancy)
-    monkeypatch.setattr("src.utils.parsers.lat_long_to_address", lambda lat, lon: "123 Main St, Los Angeles, CA")
+    # No need to mock reverse geocoding — parsers now uses blockface directly
 
     # Fresh geohash index so other tests don't interfere
     monkeypatch.setattr("src.services.retrieval.geo_index", GeoIndex())
@@ -248,7 +248,7 @@ def test_full_pipeline(monkeypatch):
     assert p01.rate_per_hour == (2.0, 3.0)
     assert p01.time_limit_minutes == 120
     assert p01.occupancy == OccupancyStatus.VACANT
-    assert p01.address == "123 Main St, Los Angeles, CA"
+    assert p01.address == "100 MAIN ST"  # uses blockface directly
 
     # ── Verify parsed fields on an UNKNOWN meter ──
     p03 = next(c for c in results if c.spaceid == "P03")

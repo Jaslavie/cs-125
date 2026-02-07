@@ -9,7 +9,6 @@ from typing import Optional
 from src.models.user import Location
 from src.models.meter import CandidateMeter, OccupancyStatus
 from src.models.raw_api import RawMeterInventory, RawMeterOccupancy
-from src.clients.geocoding_client import lat_long_to_address
 
 def clean_data(
     raw_inventory: RawMeterInventory,
@@ -30,7 +29,7 @@ def clean_data(
     location = Location(lat=float(raw_lat), lon=float(raw_lon))
 
     # Get full address
-    address = lat_long_to_address(location.lat, location.lon)
+    address = raw_inventory.blockface
 
     # Get hourly range
     amounts = re.findall(r"\$(\d+\.?\d*)", raterange)
