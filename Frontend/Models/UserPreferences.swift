@@ -1,8 +1,8 @@
 import Foundation
 
-enum PriceSensitivity: String, Codable {
-    case thrifty
-    case convenience
+enum PriceSensitivity: String, Codable {    // how sensitive the user is to price
+    case thrifty                                // user is more sensitive to price
+    case convenience                            // user is less sensitive to price
 }
 
 struct UserPreferences: Codable {
