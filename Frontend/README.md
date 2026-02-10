@@ -27,6 +27,10 @@ Frontend/
     └── SpotCardView.swift
 ```
 
+## PeterParkingApp.swift
+
+The entry point for the app. Sets `ContentView` as the root view in the app entry: `WindowGroup`
+
 ## Models
 
 The Models layer holds the data types used for user input, API requests/responses, and the personal model. They align with the proposal’s user-query fields, personal framework, and ranked score-card output.
