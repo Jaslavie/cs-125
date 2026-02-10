@@ -114,3 +114,9 @@ Captures **per-search user input** for each parking request. Aligns with the pro
 ### APIClient.swift
 
 `APIClient.swift` is responsible for handling communication between the iOS app and the FastAPI backend service. It defines a shared singleton client that formats requests, encodes user query and preference data into JSON, sends asynchronous network requests, and decodes the backend’s ranked parking results into app-usable models. For development and testing, the client currently operates in a simulated mode using `useMockMode`, which bypasses real network calls and instead returns predefined mock data. This allows the app to demonstrate full API client behavior and UI data flow even when the backend is not yet connected or available.
+
+## Utils
+
+### Theme.swift
+
+`Theme.swift` consists of the defined static variable definitions for the app's theme. These variables can be changed to give the app a different look. For example, `primary` represents the primary color of the app.
