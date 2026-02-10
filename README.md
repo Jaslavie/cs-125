@@ -145,3 +145,10 @@ This is what is displayed on the frontend and should follow the desired logical 
 | `estimatedTotalCost` | `float` | `6.00` |
 | `timelimit` | `integer` | `240` (minutes) |
 | `rank` | `integer` | `1` |
+
+## Running Frontend Example
+Assuming that you have a Macbook Pro and have XCode installed, simply click open the `cs-125.xcodeproj` file in XCode. 
+
+Once the project is successfully opened, there should be a play button that you can click to boot up the app. 
+
+![User Interface Screenshot](frontend_example.png)
