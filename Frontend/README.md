@@ -108,3 +108,9 @@ Captures **per-search user input** for each parking request. Aligns with the pro
 | `currentTime`            | `Date`                    | Time at which the query is processed; auto-captured; ISO 8601 for API. |
 | `budgetRangePreference`  | `BudgetRangePreference`   | Max total cost category for this search.                              |
 | `stayTimePreference`     | `StayTimePreference`     | Planned parking duration category for this search.                     |
+
+## Services
+
+### APIClient.swift
+
+`APIClient.swift` is responsible for handling communication between the iOS app and the FastAPI backend service. It defines a shared singleton client that formats requests, encodes user query and preference data into JSON, sends asynchronous network requests, and decodes the backend’s ranked parking results into app-usable models. For development and testing, the client currently operates in a simulated mode using `useMockMode`, which bypasses real network calls and instead returns predefined mock data. This allows the app to demonstrate full API client behavior and UI data flow even when the backend is not yet connected or available.
