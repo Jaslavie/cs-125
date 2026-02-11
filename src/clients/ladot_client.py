@@ -1,16 +1,9 @@
 from dotenv import load_dotenv
 from fastapi import FastAPI
-from pydantic import BaseModel
 import os
 import requests
 
-from ..models import RawLatLng, RawMeterInventory, RawMeterOccupancy
-
-# Create a base class to pass in as a JSON body to the query
-class MeterSearchRequest(BaseModel):
-    lat: float # destination latitude
-    lon: float # destination longitude
-    radius_m: float = 1609.34  # 1 mile in meters
+from ..models import RawLatLng, RawMeterInventory, RawMeterOccupancy, MeterSearchRequest
 
 load_dotenv()
 

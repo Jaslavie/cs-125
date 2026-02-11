@@ -1,13 +1,14 @@
 """
-Normalized Meter data model
+Meter data models
 """
 
 from dataclasses import dataclass
-from datetime import datetime
 from enum import Enum
 from typing import Optional
+import datetime
 
 from .user import Location
+from .raw_api import RawLatLng
 
 
 class OccupancyStatus(Enum):
@@ -15,60 +16,40 @@ class OccupancyStatus(Enum):
     OCCUPIED = "OCCUPIED"
     UNKNOWN = "UNKNOWN"
 
-
-@dataclass
-class Meter:
-    """
-    Combined Meter object from /ladot-meters and /ladot-occupancy
-    """
-    # Identity
-    spaceid: str                  # "HO108"
-
-    # Location
-    location: Location            # Parsed from string lat/lng
-    address: str                  # "800 HELIOTROPE DR" (from blockface)
-
-    # Pricing & rules
-    rate_per_hour: float          # 1.50 (parsed from "$1.5/H - $6/6H")
-    time_limit_minutes: int       # 360 (parsed from "6HR")
-
-    # Real-time status
-    occupancy: OccupancyStatus
-    last_updated: Optional[datetime]  # From occupancy API eventtime
-
-    # Optional regional data (from Socrata computed fields)
-    neighborhood_council: Optional[str] = None
-    city_council_district: Optional[str] = None
-    census_tract: Optional[str] = None
-
 @dataclass
 class CandidateMeter:
     """
-    A parking meter enriched with computed fields for scoring.
+    Cleaned parking meter data
+    Prepared for scoring and ranking
+    Only include data intrinsic to the meter
     """
-    # Base meter data
-    spaceid: str
-    location: Location
-    address: str
-    rate_per_hour: float
-    time_limit_minutes: int
-    occupancy: OccupancyStatus
+    # Meter data
+    spaceid: str        # Directly from raw api
+    metertype: str      # Directly from raw api
+    location: Location  # LATLONG
+    address: str        # Full address
+    rate_per_hour: tuple[float, float] # (4, 5) = $4-$5
+    time_limit_minutes: int # 60 mins
 
-    # Computed fields (calculated during retrieval)
-    distance_to_destination_meters: float
-    walk_time_minutes: int
-    estimated_total_cost: float
+    # Occupancy data
+    occupancy: OccupancyStatus  # VACANT / OCCUPIED / UNKNOWN
+    occupancy_time: Optional[datetime.datetime] = None
 
 @dataclass
 class OutputMeter:
     """
     Final output meter shown to user
+    We will show the computed metrics here 
+    relative to the user's inputs (ex: walking distance)
     """ 
+    # From meter data
     spaceid: str
     address: str
     rate_per_hour: float
     time_limit_minutes: int
     occupancy: OccupancyStatus
+
+    # Computed metrics
     distance_to_destination_meters: float
     walk_time_minutes: int
     estimated_total_cost: float

@@ -1,0 +1,1 @@
+DEFAULT_GEOHASH_PRECISION = 6 # ~1.2km × 0.6km per cell, 9-cell grid covers ~1 mile
