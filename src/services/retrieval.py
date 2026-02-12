@@ -15,6 +15,7 @@ from src.clients.geocoding_client import address_to_lat_long
 from src.clients.ladot_client import get_meters_in_area, get_occupancy
 from src.utils.geo import geo_index
 from src.utils.parsers import clean_data
+from src.services.ranking import MeterRanker
 
 def search_meters(
     user_query: UserQuery,
@@ -58,4 +59,7 @@ def search_meters(
     # TODO: Implement scoring
     # ranked = score(candidates, user_query)
     # return ranked[:top_k]
-    return candidates
+    # return candidates
+    ranker = MeterRanker()
+    ranked = ranker.rank_meters(candidates, user_query, destination, top_k)
+    return ranked
