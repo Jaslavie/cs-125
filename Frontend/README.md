@@ -172,6 +172,5 @@ Once the project is successfully opened, there should be a play button that you 
 
 ![User Interface Screenshot](frontend_example.png)
 
-
 ---
 `AI Acknowledgement: README text was written with assist of LLMs.`
