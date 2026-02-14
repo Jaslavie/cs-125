@@ -1,0 +1,443 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B00100000000000000000001 /* PetrParkingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000002 /* PetrParkingApp.swift */; };
+		B00100000000000000000003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000004 /* ContentView.swift */; };
+		B00100000000000000000005 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000006 /* MapView.swift */; };
+		B00100000000000000000007 /* MeterPinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000008 /* MeterPinView.swift */; };
+		B00100000000000000000009 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0010000000000000000000A /* PreferencesView.swift */; };
+		B0010000000000000000000B /* ResultsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0010000000000000000000C /* ResultsListView.swift */; };
+		B0010000000000000000000D /* SearchFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0010000000000000000000E /* SearchFormView.swift */; };
+		B0010000000000000000000F /* SpotCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000010 /* SpotCardView.swift */; };
+		B00100000000000000000011 /* ParkingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000012 /* ParkingViewModel.swift */; };
+		B00100000000000000000013 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000014 /* APIClient.swift */; };
+		B00100000000000000000015 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000016 /* Theme.swift */; };
+		B00100000000000000000017 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000018 /* Coordinate.swift */; };
+		B00100000000000000000019 /* RankedResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0010000000000000000001A /* RankedResults.swift */; };
+		B0010000000000000000001B /* ScoredSpot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0010000000000000000001C /* ScoredSpot.swift */; };
+		B0010000000000000000001D /* SearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0010000000000000000001E /* SearchRequest.swift */; };
+		B0010000000000000000001F /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000020 /* UserPreferences.swift */; };
+		B00100000000000000000021 /* UserQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000022 /* UserQuery.swift */; };
+		B00100000000000000000023 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000024 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B00100000000000000000025 /* cs-125.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cs-125.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B00100000000000000000002 /* PetrParkingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetrParkingApp.swift; sourceTree = "<group>"; };
+		B00100000000000000000004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B00100000000000000000006 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		B00100000000000000000008 /* MeterPinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeterPinView.swift; sourceTree = "<group>"; };
+		B0010000000000000000000A /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
+		B0010000000000000000000C /* ResultsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsListView.swift; sourceTree = "<group>"; };
+		B0010000000000000000000E /* SearchFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFormView.swift; sourceTree = "<group>"; };
+		B00100000000000000000010 /* SpotCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotCardView.swift; sourceTree = "<group>"; };
+		B00100000000000000000012 /* ParkingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingViewModel.swift; sourceTree = "<group>"; };
+		B00100000000000000000014 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		B00100000000000000000016 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		B00100000000000000000018 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
+		B0010000000000000000001A /* RankedResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankedResults.swift; sourceTree = "<group>"; };
+		B0010000000000000000001C /* ScoredSpot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoredSpot.swift; sourceTree = "<group>"; };
+		B0010000000000000000001E /* SearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRequest.swift; sourceTree = "<group>"; };
+		B00100000000000000000020 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		B00100000000000000000022 /* UserQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserQuery.swift; sourceTree = "<group>"; };
+		B00100000000000000000024 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B00100000000000000000026 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B00100000000000000000027 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B00100000000000000000028 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				B00100000000000000000029 /* Frontend */,
+				B0010000000000000000002A /* Info.plist */,
+				B0010000000000000000002B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B00100000000000000000029 /* Frontend */ = {
+			isa = PBXGroup;
+			children = (
+				B00100000000000000000002 /* PetrParkingApp.swift */,
+				B00100000000000000000024 /* Assets.xcassets */,
+				B0010000000000000000002C /* Models */,
+				B0010000000000000000002D /* Services */,
+				B0010000000000000000002E /* Utils */,
+				B0010000000000000000002F /* ViewModels */,
+				B00100000000000000000030 /* Views */,
+			);
+			path = Frontend;
+			sourceTree = "<group>";
+		};
+		B0010000000000000000002A /* Info.plist */ = {
+			isa = PBXGroup;
+			children = (
+				B00100000000000000000026 /* Info.plist */,
+			);
+			name = Info.plist;
+			sourceTree = "<group>";
+		};
+		B0010000000000000000002B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B00100000000000000000025 /* cs-125.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B0010000000000000000002C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B00100000000000000000018 /* Coordinate.swift */,
+				B0010000000000000000001A /* RankedResults.swift */,
+				B0010000000000000000001E /* SearchRequest.swift */,
+				B0010000000000000000001C /* ScoredSpot.swift */,
+				B00100000000000000000020 /* UserPreferences.swift */,
+				B00100000000000000000022 /* UserQuery.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B0010000000000000000002D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B00100000000000000000014 /* APIClient.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		B0010000000000000000002E /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B00100000000000000000016 /* Theme.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		B0010000000000000000002F /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B00100000000000000000012 /* ParkingViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		B00100000000000000000030 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B00100000000000000000004 /* ContentView.swift */,
+				B00100000000000000000006 /* MapView.swift */,
+				B00100000000000000000008 /* MeterPinView.swift */,
+				B0010000000000000000000A /* PreferencesView.swift */,
+				B0010000000000000000000C /* ResultsListView.swift */,
+				B0010000000000000000000E /* SearchFormView.swift */,
+				B00100000000000000000010 /* SpotCardView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B00100000000000000000031 /* cs-125 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B00100000000000000000032 /* Build configuration list for PBXNativeTarget "cs-125" */;
+			buildPhases = (
+				B00100000000000000000033 /* Sources */,
+				B00100000000000000000027 /* Frameworks */,
+				B00100000000000000000034 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = cs-125;
+			productName = cs-125;
+			productReference = B00100000000000000000025 /* cs-125.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B00100000000000000000035 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					B00100000000000000000031 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = B00100000000000000000036 /* Build configuration list for PBXProject "cs-125" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B00100000000000000000028;
+			productRefGroup = B0010000000000000000002B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B00100000000000000000031 /* cs-125 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B00100000000000000000034 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B00100000000000000000023 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B00100000000000000000033 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B00100000000000000000001 /* PetrParkingApp.swift in Sources */,
+				B00100000000000000000003 /* ContentView.swift in Sources */,
+				B00100000000000000000005 /* MapView.swift in Sources */,
+				B00100000000000000000007 /* MeterPinView.swift in Sources */,
+				B00100000000000000000009 /* PreferencesView.swift in Sources */,
+				B0010000000000000000000B /* ResultsListView.swift in Sources */,
+				B0010000000000000000000D /* SearchFormView.swift in Sources */,
+				B0010000000000000000000F /* SpotCardView.swift in Sources */,
+				B00100000000000000000011 /* ParkingViewModel.swift in Sources */,
+				B00100000000000000000013 /* APIClient.swift in Sources */,
+				B00100000000000000000015 /* Theme.swift in Sources */,
+				B00100000000000000000017 /* Coordinate.swift in Sources */,
+				B00100000000000000000019 /* RankedResults.swift in Sources */,
+				B0010000000000000000001B /* ScoredSpot.swift in Sources */,
+				B0010000000000000000001D /* SearchRequest.swift in Sources */,
+				B0010000000000000000001F /* UserPreferences.swift in Sources */,
+				B00100000000000000000021 /* UserQuery.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		B00100000000000000000037 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B00100000000000000000038 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		B00100000000000000000039 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Petr Parking";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uiuc.cs125.PetrParking;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B0010000000000000000003A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Petr Parking";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uiuc.cs125.PetrParking;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B00100000000000000000032 /* Build configuration list for PBXNativeTarget "cs-125" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B00100000000000000000039 /* Debug */,
+				B0010000000000000000003A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B00100000000000000000036 /* Build configuration list for PBXProject "cs-125" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B00100000000000000000037 /* Debug */,
+				B00100000000000000000038 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B00100000000000000000035 /* Project object */;
+}
