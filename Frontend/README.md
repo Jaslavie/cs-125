@@ -124,3 +124,54 @@ Captures **per-search user input** for each parking request. Aligns with the pro
 ### Theme.swift
 
 `Theme.swift` consists of the defined static variable definitions for the app's theme. These variables can be changed to give the app a different look. For example, `primary` represents the primary color of the app.
+
+## ViewModels
+
+The ViewModels layer holds the app’s presentation logic and state. It drives the UI by exposing observable state and actions that views bind to and invoke.
+
+### ParkingViewModel.swift
+
+Single source of truth for the main search flow. Defines **ParkingUIState** (`.initial`, `.loading`, `.results(RankedResults)`, `.noResults`, `.error(String)`) and publishes it via `@Published var uiState`. Also publishes form inputs (`targetLocation`, `budgetRangePreference`, `stayTimePreference`), auto-captured **currentLocation** (from `CLLocationManager`) and **currentTime**, and exposes **mapCenter** (current location or fallback `laCenter` for Downtown LA) and **rankedResults** (the `RankedResults` when in `.results`). **searchParking()** builds a `UserQuery` and `UserPreferences`, sets `uiState = .loading`, calls `APIClient.searchParking` in a `Task`, then sets `uiState` to `.results`, `.noResults`, or `.error` depending on the response. **retry()** re-runs the search; **resetToInitial()** clears back to `.initial`. Uses `@MainActor` so all updates happen on the main thread for SwiftUI. Injected with `APIClient.shared` by default so the client (mock or real) can be swapped for testing.
+
+## Views
+
+The Views layer implements the UI described in the proposal: search form, map, and ranked results panel (Uber-style layout). All main views observe `ParkingViewModel` and reflect its state (initial, loading, results, no results, error).
+
+### ContentView.swift
+
+Root container for the main screen. Composes the layout in a single vertical stack: **SearchFormView** at the top, a **Divider**, **MapView** (fixed height 280 pt), another **Divider**, and **ResultsListView** filling the remaining space. Holds a single `@StateObject` `ParkingViewModel` and passes it to child views. Disables the search form while `uiState == .loading`. Uses `Color(.systemGroupedBackground)` for the background.
+
+### SearchFormView.swift
+
+Search input area. Provides a **TextField** for destination (e.g. "Pantages Theatre") with a mappin icon, **Pickers** for budget range and stay time (bound to `viewModel.budgetRangePreference` and `viewModel.stayTimePreference`), and a **"Find Parking"** button that calls `viewModel.searchParking()`. On loading, the button shows a `ProgressView` instead of text. The button is disabled when the destination is empty or when already loading. Includes `BudgetRangePreference` and `StayTimePreference` display-name extensions for picker labels (e.g. "Low ($0–$10)", "Short (≤1 hr)").
+
+### MapView.swift
+
+SwiftUI **Map** (MapKit) centered on a fixed LA region (Downtown LA: lat 34.0522, lng -118.2437; span 0.03). When `viewModel.rankedResults` has spots, it renders an **Annotation** for each spot at `spot.coordinate`, using **MeterPinView** as the annotation content. Uses standard map style and allows hit testing. Does not show pins in initial, loading, no-results, or error states.
+
+### ResultsListView.swift
+
+Bottom panel that switches on `viewModel.uiState`. **Initial:** placeholder with map icon and "Enter a destination and tap Find Parking". **Loading:** `ProgressView` and "Searching for spots...". **Results:** scrollable `LazyVStack` of **SpotCardView** for each spot. **No results:** message "No spots found", suggestion to expand radius or adjust preferences, and a Retry button. **Error:** warning icon, "Something went wrong", the error message, and a Retry button. Retry calls `viewModel.retry()`.
+
+### SpotCardView.swift
+
+Single **score card** for one `ScoredSpot`. Displays meter ID and rank in a header row, the meter address, a row of labels (walk time, $/hr rate, time limit), and estimated total cost. Card has a colored border from `spot.colorCode.color` (green / yellow / orange), rounded corners, shadow, and uses `Theme.cardBackground`. Matches the proposal’s card content (spaceid, address, walk time, rate, timelimit, estimated cost, rank).
+
+### MeterPinView.swift
+
+Small view used as map **annotation** content for each spot. Shows a filled mappin SF Symbol tinted with `spot.colorCode.color` and the spot’s `spaceid` below in caption text. Used inside **MapView**’s `Annotation(spot.spaceid, coordinate: spot.coordinate, ...)` so each ranked spot appears as a labeled pin on the map.
+
+### PreferencesView.swift
+
+Placeholder for the **personal model / preferences** screen. Currently only shows the text "Preferences". Intended for future editing of `UserPreferences` (price sensitivity, distance acceptance, typical stay); deferred in the initial frontend so the main search flow and results UI could be built first.
+
+## Running Frontend Example
+Assuming that you have a Macbook Pro and have XCode installed, simply click open the `cs-125.xcodeproj` file in XCode. 
+
+Once the project is successfully opened, there should be a play button that you can click to boot up the app. 
+
+![User Interface Screenshot](frontend_example.png)
+
+
+---
+`AI Acknowledgement: README text was written with assist of LLMs.`
