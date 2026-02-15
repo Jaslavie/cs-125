@@ -165,6 +165,39 @@ Small view used as map **annotation** content for each spot. Shows a filled mapp
 
 Placeholder for the **personal model / preferences** screen. Currently only shows the text "Preferences". Intended for future editing of `UserPreferences` (price sensitivity, distance acceptance, typical stay); deferred in the initial frontend so the main search flow and results UI could be built first.
 
+## Troubleshooting
+
+### Backend Connection Issues
+
+If the app shows a connection error, loading spinner that never completes, or "no results" when testing with real backend (`useMockMode = false`), the backend server has likely stopped running.
+
+**Common causes:**
+- Closed the terminal window where the server was running
+- Computer went to sleep or was restarted
+- Accidentally pressed Ctrl+C in the server terminal
+
+**To check if the backend is running:**
+```bash
+ps aux | grep uvicorn
+```
+
+If you only see the `grep` command itself (no `uvicorn` process), the server is not running.
+
+**To restart the backend:**
+```bash
+cd "/Users/dsetty/College/Classes/CS 125/cs-125"
+/Users/dsetty/Library/Python/3.10/bin/uvicorn src.api:app --reload --host 0.0.0.0 --port 8000
+```
+
+You should see output like:
+```
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [####]
+INFO:     Application startup complete.
+```
+
+**Important:** Keep the terminal window open while testing the app. Closing it will stop the server. If you need to run other commands, open a separate terminal tab (⌘T) instead of closing the server terminal.
+
 ## Running Frontend Example
 Assuming that you have a Macbook Pro and have XCode installed, simply click open the `cs-125.xcodeproj` file in XCode. 
 
