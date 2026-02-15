@@ -1,44 +1,73 @@
 import Foundation
 
+/*
+ * API client for the parking recommendation system.
+ *
+ * Attributes:
+ * - shared: Singleton instance.
+ * - useMockMode: When true, returns mock data instead of calling the backend.
+ * - jsonEncoder: JSON encoder for encoding dates as ISO 8601.
+ * - jsonDecoder: JSON decoder for decoding dates from ISO 8601.
+ */
 class APIClient {
     static let shared = APIClient()
     private let baseURL = "http://localhost:8000"  // FastAPI backend
     
-    /// When true, returns mock data instead of calling the backend.
+    /*
+     * When true, returns mock data instead of calling the backend.
+     */
     var useMockMode: Bool = true
     
+    /*
+     * JSON encoder for encoding dates as ISO 8601.
+     */
     private var jsonEncoder: JSONEncoder {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         return encoder
     }
     
+    /*
+     * JSON decoder for decoding dates from ISO 8601.
+     */
     private var jsonDecoder: JSONDecoder {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         return decoder
     }
     
+    /*
+     * Searches for parking spots based on the user's query and preferences.
+     *
+     * Parameters:
+     * - query: The user's query.
+     * - preferences: The user's preferences.
+     *
+     * Returns: The ranked results.
+     */
     func searchParking(query: UserQuery, preferences: UserPreferences) async throws -> RankedResults {
         if useMockMode {
             try await Task.sleep(nanoseconds: 800_000_000)  // Simulate network delay
             return Self.mockRankedResults
         }
         
-        let url = URL(string: "\(baseURL)/search")!
-        var request = URLRequest(url: url)
+        let url = URL(string: "\(baseURL)/search")!  // The backend search endpoint.
+        var request = URLRequest(url: url)  // The URL request.
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")  // The content type.
         
         let body = SearchRequest(query: query, preferences: preferences)
-        request.httpBody = try jsonEncoder.encode(body)
+        request.httpBody = try jsonEncoder.encode(body)  // The body of the request.
         
         let (data, _) = try await URLSession.shared.data(for: request)
-        return try jsonDecoder.decode(RankedResults.self, from: data)
+        return try jsonDecoder.decode(RankedResults.self, from: data)  // The ranked results.
     }
     
     // MARK: - Mock Data
     
+    /*
+     * Mock ranked results for testing.
+     */
     static let mockRankedResults: RankedResults = RankedResults(
         spots: [
             ScoredSpot(

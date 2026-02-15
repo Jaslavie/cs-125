@@ -1,5 +1,18 @@
 import SwiftUI
 
+/*
+ * Theme for the app.
+ *
+ * Attributes:
+ * - primary: The primary color of the app.
+ * - primaryInverse: The inverse of the primary color.
+ * - accent: The accent color of the app.
+ * - secondaryText: The secondary text color of the app.
+ * - cardBackground: The background color of the card.
+ * - cardShadow: The shadow color of the card.
+ * - divider: The divider color of the app.
+ * - pinHighlight: The highlight color of the pin.
+ */
 enum Theme {
     // App palette
     static let primary = Color.black
