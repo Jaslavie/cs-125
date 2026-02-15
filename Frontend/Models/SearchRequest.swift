@@ -12,9 +12,9 @@ import Foundation
  *
  * Attributes:
  * - query: UserQuery containing per-search inputs (destination, location, time, budget, stay).
- * - preferences: UserPreferences containing stored personal model (price sensitivity, distance, stay).
+ * - preferences: UserPreferences containing stored personal model (budget range, stay duration).
  */
 struct SearchRequest: Codable {
-    let query: UserQuery  // Per-search inputs (destination, location, time, budget, stay)
-    let preferences: UserPreferences  // Stored personal model (price sensitivity, distance, stay)
+    let query: UserQuery  // Per-search inputs (destination, location, time)
+    let preferences: UserPreferences  // Stored personal model (budget range, stay duration)
 }

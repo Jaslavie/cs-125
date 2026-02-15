@@ -1,33 +1,16 @@
 import Foundation
 
-// MARK: - Price Sensitivity
+// MARK: - User Preferences (stored personal model)
 
-/* Price awareness level for balancing cost and convenience. Thrifty users favor cheaper options
- * even if farther away; convenience-driven users favor proximity and are less sensitive to price differences.
- * This enum influences the ranking weights between cost and distance in the recommendation algorithm.
+/* The personal framework tracks the user's budget and stay duration preferences that shape the ranking process.
+ * These preferences are stored persistently across app sessions and applied to all searches to provide
+ * personalized parking recommendations based on the user's spending power and typical parking habits.
  *
  * Attributes:
- * - thrifty: Prefer lower cost; willing to walk farther to save money.
- * - convenience: Prefer proximity; less sensitive to price differences.
- */
-enum PriceSensitivity: String, Codable {
-    case thrifty      // Prefer lower cost; willing to walk farther
-    case convenience  // Prefer proximity; less sensitive to price
-}
-
-// MARK: - Personal model (stored user preferences)
-
-/* The personal framework tracks three principal user aspects that shape the ranking process.
- * These preferences are stored (e.g., after onboarding) and applied across searches to provide
- * personalized parking recommendations based on the user's typical behavior and priorities.
- *
- * Attributes:
- * - priceSensitivity: Price awareness level; shapes how cost versus distance is weighted in ranking.
- * - distanceAcceptanceMeters: Exploration range in meters; how far the user is willing to walk (~200m = immediate, ~800m = ~10 min walk).
- * - typicalStayPreference: Default stay duration for filtering; removes spots with insufficient time limits.
+ * - budgetRange: Budget category encoding price sensitivity (low $0–$10, medium $10–$20, high $20–$50).
+ * - stayDuration: Stay duration category encoding typical parking length habits (short ≤1 hr, medium 1–2 hr, long 2–4 hr).
  */
 struct UserPreferences: Codable {
-    var priceSensitivity: PriceSensitivity  // Shapes how cost vs. distance is weighted (thrifty favors cost, convenience favors proximity)
-    var distanceAcceptanceMeters: Int  // Exploration range in meters (~200m = immediate, ~800m = ~10 min walk)
-    var typicalStayPreference: StayTimePreference  // Default stay duration for filtering; removes spots with insufficient time limits
+    var budgetRange: BudgetRangePreference  // Budget category encoding price sensitivity (low $0–$10, medium $10–$20, high $20–$50)
+    var stayDuration: StayTimePreference  // Stay duration category encoding typical parking length (short ≤1 hr, medium 1–2 hr, long 2–4 hr)
 }

@@ -82,20 +82,21 @@ Defines the **request body sent to the backend search API**. It combines the per
 
 | Parameter      | Type              | Notes                                                                 |
 | -------------- | ----------------- | --------------------------------------------------------------------- |
-| `query`        | `UserQuery`       | Per-search inputs (destination, location, time, budget, stay).        |
-| `preferences`  | `UserPreferences` | Stored personal model (price sensitivity, distance, stay).            |
+| `query`        | `UserQuery`       | Per-search inputs (destination, location, time).                       |
+| `preferences`  | `UserPreferences` | Stored personal model (budget range, stay duration).                   |
 
 ### UserPreferences.swift
 
 Implements the **personal model** (stored user preferences). The proposal’s “personal framework” has three main aspects: (1) **price sensitivity** (thrifty vs convenience-driven), (2) **distance acceptance** (exploration range, e.g. 200 m–800 m), and (3) **habitual parking length** (`typicalStayPreference`) for filtering out spots with insufficient time limits. These preferences are applied across searches; budget for a specific search is expressed in `UserQuery.budgetRangePreference`, not here.
 
-**PriceSensitivity** (enum): `thrifty` = prefer lower cost, willing to walk farther; `convenience` = prefer proximity, less sensitive to price.
+| Parameter                   | Type                    | Notes                                                                 |
+| --------------------------- | ----------------------- | --------------------------------------------------------------------- |
+| `budgetRange`               | `BudgetRangePreference` | Budget category (low / medium / high); influences ranking cost weight. |
+| `stayDuration`              | `StayTimePreference`   | Stay duration category (short / medium / long); influences time-limit scoring. |
 
-| Parameter                   | Type                  | Notes                                                                 |
-| --------------------------- | --------------------- | --------------------------------------------------------------------- |
-| `priceSensitivity`          | `PriceSensitivity`    | Shapes how cost vs. distance is weighted in ranking.                   |
-| `distanceAcceptanceMeters`  | `Int`                 | Exploration range in meters (~200 = immediate, ~800 = ~10 min walk).   |
-| `typicalStayPreference`     | `StayTimePreference`  | Default stay duration for filtering; removes spots with short limits. |
+### SessionManager.swift
+
+Singleton **session manager** that persists user preferences in `UserDefaults`. On launch, stored preferences are loaded and used to prefill the search form pickers; when the user changes budget or stay in the form, `onChange` handlers update the session and log the change. `ParkingViewModel` uses `SessionManager.userPreferences` when performing a search so the API receives the stored budget and stay values for ranking.
 
 ### UserQuery.swift
 
@@ -131,7 +132,7 @@ The ViewModels layer holds the app’s presentation logic and state. It drives t
 
 ### ParkingViewModel.swift
 
-Single source of truth for the main search flow. Defines **ParkingUIState** (`.initial`, `.loading`, `.results(RankedResults)`, `.noResults`, `.error(String)`) and publishes it via `@Published var uiState`. Also publishes form inputs (`targetLocation`, `budgetRangePreference`, `stayTimePreference`), auto-captured **currentLocation** (from `CLLocationManager`) and **currentTime**, and exposes **mapCenter** (current location or fallback `laCenter` for Downtown LA) and **rankedResults** (the `RankedResults` when in `.results`). **searchParking()** builds a `UserQuery` and `UserPreferences`, sets `uiState = .loading`, calls `APIClient.searchParking` in a `Task`, then sets `uiState` to `.results`, `.noResults`, or `.error` depending on the response. **retry()** re-runs the search; **resetToInitial()** clears back to `.initial`. Uses `@MainActor` so all updates happen on the main thread for SwiftUI. Injected with `APIClient.shared` by default so the client (mock or real) can be swapped for testing.
+Single source of truth for the main search flow. Defines **ParkingUIState** (`.initial`, `.loading`, `.results(RankedResults)`, `.noResults`, `.error(String)`) and publishes it via `@Published var uiState`. Also publishes form inputs (`targetLocation`, `budgetRangePreference`, `stayTimePreference`), auto-captured **currentLocation** (from `CLLocationManager`) and **currentTime**, and exposes **mapCenter** (current location or fallback `laCenter` for Downtown LA) and **rankedResults** (the `RankedResults` when in `.results`). Integrates with **SessionManager** to persist user preferences; picker values are initialized from stored preferences on launch. **searchParking()** builds a `UserQuery` from form inputs and uses `SessionManager.userPreferences`, sets `uiState = .loading`, calls `APIClient.searchParking` in a `Task`, then sets `uiState` to `.results`, `.noResults`, or `.error` depending on the response. **updateBudgetPreference()** and **updateStayDurationPreference()** save picker changes to the session. **retry()** re-runs the search; **resetToInitial()** clears back to `.initial`. Uses `@MainActor` so all updates happen on the main thread for SwiftUI. Injected with `APIClient.shared` and `SessionManager.shared` by default so dependencies can be swapped for testing.
 
 ## Views
 
@@ -143,7 +144,7 @@ Root container for the main screen. Composes the layout in a single vertical sta
 
 ### SearchFormView.swift
 
-Search input area. Provides a **TextField** for destination (e.g. "Pantages Theatre") with a mappin icon, **Pickers** for budget range and stay time (bound to `viewModel.budgetRangePreference` and `viewModel.stayTimePreference`), and a **"Find Parking"** button that calls `viewModel.searchParking()`. On loading, the button shows a `ProgressView` instead of text. The button is disabled when the destination is empty or when already loading. Includes `BudgetRangePreference` and `StayTimePreference` display-name extensions for picker labels (e.g. "Low ($0–$10)", "Short (≤1 hr)").
+Search input area. Provides a **TextField** for destination (e.g. "Pantages Theatre") with a mappin icon, **Pickers** for budget range and stay time (bound to `viewModel.budgetRangePreference` and `viewModel.stayTimePreference`), and a **"Find Parking"** button that calls `viewModel.searchParking()`. Pickers are prefilled from stored session preferences on launch; `.onChange` handlers persist preference changes to `SessionManager`. On loading, the button shows a `ProgressView` instead of text. The button is disabled when the destination is empty or when already loading. Includes `BudgetRangePreference` and `StayTimePreference` display-name extensions for picker labels (e.g. "Low ($0–$10)", "Short (≤1 hr)").
 
 ### MapView.swift
 
@@ -163,7 +164,7 @@ Small view used as map **annotation** content for each spot. Shows a filled mapp
 
 ### PreferencesView.swift
 
-Placeholder for the **personal model / preferences** screen. Currently only shows the text "Preferences". Intended for future editing of `UserPreferences` (price sensitivity, distance acceptance, typical stay); deferred in the initial frontend so the main search flow and results UI could be built first.
+Placeholder for the **personal model / preferences** screen. Currently only shows the text "Preferences". Users edit preferences via the search form pickers; PreferencesView remains a placeholder for future expansion.
 
 ## Troubleshooting
 

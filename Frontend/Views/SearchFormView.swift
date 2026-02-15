@@ -25,20 +25,26 @@ struct SearchFormView: View {
             .background(Color(.systemGray6))
             .clipShape(RoundedRectangle(cornerRadius: 10))
 
-            HStack(spacing: 16) { // Selectors for max total cost (budget) and planned stay duration; category labels e.g. low $0–$10, short ≤1 hr.
-                Picker("Budget", selection: $viewModel.budgetRangePreference) { // Picker for budget range preference.
+            HStack(spacing: 16) { // Selectors for max total cost (budget) and planned stay duration; prefilled with stored preferences; changes persist to session.
+                Picker("Budget", selection: $viewModel.budgetRangePreference) { // Picker for budget range preference; prefilled with stored value.
                     ForEach(BudgetRangePreference.allCases, id: \.self) { budget in
                         Text(budget.displayName).tag(budget) // Display name for each budget range preference.
                     }
                 }
                 .pickerStyle(.menu)
+                .onChange(of: viewModel.budgetRangePreference) { newValue in  // Persist budget change to session and log
+                    viewModel.updateBudgetPreference(newValue)
+                }
 
-                Picker("Stay", selection: $viewModel.stayTimePreference) { // Picker for stay time preference.
+                Picker("Stay", selection: $viewModel.stayTimePreference) { // Picker for stay time preference; prefilled with stored value.
                     ForEach(StayTimePreference.allCases, id: \.self) { stay in
                         Text(stay.displayName).tag(stay) // Display name for each stay time preference.
                     }
                 }
                 .pickerStyle(.menu)
+                .onChange(of: viewModel.stayTimePreference) { newValue in  // Persist stay duration change to session and log
+                    viewModel.updateStayDurationPreference(newValue)
+                }
             } 
 
             Button(action: { viewModel.searchParking() }) { // Button to trigger search.
