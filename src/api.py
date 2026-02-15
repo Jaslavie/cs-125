@@ -11,7 +11,7 @@ from pydantic import BaseModel
 from src.models.user import (
     UserQuery, Location, UserPreferences, BudgetRange, StayTime,
 )
-from src.services.retrieval import search_meters
+from src.services.retrieval import search_meters as run_search_pipeline
 
 app = FastAPI(title="CS-125 API")
 
@@ -55,7 +55,7 @@ def search_meters(
     )
 
     # Search for raw meters from ladot client
-    results = search_meters(query, top_k=top_k)
+    results = run_search_pipeline(query, top_k=top_k)
 
     return [
         MeterResponse(

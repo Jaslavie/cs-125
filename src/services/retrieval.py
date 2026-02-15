@@ -8,6 +8,9 @@ Manages full pipeline to retrieve and return meters to the client:
 - Score and rank
 - Return top k results
 """
+from dotenv import load_dotenv
+import os
+
 from src.models.user import UserQuery, Location, MeterSearchRequest
 from src.models.meter import CandidateMeter, OutputMeter, OccupancyStatus
 from src.models.raw_api import RawMeterInventory
@@ -17,6 +20,9 @@ from src.utils.geo import geo_index
 from src.utils.parsers import clean_data
 from src.services.ranking import MeterRanker
 from src.clients.db import batch_upsert_meters
+
+load_dotenv()
+supabase_url = os.getenv("SUPABASE_CONNECTION_STRING")
 
 def search_meters(
     user_query: UserQuery,
@@ -46,9 +52,6 @@ def search_meters(
     spaceids = [m.spaceid for m in nearby_raw]
     occupancy_map = get_occupancy(spaceids)
 
-    # Insert candidates to DB
-    batch_upsert_meters(candidates)
-
     # Create candidate meters
     # First, filter all candidates that have taken occupancy
     candidates : list[CandidateMeter] = []
@@ -59,6 +62,9 @@ def search_meters(
 
     # Filter out occupied meters
     candidates = [c for c in candidates if c.occupancy != OccupancyStatus.OCCUPIED]
+
+    # Insert candidates to DB
+    batch_upsert_meters(supabase_url, candidates)
 
     # Score
     ranker = MeterRanker()

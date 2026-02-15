@@ -1,10 +1,10 @@
 import os
 from dotenv import load_dotenv
 import psycopg2
+import datetime
 
 from src.models.meter import CandidateMeter
 
-load_dotenv()
 
 def connect_to_db(db_url: str):
     """
@@ -12,7 +12,6 @@ def connect_to_db(db_url: str):
     via python-to-sql adapter
     """
     try:
-        supabase_url = os.getenv("SUPABASE_CONNECTION_STRING")
         return psycopg2.connect(db_url)
     except Exception as e:
         logger.exception("Unexpected error while connecting to DB")
@@ -62,18 +61,18 @@ def upsert_meter(cur, meter: CandidateMeter) -> None:
             meter.time_limit_minutes,
             meter.occupancy.value,        # store enum as string
             meter.occupancy_time,
-            datetime.now(timezone.utc),
+            datetime.datetime.now(datetime.timezone.utc),
         ),
     )
 
-def batch_upsert_meters(meters: list[CandidateMeter]) -> int:
+def batch_upsert_meters(supabase_url:str, meters: list[CandidateMeter]) -> int:
     """
     Manages batch insertions into the db
     retrieval pipeline will call for all db transactions
 
     Return: number of meters inserted
     """
-    conn = get_connection() # Establish connection with db server
+    conn = connect_to_db(supabase_url) # Establish connection with db server
     try:
         # creates a cursor for the session
         cur = conn.cursor()
