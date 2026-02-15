@@ -1,5 +1,6 @@
 # Misc
 .claude
+.DS_Store
 
 # Environment variables
 .env
