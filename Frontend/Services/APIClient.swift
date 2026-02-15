@@ -51,14 +51,14 @@ class APIClient {
             return Self.mockRankedResults
         }
         
-        // Build query parameters for GET request
+        // Build query parameters for GET request; use stored preferences so backend ranking uses user's budget and stay duration
         var components = URLComponents(string: "\(baseURL)/meters/search")!
         components.queryItems = [
             URLQueryItem(name: "lat", value: String(query.currentLocation.lat)),
             URLQueryItem(name: "lon", value: String(query.currentLocation.lng)),
             URLQueryItem(name: "destination", value: query.targetLocation),
-            URLQueryItem(name: "budget", value: query.budgetRangePreference.rawValue.uppercased()),
-            URLQueryItem(name: "stay", value: query.stayTimePreference.rawValue.uppercased()),
+            URLQueryItem(name: "budget", value: preferences.budgetRange.rawValue.uppercased()),
+            URLQueryItem(name: "stay", value: preferences.stayDuration.rawValue.uppercased()),
             URLQueryItem(name: "top_k", value: "10")
         ]
         

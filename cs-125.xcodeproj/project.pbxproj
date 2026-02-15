@@ -25,6 +25,7 @@
 		B0010000000000000000001F /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000020 /* UserPreferences.swift */; };
 		B00100000000000000000021 /* UserQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000022 /* UserQuery.swift */; };
 		B00100000000000000000023 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000024 /* Assets.xcassets */; };
+		B0010000000000000000003B /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0010000000000000000003C /* SessionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		B00100000000000000000022 /* UserQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserQuery.swift; sourceTree = "<group>"; };
 		B00100000000000000000024 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B00100000000000000000026 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B0010000000000000000003C /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				B00100000000000000000014 /* APIClient.swift */,
+				B0010000000000000000003C /* SessionManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				B0010000000000000000001D /* SearchRequest.swift in Sources */,
 				B0010000000000000000001F /* UserPreferences.swift in Sources */,
 				B00100000000000000000021 /* UserQuery.swift in Sources */,
+				B0010000000000000000003B /* SessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

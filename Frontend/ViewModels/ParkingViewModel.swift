@@ -34,8 +34,8 @@ enum ParkingUIState: Equatable {
  * Attributes:
  * - uiState: Drives the results panel and map (initial, loading, results, no results, or error).
  * - targetLocation: Free-text destination; user-entered, geocoded by backend.
- * - budgetRangePreference: Per-query max total cost category (low/medium/high); maps to dollar ranges.
- * - stayTimePreference: Per-query planned stay category (short/medium/long); filters out inadequate time limits.
+ * - budgetRangePreference: Stored budget category shown in picker; synced with SessionManager (low/medium/high).
+ * - stayTimePreference: Stored stay duration category shown in picker; synced with SessionManager (short/medium/long).
  * - currentLocation: From device GPS; used for ranking and map center when available.
  * - currentTime: Auto-captured at query time so recommendations use the moment of the search.
  * - mapCenter: User location when available, otherwise LA center.
@@ -54,6 +54,7 @@ final class ParkingViewModel: ObservableObject {
 
     // MARK: - Dependencies
     private let apiClient: APIClient
+    private let sessionManager: SessionManager  // Persists and provides stored user preferences (budget, stay duration)
     private let locationManager = CLLocationManager()
 
     static let laCenter = CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437)
@@ -83,11 +84,20 @@ final class ParkingViewModel: ObservableObject {
 
     // MARK: - Init
     /*
-     * Initializes the view model with the API client and sets up the location manager.
+     * Initializes the view model with the API client and SessionManager, and sets up the location manager.
+     * Picker values (budgetRangePreference, stayTimePreference) are initialized from stored session preferences.
+     *
+     * Parameters:
+     * - apiClient: API client for backend requests (default: shared).
+     * - sessionManager: Session manager for stored preferences (default: shared).
      */
-    init(apiClient: APIClient = .shared) {
+    init(apiClient: APIClient = .shared, sessionManager: SessionManager = .shared) {
         self.apiClient = apiClient
+        self.sessionManager = sessionManager
         setupLocationManager()
+        // Initialize pickers from stored preferences so UI shows last-used values
+        self.budgetRangePreference = sessionManager.userPreferences.budgetRange
+        self.stayTimePreference = sessionManager.userPreferences.stayDuration
     }
 
     /*
@@ -121,11 +131,8 @@ final class ParkingViewModel: ObservableObject {
             stayTimePreference: stayTimePreference
         )  // Per-query inputs: targetLocation, currentLocation, currentTime, budgetRangePreference, stayTimePreference.
 
-        let preferences = UserPreferences(
-            priceSensitivity: .thrifty,
-            distanceAcceptanceMeters: 400,
-            typicalStayPreference: stayTimePreference
-        )  // Personal model: price sensitivity, distance acceptance, typical stay for filtering.
+        // Use stored preferences from session; sent to backend for ranking (budget and stay duration)
+        let preferences = sessionManager.userPreferences
 
         Task {
             do {
@@ -151,9 +158,34 @@ final class ParkingViewModel: ObservableObject {
 
     /*
      * Resets UI to initial state (empty map, form visible).
-     *
      */
     func resetToInitial() {
         uiState = .initial
+    }
+
+    // MARK: - Preference Updates (persist to session)
+
+    /*
+     * Updates the stored budget preference when the user changes the budget picker.
+     * Persists to SessionManager (UserDefaults) and triggers debug logging.
+     *
+     * Parameters:
+     * - newValue: The new budget range preference selected by the user.
+     */
+    func updateBudgetPreference(_ newValue: BudgetRangePreference) {
+        sessionManager.updateBudgetRange(newValue)
+        budgetRangePreference = newValue  // Keep picker in sync
+    }
+
+    /*
+     * Updates the stored stay duration preference when the user changes the stay picker.
+     * Persists to SessionManager (UserDefaults) and triggers debug logging.
+     *
+     * Parameters:
+     * - newValue: The new stay duration preference selected by the user.
+     */
+    func updateStayDurationPreference(_ newValue: StayTimePreference) {
+        sessionManager.updateStayDuration(newValue)
+        stayTimePreference = newValue  // Keep picker in sync
     }
 }
