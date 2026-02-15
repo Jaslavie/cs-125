@@ -18,16 +18,21 @@ app = FastAPI(title="CS-125 API")
 class MeterResponse(BaseModel):
     """
     JSON shape returned from db query
+    Matches OutputMeter but uses pydantic class for serialization
     """
     spaceid: str
     address: str
     rate_per_hour: float
     time_limit_minutes: int
-    occupancy: str
+    occupancy: str # converted from OccupancyStatus enum
     distance_to_destination_meters: float
     walk_time_minutes: int
     estimated_total_cost: float
     rank: int
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
 @app.get("/meters/search", response_model=list[MeterResponse])
 def search_meters(
