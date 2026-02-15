@@ -18,12 +18,13 @@ app = FastAPI(title="CS-125 API")
 class MeterResponse(BaseModel):
     """
     JSON shape returned from db query
+    Matches OutputMeter but uses pydantic class for serialization
     """
     spaceid: str
     address: str
     rate_per_hour: float
     time_limit_minutes: int
-    occupancy: str
+    occupancy: str # converted from OccupancyStatus enum
     latitude: float
     longitude: float
     distance_to_destination_meters: float
@@ -31,10 +32,11 @@ class MeterResponse(BaseModel):
     estimated_total_cost: float
     rank: int
     color_code: str
-
+      
 class SearchResponse(BaseModel):
     """
     Wrapper response with metadata
+    to match swift frontend
     """
     spots: List[MeterResponse]
     total_candidates_evaluated: int
@@ -53,6 +55,10 @@ def get_color_code(rank: int) -> str:
         return "yellow"
     else:
         return "orange"
+      
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
 @app.get("/meters/search", response_model=SearchResponse)
 def search_meters(
@@ -82,6 +88,7 @@ def search_meters(
     )
 
     # Search for raw meters from ladot client
+    # Run pipeline to return ranked list
     results = run_search_pipeline(query, top_k=top_k)
 
     meter_responses = [
