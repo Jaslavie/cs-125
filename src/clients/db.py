@@ -20,7 +20,7 @@ def connect_to_db(db_url: str):
 
 def upsert_meter(cur, meter: CandidateMeter) -> None:
     """
-    Insert/Update a candidate meter to the Meters table
+    Helper to execute Insert/Update on a candidate meter in the Meters table
     Update all fields on conflict
 
     Input: 
@@ -65,3 +65,25 @@ def upsert_meter(cur, meter: CandidateMeter) -> None:
             datetime.now(timezone.utc),
         ),
     )
+
+def batch_upsert_meters(meters: list[CandidateMeter]) -> int:
+    """
+    Manages batch insertions into the db
+    retrieval pipeline will call for all db transactions
+
+    Return: number of meters inserted
+    """
+    conn = get_connection() # Establish connection with db server
+    try:
+        # creates a cursor for the session
+        cur = conn.cursor()
+        for meter in meters:
+            upsert_meter(cur, meter)
+        conn.commit()
+        cur.close()
+        return len(meters)
+    except Exception:
+        conn.rollback() # undoes everything in transaction
+        raise
+    finally:
+        conn.close()
