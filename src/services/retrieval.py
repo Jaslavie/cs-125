@@ -63,8 +63,16 @@ def search_meters(
     # Filter out occupied meters
     candidates = [c for c in candidates if c.occupancy != OccupancyStatus.OCCUPIED]
 
-    # Insert candidates to DB
-    batch_upsert_meters(supabase_url, candidates)
+    # Insert candidates to DB (optional - skip if DB not configured)
+    if supabase_url:
+        try:
+            batch_upsert_meters(supabase_url, candidates)
+            print(f"Successfully wrote {len(candidates)} meters to database")
+        except Exception as e:
+            print(f"Warning: Failed to write to database: {e}")
+            # Continue without database write
+    else:
+        print("Skipping database write (SUPABASE_CONNECTION_STRING not configured)")
 
     # Score
     ranker = MeterRanker()

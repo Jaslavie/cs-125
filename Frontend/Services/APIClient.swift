@@ -16,7 +16,7 @@ class APIClient {
     /*
      * When true, returns mock data instead of calling the backend.
      */
-    var useMockMode: Bool = true
+    var useMockMode: Bool = false
     
     /*
      * JSON encoder for encoding dates as ISO 8601.
@@ -51,16 +51,35 @@ class APIClient {
             return Self.mockRankedResults
         }
         
-        let url = URL(string: "\(baseURL)/search")!  // The backend search endpoint.
-        var request = URLRequest(url: url)  // The URL request.
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")  // The content type.
+        // Build query parameters for GET request
+        var components = URLComponents(string: "\(baseURL)/meters/search")!
+        components.queryItems = [
+            URLQueryItem(name: "lat", value: String(query.currentLocation.lat)),
+            URLQueryItem(name: "lon", value: String(query.currentLocation.lng)),
+            URLQueryItem(name: "destination", value: query.targetLocation),
+            URLQueryItem(name: "budget", value: query.budgetRangePreference.rawValue.uppercased()),
+            URLQueryItem(name: "stay", value: query.stayTimePreference.rawValue.uppercased()),
+            URLQueryItem(name: "top_k", value: "10")
+        ]
         
-        let body = SearchRequest(query: query, preferences: preferences)
-        request.httpBody = try jsonEncoder.encode(body)  // The body of the request.
+        guard let url = components.url else {
+            throw URLError(.badURL)
+        }
         
-        let (data, _) = try await URLSession.shared.data(for: request)
-        return try jsonDecoder.decode(RankedResults.self, from: data)  // The ranked results.
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        // Check for HTTP errors
+        if let httpResponse = response as? HTTPURLResponse {
+            guard (200...299).contains(httpResponse.statusCode) else {
+                throw URLError(.badServerResponse)
+            }
+        }
+        
+        return try jsonDecoder.decode(RankedResults.self, from: data)
     }
     
     // MARK: - Mock Data
@@ -80,7 +99,8 @@ class APIClient {
                 estimatedTotalCost: 6.00,
                 timelimit: 240,
                 rank: 1,
-                colorCode: .green
+                colorCode: .green,
+                occupancy: "VACANT"
             ),
             ScoredSpot(
                 spaceid: "DT472",
@@ -92,7 +112,8 @@ class APIClient {
                 estimatedTotalCost: 4.50,
                 timelimit: 240,
                 rank: 2,
-                colorCode: .green
+                colorCode: .green,
+                occupancy: "VACANT"
             ),
             ScoredSpot(
                 spaceid: "HO829",
@@ -104,7 +125,8 @@ class APIClient {
                 estimatedTotalCost: 9.00,
                 timelimit: 600,
                 rank: 3,
-                colorCode: .yellow
+                colorCode: .green,
+                occupancy: "VACANT"
             ),
             ScoredSpot(
                 spaceid: "DT940",
@@ -116,7 +138,8 @@ class APIClient {
                 estimatedTotalCost: 7.50,
                 timelimit: 480,
                 rank: 4,
-                colorCode: .yellow
+                colorCode: .yellow,
+                occupancy: "VACANT"
             ),
             ScoredSpot(
                 spaceid: "HO920",
@@ -128,10 +151,11 @@ class APIClient {
                 estimatedTotalCost: 3.75,
                 timelimit: 120,
                 rank: 5,
-                colorCode: .orange
+                colorCode: .yellow,
+                occupancy: "UNKNOWN"
             )
         ],
         totalCandidatesEvaluated: 12,
-        queryTimestamp: Date()
+        queryTimestamp: ISO8601DateFormatter().string(from: Date())
     )
 }

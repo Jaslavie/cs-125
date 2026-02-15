@@ -2,8 +2,11 @@ import os
 from dotenv import load_dotenv
 import psycopg2
 import datetime
+import logging
 
 from src.models.meter import CandidateMeter
+
+logger = logging.getLogger(__name__)
 
 
 def connect_to_db(db_url: str):
