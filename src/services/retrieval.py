@@ -56,10 +56,7 @@ def search_meters(
     # Filter out occupied meters
     candidates = [c for c in candidates if c.occupancy != OccupancyStatus.OCCUPIED]
 
-    # TODO: Implement scoring
-    # ranked = score(candidates, user_query)
-    # return ranked[:top_k]
-    # return candidates
+    # Score
     ranker = MeterRanker()
     ranked = ranker.rank_meters(candidates, user_query, destination, top_k)
     return ranked
