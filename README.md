@@ -78,6 +78,26 @@ Example response:
 }
 ```
 
+### Run full retrieval pipeline and get output meters
+Returns: List of OutputMeters (formatted as MeterResponse) from full retrieval and ranking pipeline
+HTTP endpoint: `/meters/search`
+
+Example response: 
+```json
+[
+  {
+    "spaceid": "WV512",
+    "address": "10901 LE CONTE AVE",
+    "rate_per_hour": 1.5,
+    "time_limit_minutes": 120,
+    "occupancy": "UNKNOWN",
+    "distance_to_destination_meters": 789.0062376194693,
+    "walk_time_minutes": 9,
+    "estimated_total_cost": 1.5,
+    "rank": 1
+  },
+]
+```
 ---
 
 # Data Model
@@ -197,3 +217,8 @@ This is what is displayed on the frontend and should follow the desired logical 
 | `walk_time_minutes` | `int` | `3` (minutes) |
 | `estimated_total_cost` | `float` | `6.00` |
 | `rank` | `int` | `1` |
+
+## Database storage
+- Provider: Supabase
+- DBMS: Postgresql
+- DB stores: List of CandidateMeters (all meters within search radius)
