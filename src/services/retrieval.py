@@ -8,6 +8,9 @@ Manages full pipeline to retrieve and return meters to the client:
 - Score and rank
 - Return top k results
 """
+from dotenv import load_dotenv
+import os
+
 from src.models.user import UserQuery, Location, MeterSearchRequest
 from src.models.meter import CandidateMeter, OutputMeter, OccupancyStatus
 from src.models.raw_api import RawMeterInventory
@@ -16,6 +19,10 @@ from src.clients.ladot_client import get_meters_in_area, get_occupancy
 from src.utils.geo import geo_index
 from src.utils.parsers import clean_data
 from src.services.ranking import MeterRanker
+from src.clients.db import batch_upsert_meters
+
+load_dotenv()
+supabase_url = os.getenv("SUPABASE_CONNECTION_STRING")
 
 def search_meters(
     user_query: UserQuery,
@@ -56,10 +63,18 @@ def search_meters(
     # Filter out occupied meters
     candidates = [c for c in candidates if c.occupancy != OccupancyStatus.OCCUPIED]
 
-    # TODO: Implement scoring
-    # ranked = score(candidates, user_query)
-    # return ranked[:top_k]
-    # return candidates
+    # Insert candidates to DB (optional - skip if DB not configured)
+    if supabase_url:
+        try:
+            batch_upsert_meters(supabase_url, candidates)
+            print(f"Successfully wrote {len(candidates)} meters to database")
+        except Exception as e:
+            print(f"Warning: Failed to write to database: {e}")
+            # Continue without database write
+    else:
+        print("Skipping database write (SUPABASE_CONNECTION_STRING not configured)")
+
+    # Score
     ranker = MeterRanker()
     ranked = ranker.rank_meters(candidates, user_query, destination, top_k)
     return ranked

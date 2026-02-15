@@ -48,6 +48,10 @@ class OutputMeter:
     rate_per_hour: float
     time_limit_minutes: int
     occupancy: OccupancyStatus
+    
+    # Location for map display
+    latitude: float
+    longitude: float
 
     # Computed metrics
     distance_to_destination_meters: float
