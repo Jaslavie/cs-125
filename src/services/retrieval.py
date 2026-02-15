@@ -16,7 +16,7 @@ from src.clients.ladot_client import get_meters_in_area, get_occupancy
 from src.utils.geo import geo_index
 from src.utils.parsers import clean_data
 from src.services.ranking import MeterRanker
-from src.clients.db import upsert_meters
+from src.clients.db import batch_upsert_meters
 
 def search_meters(
     user_query: UserQuery,
@@ -47,8 +47,8 @@ def search_meters(
     occupancy_map = get_occupancy(spaceids)
 
     # Insert candidates to DB
-    upsert_meters(candidates)
-    
+    batch_upsert_meters(candidates)
+
     # Create candidate meters
     # First, filter all candidates that have taken occupancy
     candidates : list[CandidateMeter] = []

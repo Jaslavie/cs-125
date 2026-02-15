@@ -3,6 +3,7 @@ REST API to expose db queries to an HTTP endpoint
 Receives and handles incoming requests from the frontend
 """
 from datetime import datetime, timezone
+from typing import List
 
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
