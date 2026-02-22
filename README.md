@@ -222,3 +222,14 @@ This is what is displayed on the frontend and should follow the desired logical 
 - Provider: Supabase
 - DBMS: Postgresql
 - DB stores: List of CandidateMeters (all meters within search radius)
+
+# Evaluations
+Our system measures recommendation quality in two ways: 
+- Objective correctness: measures if the recommended result followed constraints
+- Subjective quality: measures if it understood what the user wanted.
+
+We address these by collecting the following metrics:
+- Pareto principle: if meter A has higher scores on more variables than meter B, it should always dominate meter B in all ranking scores
+- Preference monotonicity: If one variable changed with all else held constant, expect ranking shifts in a select direction
+- Hard constraint enforcement: conditions required for a valid recommendation (ex: OCCUPIED meters are never in the output)
+- NDCG@k with rubric: measures if the most relevant meters are in the top-k given a rubric
