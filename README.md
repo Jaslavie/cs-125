@@ -218,6 +218,70 @@ This is what is displayed on the frontend and should follow the desired logical 
 | `estimated_total_cost` | `float` | `6.00` |
 | `rank` | `int` | `1` |
 
+## Tags, Taxonomy, and Facets
+
+### 1. Taxonomy (Top-Level Categories)
+
+We define a primary taxonomy over parking meters using the `ratetype` field from the LADOT Inventory API.
+
+**Root: RateType**
+
+- FLAT — fixed hourly rate  
+- TOD — time-of-day rate  
+- JUMP — escalating rate structure  
+
+Each parking meter belongs to exactly one of these categories.
+
+---
+
+### 2. Facets (Indexable Filter Dimensions)
+
+We define the following independent facets. These fields are stored in our index and can be used to narrow the candidate set prior to ranking.
+
+#### Facet 1: Meter Type (`metertype`)
+- Single-space  
+- Multi-space  
+
+#### Facet 2: Zone / Area (Geohash-Based)
+- Derived from the `geohash` computed from meter latitude/longitude  
+- Exposed to users as a user-friendly “Zone” or “Area” filter  
+
+---
+
+### 3. Tags (Manual vs. Automatic)
+
+#### Manual Tags (User-Selected Preferences)
+
+These values are chosen by the user at query time and influence ranking:
+
+- `budgetRangePreference`
+- `stayTimePreference`
+
+---
+
+#### Automatic Tags (System-Assigned to Each Meter)
+
+These values are attached programmatically from API ingestion and preprocessing:
+
+- `ratetype`
+- `metertype`
+- `geohash`
+- `time_limit_minutes`
+- `rate_per_hour`
+- `occupancy`
+- `address` (if retained)
+
+These automatic tags form the base metadata layer from which taxonomy and facets are constructed.
+
+---
+
+### Recap for Tags, Taxonomy, and Facets
+
+- Taxonomy organizes meters by RateType.
+- Facets allow filtering by MeterType and Zone.
+- Manual tags come from user preferences.
+- Automatic tags are assigned programmatically from API data and preprocessing logic.
+
 ## Database storage
 - Provider: Supabase
 - DBMS: Postgresql
