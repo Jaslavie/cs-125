@@ -18,7 +18,7 @@ class APIClient {
     /*
      * When true, returns mock data instead of calling the backend.
      */
-    var useMockMode: Bool = true 
+    var useMockMode: Bool = false 
 
     /*
      * Per-spot occupancy overrides used exclusively in mock mode. Keys are spaceids; values are
