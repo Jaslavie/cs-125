@@ -6,6 +6,8 @@ import Foundation
  * Attributes:
  * - shared: Singleton instance.
  * - useMockMode: When true, returns mock data instead of calling the backend.
+ * - mockOccupancyOverrides: Per-spot occupancy state overrides used by the mock debug panel;
+ *   only active when useMockMode is true.
  * - jsonEncoder: JSON encoder for encoding dates as ISO 8601.
  * - jsonDecoder: JSON decoder for decoding dates from ISO 8601.
  */
@@ -16,7 +18,23 @@ class APIClient {
     /*
      * When true, returns mock data instead of calling the backend.
      */
-    var useMockMode: Bool = false
+    var useMockMode: Bool = true 
+
+    /*
+     * Per-spot occupancy overrides used exclusively in mock mode. Keys are spaceids; values are
+     * "VACANT", "OCCUPIED", or "UNKNOWN". Any spaceid not present defaults to "VACANT".
+     * Populated by the mock debug panel in ResultsListView; reset on each new search.
+     */
+    var mockOccupancyOverrides: [String: String] = [:]
+
+    /*
+     * Clears all per-spot mock overrides, resetting every spot back to "VACANT".
+     * Called by ParkingViewModel at the start of each new search so the debug panel
+     * starts fresh against a new result set.
+     */
+    func resetMockOccupancyOverrides() {
+        mockOccupancyOverrides = [:]
+    }
     
     /*
      * JSON encoder for encoding dates as ISO 8601.
@@ -80,6 +98,47 @@ class APIClient {
         }
         
         return try jsonDecoder.decode(RankedResults.self, from: data)
+    }
+    
+    /*
+     * Fetches the current real-time occupancy status for a list of parking space IDs.
+     * Called on a polling interval to detect VACANT/OCCUPIED transitions.
+     *
+     * Parameters:
+     * - spaceids: Array of space ID strings to query (e.g. ["HO108", "DT472"]).
+     *
+     * Returns: Dictionary mapping each spaceid to its occupancy string ("VACANT", "OCCUPIED", or "UNKNOWN").
+     */
+    func fetchOccupancy(spaceids: [String]) async throws -> [String: String] {
+        if useMockMode {
+            // Apply per-spot overrides from the debug panel; default unoverridden spots to "VACANT".
+            return Dictionary(uniqueKeysWithValues: spaceids.map { id in
+                (id, mockOccupancyOverrides[id] ?? "VACANT")
+            })
+        }
+        
+        var components = URLComponents(string: "\(baseURL)/meters/occupancy")!
+        components.queryItems = [
+            URLQueryItem(name: "spaceids", value: spaceids.joined(separator: ","))
+        ]
+        
+        guard let url = components.url else {
+            throw URLError(.badURL)
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        if let httpResponse = response as? HTTPURLResponse {
+            guard (200...299).contains(httpResponse.statusCode) else {
+                throw URLError(.badServerResponse)
+            }
+        }
+        
+        return try jsonDecoder.decode([String: String].self, from: data)
     }
     
     // MARK: - Mock Data

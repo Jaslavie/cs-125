@@ -29,7 +29,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B00100000000000000000025 /* cs-125.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cs-125.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B00100000000000000000002 /* PetrParkingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetrParkingApp.swift; sourceTree = "<group>"; };
 		B00100000000000000000004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B00100000000000000000006 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -48,8 +47,12 @@
 		B00100000000000000000020 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		B00100000000000000000022 /* UserQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserQuery.swift; sourceTree = "<group>"; };
 		B00100000000000000000024 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B00100000000000000000025 /* cs-125.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cs-125.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B00100000000000000000026 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B0010000000000000000003C /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		D915FF3B2F5BD31C00672377 /* LA.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LA.gpx; sourceTree = "<group>"; };
+		D915FF3C2F5BD3C900672377 /* LA.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LA.gpx; sourceTree = "<group>"; };
+		D94068A12F5BCFCC00C46EE9 /* LA.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LA.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,9 +66,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B00100000000000000000028 /* Root */ = {
+		B00100000000000000000028 = {
 			isa = PBXGroup;
 			children = (
+				D94068A12F5BCFCC00C46EE9 /* LA.gpx */,
+				D915FF3B2F5BD31C00672377 /* LA.gpx */,
+				D915FF3C2F5BD3C900672377 /* LA.gpx */,
 				B00100000000000000000029 /* Frontend */,
 				B0010000000000000000002A /* Info.plist */,
 				B0010000000000000000002B /* Products */,
@@ -169,8 +175,8 @@
 			);
 			dependencies = (
 			);
-			name = cs-125;
-			productName = cs-125;
+			name = "cs-125";
+			productName = "cs-125";
 			productReference = B00100000000000000000025 /* cs-125.app */;
 			productType = "com.apple.product-type.application";
 		};
