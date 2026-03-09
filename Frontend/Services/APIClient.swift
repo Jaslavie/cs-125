@@ -23,7 +23,7 @@ class APIClient {
     /*
      * Per-spot occupancy overrides used exclusively in mock mode. Keys are spaceids; values are
      * "VACANT", "OCCUPIED", or "UNKNOWN". Any spaceid not present defaults to "VACANT".
-     * Populated by the mock debug panel in ResultsListView; reset on each new search.
+     * Populated by the mock debug panel in ResultsListView; resets on each new search for new parking meters.
      */
     var mockOccupancyOverrides: [String: String] = [:]
 
@@ -55,28 +55,30 @@ class APIClient {
     }
     
     /*
-     * Searches for parking spots based on the user's query and preferences.
+     * Attempts to search for parking spots based on the user's query. If mock mode is enabled,
+     * returns mock data instead of calling the backend. Throws an error if the composed URL is invalid
+     * or if the HTTP response is not 200 OK. If successful, decodes the response as `RankedResults` and
+     * returns the ranked results.
      *
      * Parameters:
-     * - query: The user's query.
-     * - preferences: The user's preferences.
+     * - query: The user's query, including destination, location, timestamp, and preferences.
      *
-     * Returns: The ranked results.
+     * Returns: a `RankedResults` object containing the ranked parking spots.
      */
-    func searchParking(query: UserQuery, preferences: UserPreferences) async throws -> RankedResults {
+    func searchParking(query: UserQuery) async throws -> RankedResults {
         if useMockMode {
             try await Task.sleep(nanoseconds: 800_000_000)  // Simulate network delay
             return Self.mockRankedResults
         }
         
-        // Build query parameters for GET request; use stored preferences so backend ranking uses user's budget and stay duration
+        // Build query parameters for GET request; preferences are read from query.preferences
         var components = URLComponents(string: "\(baseURL)/meters/search")!
         components.queryItems = [
             URLQueryItem(name: "lat", value: String(query.currentLocation.lat)),
             URLQueryItem(name: "lon", value: String(query.currentLocation.lng)),
             URLQueryItem(name: "destination", value: query.targetLocation),
-            URLQueryItem(name: "budget", value: preferences.budgetRange.rawValue.uppercased()),
-            URLQueryItem(name: "stay", value: preferences.stayDuration.rawValue.uppercased()),
+            URLQueryItem(name: "budget", value: query.preferences.budgetRange.rawValue.uppercased()),
+            URLQueryItem(name: "stay", value: query.preferences.stayDuration.rawValue.uppercased()),
             URLQueryItem(name: "top_k", value: "10")
         ]
         
@@ -102,12 +104,15 @@ class APIClient {
     
     /*
      * Fetches the current real-time occupancy status for a list of parking space IDs.
-     * Called on a polling interval to detect VACANT/OCCUPIED transitions.
+     * Called on a polling interval to detect VACANT/OCCUPIED transitions. If mock mode is enabled,
+     * returns mock data instead of calling the backend. Throws an error if the composed URL is invalid
+     * or if the HTTP response is not 200 OK. If successful, decodes the response as a dictionary mapping
+     * each spaceid to its occupancy string ("VACANT", "OCCUPIED", or "UNKNOWN").
      *
      * Parameters:
      * - spaceids: Array of space ID strings to query (e.g. ["HO108", "DT472"]).
      *
-     * Returns: Dictionary mapping each spaceid to its occupancy string ("VACANT", "OCCUPIED", or "UNKNOWN").
+     * Returns: a dictionary mapping each spaceid to its occupancy string ("VACANT", "OCCUPIED", or "UNKNOWN").
      */
     func fetchOccupancy(spaceids: [String]) async throws -> [String: String] {
         if useMockMode {

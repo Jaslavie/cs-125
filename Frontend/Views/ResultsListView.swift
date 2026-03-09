@@ -2,7 +2,11 @@ import SwiftUI
 
 // MARK: - Results List View
 
-/* Side panel that displays the ranked list as scrollable cards, or a journey summary when the journey ends.
+/* Bottom panel that displays an empty state prompting the user to enter a destination and tap "Begin Journey", 
+ * a loading state serving as a progress indicator while the search is in progress, a results state displaying 
+ * the ranked list of spots as scrollable cards with an "End Journey" button at the top to terminate the active query session, 
+ * a no results state displaying a no results message and suggestion to expand the search radius, 
+ * an error state displaying an error message and a retry option, or a journey complete state displaying a summary of the full parking journey.
  * Each UI state maps to a different panel: initial (prompt), loading (progress), results (cards + End Journey button),
  * no results (message + expand suggestion), error (alert with retry), journeyComplete (summary screen).
  *
@@ -41,7 +45,7 @@ struct ResultsListView: View {
             Image(systemName: "map.fill")
                 .font(.system(size: 40))
                 .foregroundStyle(Theme.secondaryText)
-            Text("Enter a destination and tap Find Parking")
+            Text("Enter a destination and tap \"Begin Journey\"")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryText)
                 .multilineTextAlignment(.center)
@@ -94,13 +98,13 @@ struct ResultsListView: View {
                     ForEach(results.spots) { spot in
                         SpotCardView(
                             spot: spot,
-                            isSelected: viewModel.selectedSpotID == spot.spaceid,
-                            liveOccupancy: viewModel.liveOccupancy[spot.spaceid],
+                            isSelected: viewModel.selectedSpotID == spot.spaceid, // check if the spot is currently selected
+                            liveOccupancy: viewModel.liveOccupancy[spot.spaceid], // get the live occupancy information for the spot
                             onTap: {
                                 if viewModel.selectedSpotID == spot.spaceid {
-                                    viewModel.deselectSpot()  // Tapping the selected card again deselects it.
+                                    viewModel.deselectSpot()  // Tapping the selected card when selected deselects it and removes the route displayed on map.
                                 } else {
-                                    viewModel.selectSpot(spot)  // Tapping a new card selects it and recalculates the route.
+                                    viewModel.selectSpot(spot)  // Tapping a new card when not selected selects it and recalculates the route.
                                 }
                             }
                         )
@@ -112,12 +116,13 @@ struct ResultsListView: View {
         }
     }
 
-    /* Mock occupancy debug panel; only rendered when APIClient.shared.useMockMode is true.
+    /* Mock occupancy debug panel; only rendered when APIClient.shared.useMockMode is true to ensure that the
+     * panel updates when not in mock mode and only utilizes information from the LADOT API.
      * Displays a 3-way segmented picker (VACANT / OCCUPIED / UNKNOWN) for each ranked spot so
-     * every occupancy transition scenario can be triggered manually without waiting for live data.
+     * every occupancy transition scenario can be tested and triggered manually without waiting for live data.
      * Resetting all spots to VACANT is available via the "Reset All" button.
      *
-     * Scenarios this panel enables:
+     * Scenarios this panel allows to test as a result of unpredictability of live occupancy data from LADOT:
      *  - Set selected spot → OCCUPIED while others remain VACANT/UNKNOWN: alert fires with "Select Next Best"
      *  - Set an unselected spot → OCCUPIED: that card grays out, no alert
      *  - Set all spots → OCCUPIED: alert fires with only "Find New Spots"
@@ -178,10 +183,16 @@ struct ResultsListView: View {
         .padding(.top, 6)
     }
 
-    /* Creates a two-way binding for a single spot's mock occupancy override.
+    /* Creates a two-way binding for a single spot's mock occupancy override so that the picker in
+     * the debug panel can be used to change the occupancy state of the spot.
      * Reading returns the current override value, defaulting to "VACANT" if none is set.
      * Writing saves the new value into APIClient.shared.mockOccupancyOverrides and immediately
      * triggers an occupancy refresh so the card UI updates without waiting for the next poll tick.
+     *
+     * This function is exclusively called from mockDebugPanel, which is only rendered when
+     * APIClient.shared.useMockMode is true. In live mode the debug panel does not exist in the
+     * view hierarchy, mockOccupancyOverrides is never written to or read from, and live occupancy
+     * data processing is completely unaffected.
      *
      * Parameters:
      * - spaceid: The parking meter space ID whose override binding is needed.
@@ -252,8 +263,8 @@ struct ResultsListView: View {
     }
 
     /* Journey complete state: shown after the user taps "End Journey". Displays a summary of all
-     * spots chosen during the session in chronological order, a full card for the final destination,
-     * the total journey duration, and a button to start a new search.
+     * spots chosen during the session in chronological order, a the spot card for the final destination,
+     * the total journey duration, the journey start and end times, and a button to start a new search.
      *
      * Parameters:
      * - summary: JourneySummary containing the ordered spot history, final spot, and elapsed time.
@@ -272,8 +283,14 @@ struct ResultsListView: View {
                         Text("Journey Complete")
                             .font(.title2)
                             .fontWeight(.bold)
-                        Text("Journey time: \(summary.durationMinutes) min")
+                        Text("Duration: \(summary.durationMinutes) min")
                             .font(.subheadline)
+                            .foregroundStyle(Theme.secondaryText)
+                        Text("Started: \(summary.startTime.formatted(date: .omitted, time: .shortened))")
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryText)
+                        Text("Ended: \(summary.endTime.formatted(date: .omitted, time: .shortened))")
+                            .font(.caption)
                             .foregroundStyle(Theme.secondaryText)
                     }
                 }

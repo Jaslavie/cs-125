@@ -31,6 +31,8 @@ class SessionManager: ObservableObject {
     /*
      * Initializes the SessionManager and loads stored preferences from UserDefaults.
      * If no stored preferences exist, initializes with medium budget and medium stay duration.
+     * Also, prints the loaded preferences to the console for debugging purposes. Preferences are
+     * loaded from UserDefaults and decoded into a `UserPreferences` object. 
      */
     private init() {
         // Attempt to load stored preferences from UserDefaults
@@ -51,7 +53,7 @@ class SessionManager: ObservableObject {
     }
     
     /*
-     * Saves current preferences to UserDefaults for persistence across app launches.
+     * Encodes and saves current user preferences to UserDefaults for persistence across app launches.
      * Called automatically when userPreferences changes via didSet.
      */
     private func save() {

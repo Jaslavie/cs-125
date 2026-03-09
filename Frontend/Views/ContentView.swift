@@ -36,8 +36,8 @@ struct ContentView: View {
                     viewModel.selectNextBestVacantSpot()
                 }
             }
-            Button("Find New Spots") {
-                viewModel.searchParking()
+            Button("Find More Parking") { // Re-ranks while preserving the full journey history and original start time.
+                viewModel.searchParking(preserveHistory: true)
             }
             Button("Dismiss", role: .cancel) {}
         } message: {

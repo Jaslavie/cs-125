@@ -4,23 +4,6 @@ import CoreLocation
 import MapKit
 import SwiftUI
 
-// MARK: - Journey Summary
-
-/*
- * Snapshot produced when the user ends an active parking journey.
- * Captures the full selection history, the final chosen spot, and the total elapsed time.
- *
- * Attributes:
- * - chosenSpots: Every spot the user deliberately selected during the journey, in chronological order.
- * - finalSpot: The last spot in chosenSpots; the spot the user was navigating to when the journey ended.
- * - durationMinutes: Total elapsed time from the moment results were first shown to the EndJourney tap.
- */
-struct JourneySummary: Equatable {
-    let chosenSpots: [ScoredSpot]
-    let finalSpot: ScoredSpot?
-    let durationMinutes: Int
-}
-
 // MARK: - Parking UI State
 
 /*
@@ -30,7 +13,7 @@ struct JourneySummary: Equatable {
  * Attributes:
  * - initial: Empty state before any search.
  * - loading: Search in progress; form disabled, progress shown.
- * - results(RankedResults): Ranked set of spots; map shows pins, panel shows cards.
+ * - results(RankedResults): Ranked set of spots; map shows pins, results panel shows parking spot cards.
  * - noResults: No spots found; suggest expanding radius.
  * - error(String): Failure with message; alert with retry.
  * - journeyComplete(JourneySummary): Journey has ended; results panel shows journey summary.
@@ -44,6 +27,28 @@ enum ParkingUIState: Equatable {
     case journeyComplete(JourneySummary)
 }
 
+// MARK: - Journey Summary
+
+/*
+ * Snapshot produced when the user ends an active parking journey.
+ * Captures the full selection history, the final chosen spot, the journey start and end times,
+ * and the total elapsed time in minutes.
+ *
+ * Attributes:
+ * - chosenSpots: Every spot the user deliberately selected during the journey, in chronological order.
+ * - finalSpot: The last spot in chosenSpots; the spot the user was navigating to when the journey ended.
+ * - startTime: Timestamp when the first ranked results appeared (i.e. when the journey began).
+ * - endTime: Timestamp when the user tapped "End Journey".
+ * - durationMinutes: Total elapsed time from startTime to endTime, in minutes.
+ */
+struct JourneySummary: Equatable {
+    let chosenSpots: [ScoredSpot]
+    let finalSpot: ScoredSpot?
+    let startTime: Date
+    let endTime: Date
+    let durationMinutes: Int
+}
+
 // MARK: - Location Delegate
 
 /*
@@ -51,7 +56,7 @@ enum ParkingUIState: Equatable {
  * via closures. Required because CLLocationManagerDelegate is an Objective-C protocol and cannot
  * be adopted directly by an @MainActor-isolated class.
  *
- * Attributes:
+ * Closures:
  * - onLocationUpdate: Closure invoked with the most recent CLLocation each time the device reports a new position.
  * - onAuthorizationChange: Closure invoked when the app's location authorization status changes.
  */
@@ -60,11 +65,11 @@ private final class LocationDelegate: NSObject, CLLocationManagerDelegate {
     var onAuthorizationChange: ((CLAuthorizationStatus) -> Void)?
 
     /*
-     * Forwards the most recent location fix to the view model.
+     * Forwards the most recent location update to the view model.
      *
      * Parameters:
      * - manager: The location manager that generated the update.
-     * - locations: Array of new location objects; the last entry is the most recent fix.
+     * - locations: Array of new location objects; represents location history; the last entry is the most recently reported position.
      */
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
@@ -72,10 +77,12 @@ private final class LocationDelegate: NSObject, CLLocationManagerDelegate {
     }
 
     /*
-     * Restarts location updates when authorization is granted after the initial request.
+     * Called by the system when the app's location authorization status changes.
+     * Reads the current status from the manager and forwards it to the onAuthorizationChange
+     * closure so the view model can react (e.g., start location updates once permission is granted).
      *
      * Parameters:
-     * - manager: The location manager whose authorization status changed.
+     * - manager: The location manager reporting the authorization status change.
      */
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         onAuthorizationChange?(manager.authorizationStatus)
@@ -112,7 +119,7 @@ private final class LocationDelegate: NSObject, CLLocationManagerDelegate {
  */
 @MainActor
 final class ParkingViewModel: ObservableObject {
-    // MARK: - Published State
+    // MARK: - Published Properties 
     @Published var uiState: ParkingUIState = .initial
     @Published var targetLocation: String = ""
     @Published var budgetRangePreference: BudgetRangePreference = .medium
@@ -126,9 +133,9 @@ final class ParkingViewModel: ObservableObject {
     @Published var journeyHistory: [ScoredSpot] = []  // all spots selected in chronological order
 
     // MARK: - Dependencies
-    private let apiClient: APIClient
+    private let apiClient: APIClient // Handles backend requests for parking spots and occupancy data
     private let sessionManager: SessionManager  // Persists and provides stored user preferences (budget, stay duration)
-    private let locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager() // Handles location updates from the device
     private let locationDelegate = LocationDelegate()  // Bridges CLLocationManagerDelegate to the @MainActor view model
 
     // MARK: - Private State
@@ -164,7 +171,8 @@ final class ParkingViewModel: ObservableObject {
 
     /*
      * Computed property that returns true if at least one non-selected ranked spot has a live
-     * occupancy value other than "OCCUPIED". Used to decide which buttons appear in the occupied alert.
+     * occupancy value other than "OCCUPIED". Used to decide whether the occupancy alert requires
+     * prompting begin a new journey or allowing the user to select the next best available parking spot.
      */
     var hasAnyVacantRankedSpots: Bool {
         guard let spots = rankedResults?.spots else { return false }
@@ -181,8 +189,8 @@ final class ParkingViewModel: ObservableObject {
      * Picker values (budgetRangePreference, stayTimePreference) are initialized from stored session preferences.
      *
      * Parameters:
-     * - apiClient: API client for backend requests (default: shared).
-     * - sessionManager: Session manager for stored preferences (default: shared).
+     * - apiClient: API client for backend requests (default: shared singleton).
+     * - sessionManager: Session manager for stored preferences (default: shared singleton).
      */
     init(apiClient: APIClient = .shared, sessionManager: SessionManager = .shared) {
         self.apiClient = apiClient
@@ -195,7 +203,8 @@ final class ParkingViewModel: ObservableObject {
 
     /*
      * Configures the CLLocationManager with a delegate and starts receiving GPS updates so that
-     * currentLocation is kept current throughout the session. Authorization is requested on first call.
+     * currentLocation is kept current throughout the session. Authorization is requested on first call,
+     * where location updates start only when authorization is granted.
      */
     private func setupLocationManager() {
         locationManager.delegate = locationDelegate
@@ -220,12 +229,21 @@ final class ParkingViewModel: ObservableObject {
 
     // MARK: - Actions
     /*
-     * Builds UserQuery (per-query inputs) and UserPreferences (personal model), then calls the API
-     * to gather spots within the user's walking radius and sort them into a ranked list.
-     * Resets all journey state and starts occupancy polling on success.
+     * Stops any currently running occupancy polling task, sets the UI state to loading, captures the current time,
+     * clears the selected spot ID, route, and live occupancy dictionary. Resets debug-panel occupancy overrides.
+     * When preserveHistory is false (default), also clears journeyHistory and journeyStartTime so the journey
+     * starts fresh. When preserveHistory is true (used by "Find More Parking" from the occupied-spot alert),
+     * journeyHistory and journeyStartTime are retained so the full history across re-ranks is preserved and the
+     * eventual journey summary displays the original journey start time. Builds the UserQuery and 
+     * calls the search API; on success sets UI state to results and starts occupancy polling. journeyStartTime is 
+     * only set if it was nil (i.e. not preserved).
+     *
+     * Parameters:
+     * - preserveHistory: When true, retains journeyHistory and journeyStartTime across the re-rank so the
+     *   journey summary reflects all spots selected since the very first search. Defaults to false.
      */
-    func searchParking() {
-        guard !targetLocation.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+    func searchParking(preserveHistory: Bool = false) {
+        guard !targetLocation.trimmingCharacters(in: .whitespaces).isEmpty else { return } // Prevent searching with empty destination.
 
         stopOccupancyPolling()
         uiState = .loading
@@ -233,30 +251,32 @@ final class ParkingViewModel: ObservableObject {
         selectedSpotID = nil
         selectedRoute = nil
         liveOccupancy = [:]
-        journeyHistory = []
-        journeyStartTime = nil
-        apiClient.resetMockOccupancyOverrides()  // Clear debug-panel overrides so each search starts clean.
+        // Preserve history and start time when re-ranking mid-journey so the full spot selection
+        // history and original journey start time carry over into the eventual journey summary.
+        if !preserveHistory {
+            journeyHistory = []
+            journeyStartTime = nil
+        }
+        apiClient.resetMockOccupancyOverrides()  // Reset debug-panel overrides in case in mock mode.
 
         let coordinate = currentLocation.map { Coordinate($0) } ?? Coordinate(Self.laCenter)
         let query = UserQuery(
             targetLocation: targetLocation.trimmingCharacters(in: .whitespaces),
             currentLocation: coordinate,
             currentTime: currentTime,
-            budgetRangePreference: budgetRangePreference,
-            stayTimePreference: stayTimePreference
-        )  // Per-query inputs: targetLocation, currentLocation, currentTime, budgetRangePreference, stayTimePreference.
-
-        // Use stored preferences from session; sent to backend for ranking (budget and stay duration)
-        let preferences = sessionManager.userPreferences
+            preferences: sessionManager.userPreferences
+        )  // Per-query inputs: targetLocation, currentLocation, currentTime, and stored preferences (budget, stay duration).
 
         Task {
             do {
-                let results = try await apiClient.searchParking(query: query, preferences: preferences)
+                let results = try await apiClient.searchParking(query: query)
                 if results.spots.isEmpty {
                     uiState = .noResults
                 } else {
                     uiState = .results(results)
-                    journeyStartTime = Date()
+                    // Only stamp the start time if this is a fresh journey; preserved journeys
+                    // retain the original start time so duration spans the full journey.
+                    if journeyStartTime == nil { journeyStartTime = Date() }
                     startOccupancyPolling()
                 }
             } catch {
@@ -309,10 +329,10 @@ final class ParkingViewModel: ObservableObject {
     }
 
     /*
-     * Selects the highest-ranked (lowest rank number) spot that is currently VACANT and is not
+     * Selects the highest-ranked (lowest rank number) spot that is currently not OCCUPIED and is not
      * the already-selected spot. Called by the "Select Next Best" alert action.
      */
-    func selectNextBestVacantSpot() {
+    func selectNextBestUnoccupiedSpot() {
         guard let spots = rankedResults?.spots else { return }
         if let nextBest = spots.first(where: { spot in
             guard spot.spaceid != selectedSpotID else { return false }
@@ -356,8 +376,11 @@ final class ParkingViewModel: ObservableObject {
     }
 
     /*
-     * Fetches the latest occupancy state for all currently ranked spots, detects a VACANT→OCCUPIED
-     * transition on the selected spot (which triggers the occupied alert), and updates liveOccupancy.
+     * Fetches the latest occupancy state for all currently ranked spots, logs a full snapshot to
+     * the console, checks for a VACANT→OCCUPIED transition on the selected spot (triggering the
+     * occupancy alert), and updates `liveOccupancy` with the new values retrieved by the latest 
+     * occupancy poll, enabling each spot to retain its last known live occupancy value if that spot 
+     * temporarily drops out of a poll response (in the case of a sensor gap or API hiccup).
      */
     private func refreshOccupancy() async {
         guard let spots = rankedResults?.spots, !spots.isEmpty else { return }
@@ -384,7 +407,9 @@ final class ParkingViewModel: ObservableObject {
                 print("  ⚠️  Selected spot \(selectedID) transitioned VACANT → OCCUPIED")
                 showSpotOccupiedAlert = true
             }
-            liveOccupancy = newOccupancy
+            // Merge live occupancy values so each spot retains its last known live value if it
+            // temporarily drops out of a poll response (in the case of a sensor gap or API hiccup).
+            liveOccupancy.merge(newOccupancy) { _, new in new }
         } catch {
             print("[OCCUPANCY POLL] ⚠️  Poll failed: \(error.localizedDescription)")
             // Stale occupancy values remain until the next successful poll.
@@ -430,11 +455,14 @@ final class ParkingViewModel: ObservableObject {
      */
     func endJourney() {
         stopOccupancyPolling()
-        let elapsed = journeyStartTime.map { Int(Date().timeIntervalSince($0) / 60) } ?? 0
+        let end = Date()
+        let start = journeyStartTime ?? end
         let summary = JourneySummary(
             chosenSpots: journeyHistory,
             finalSpot: journeyHistory.last,
-            durationMinutes: elapsed
+            startTime: start,
+            endTime: end,
+            durationMinutes: Int(end.timeIntervalSince(start) / 60)
         )
         selectedSpotID = nil
         selectedRoute = nil

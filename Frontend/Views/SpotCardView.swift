@@ -12,12 +12,12 @@ import SwiftUI
  * Tapping anywhere on the card invokes onTap so the caller can update selection state.
  *
  * Attributes:
- * - spot: ScoredSpot; supplies spaceid, rank, meterAddress, walkTime, rate, timelimit, estimatedTotalCost, colorCode, and baseline occupancy.
+ * - spot: ScoredSpot; supplies spaceid, rank, meterAddress, walkTime, rate, timelimit, estimatedTotalCost, colorCode, and baseline occupancy information about the associated parking spot.
  * - isSelected: When true, renders the accent-color selected highlight on the card border.
  * - liveOccupancy: Live-polled occupancy string for this spot ("VACANT" / "OCCUPIED" / "UNKNOWN");
  *   overrides spot.occupancy when non-nil.
  * - onTap: Closure called when the user taps the card; the caller handles selection toggle logic.
- * - effectiveOccupancy: Computed; uses liveOccupancy if available, otherwise falls back to spot.occupancy.
+ * - effectiveOccupancy: Computed; uses liveOccupancy if available, otherwise falls back to spot.occupancy. This provides a fallback in case no live polling is able to take place.
  * - isOccupied: Computed; true when effectiveOccupancy equals "OCCUPIED".
  */
 struct SpotCardView: View {
@@ -29,6 +29,7 @@ struct SpotCardView: View {
     /*
      * Computed property that resolves the occupancy string to display.
      * Prefers the live-polled value; falls back to the value returned by the ranking backend.
+     * This provides a fallback in case no live polling is able to take place.
      *
      * Returns: The most current occupancy string available for this spot.
      */
