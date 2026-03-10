@@ -262,9 +262,10 @@ SwiftUI **Map** (MapKit) with real-time user location and route rendering.
 - **`UserAnnotation()`** — always-visible blue dot showing the user's live GPS position.
 - **Spot pins** — `MeterPinView` annotation for each ranked spot when results are available.
 - **Route polyline** — renders `viewModel.selectedRoute` as a blue `MapPolyline` (lineWidth 4). `MapView` is purely responsible for display; the route is calculated in `ParkingViewModel.calculateRoute(to:)` via `MKDirections` and stored in `selectedRoute`, which `MapView` reads and draws.
-- **Dynamic camera:** `@State private var position: MapCameraPosition` initialises to Downtown LA. Two independent `onChange` handlers drive camera movement:
+- **Dynamic camera:** `@State private var position: MapCameraPosition` initialises to Downtown LA. Three independent `onChange` handlers drive camera movement:
   - **GPS fix** (`onChange(of: viewModel.currentLocation)`): on the first GPS fix the camera re-centres on the user's position; `hasCenteredOnUser` guards this so it only fires once and subsequent panning is left to the user.
   - **New search results** (`onChange(of: viewModel.rankedResults)`): whenever a new ranked list arrives the camera zooms to a bounding region that fits all ranked pins, ensuring no spot is out of frame regardless of where the user is. The bounding region is derived from the min/max latitude and longitude of all spot coordinates with a 1.5× padding factor to prevent pins from being clipped at the frame edges.
+  - **Route selected** (`onChange(of: viewModel.selectedRoute)`): whenever a new route is set (i.e. the user taps a spot card), the camera pans and zooms to fit the entire route polyline so both the user's current location and the destination pin are simultaneously visible. The fit is derived from `route.polyline.boundingMapRect` expanded by 25% on each side to keep endpoints away from the frame edge.
 - **`CLLocationCoordinate2D: @retroactive Equatable`** — conformance extension added at the top of this file so `onChange(of: viewModel.currentLocation)` can differentiate successive GPS fixes (required because `CLLocationCoordinate2D` is a C struct that does not synthesize `Equatable`).
 
 ### ResultsListView.swift

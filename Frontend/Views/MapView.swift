@@ -19,13 +19,15 @@ extension CLLocationCoordinate2D: @retroactive Equatable {
  * MapView only renders the resulting MKRoute stored in viewModel.selectedRoute.
  * The camera auto-centers on the user's position the first time a GPS fix is received;
  * subsequent panning is left to the user. When new search results arrive the camera zooms to a
- * bounding region that fits all ranked pins so no spot is out of frame.
+ * bounding region that fits all ranked pins so no spot is out of frame. When a spot is selected
+ * and a route is calculated, the camera pans to fit the entire route polyline so both the user's
+ * location and the destination pin are visible.
  *
  * Attributes:
  * - viewModel: ParkingViewModel; provides rankedResults for pins, selectedRoute for the polyline,
  *   and currentLocation to trigger the initial camera re-center.
- * - position: Local camera state initialised to Downtown LA; updated on first GPS fix and on
- *   each new set of search results.
+ * - position: Local camera state initialised to Downtown LA; updated on first GPS fix, on
+ *   each new set of search results, and whenever a new route is selected.
  * - hasCenteredOnUser: Guard flag that prevents repeated GPS-triggered camera jumps after the
  *   first GPS lock.
  */
@@ -93,6 +95,17 @@ struct MapView: View {
                 longitudeDelta: max((maxLon - minLon) * 1.5, 0.01)
             )
             position = .region(MKCoordinateRegion(center: center, span: span))
+        }
+        .onChange(of: viewModel.selectedRoute) { _, newRoute in
+            // When a route is selected, pan the camera to fit the full route polyline so both
+            // the user's current location and the destination pin are visible simultaneously.
+            // route.polyline.boundingMapRect gives the tightest rect enclosing all route coords;
+            // insetBy with negative values expands it by 25% on each side so endpoints aren't
+            // flush against the frame edge.
+            guard let route = newRoute else { return }
+            let rect = route.polyline.boundingMapRect
+            let paddedRect = rect.insetBy(dx: -rect.size.width * 0.25, dy: -rect.size.height * 0.25)
+            position = .region(MKCoordinateRegion(paddedRect))
         }
     }
 }
