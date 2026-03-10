@@ -420,7 +420,14 @@ final class ParkingViewModel: ObservableObject {
 
     /*
      * Calculates a driving route from the user's current location (or LA center as fallback) to the
-     * given spot using MKDirections, then stores the first result in selectedRoute for map rendering.
+     * given spot using MKDirections and stores the result in selectedRoute. This is the sole location
+     * where route calculation occurs; MapView does not calculate routes — it only renders the MKRoute
+     * stored in selectedRoute as a blue polyline via MapPolyline.
+     *
+     * MKDirections returns routes sorted by relevance and quality; routes.first is therefore Apple's
+     * recommended route rather than strictly the fastest. In practice this is typically the quickest
+     * option, but Apple may rank a slightly slower route first if it better balances other factors
+     * (e.g. fewer turns, toll avoidance).
      *
      * Parameters:
      * - spot: The destination ScoredSpot whose coordinate is used as the route endpoint.
@@ -441,7 +448,7 @@ final class ParkingViewModel: ObservableObject {
         Task {
             let directions = MKDirections(request: request)
             if let response = try? await directions.calculate(),
-               let firstRoute = response.routes.first {
+               let firstRoute = response.routes.first {  // routes sorted by relevance/quality; first is Apple's recommended route.
                 selectedRoute = firstRoute
             }
         }

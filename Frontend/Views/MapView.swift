@@ -15,6 +15,8 @@ extension CLLocationCoordinate2D: @retroactive Equatable {
  * Interactive map; the user's live location is shown as a blue dot (UserAnnotation) at all times.
  * When results exist, each parking spot is rendered as a MeterPinView annotation.
  * When a spot is selected, a blue polyline traces the driving route from the user to that spot.
+ * The route itself is calculated in ParkingViewModel.calculateRoute(to:) via MKDirections;
+ * MapView only renders the resulting MKRoute stored in viewModel.selectedRoute.
  * The camera auto-centers on the user's position the first time a GPS fix is received;
  * subsequent panning is left to the user. When new search results arrive the camera zooms to a
  * bounding region that fits all ranked pins so no spot is out of frame.
@@ -55,7 +57,7 @@ struct MapView: View {
                 }
             }
 
-            if let route = viewModel.selectedRoute {  // Blue polyline tracing the driving route to the selected spot.
+            if let route = viewModel.selectedRoute {  // Renders the MKRoute computed by ParkingViewModel.calculateRoute(to:) as a blue driving-route polyline.
                 MapPolyline(route)
                     .stroke(.blue, lineWidth: 4)
             }

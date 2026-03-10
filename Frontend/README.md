@@ -207,7 +207,7 @@ Single source of truth for the main search and real-time journey flow. Marked `@
 | `currentTime`           | `Date`                        | Represents the present time captured at search invocation.                                       |
 | `selectedSpotID`        | `String?`                     | `spaceid` of the currently selected parking spot; indicates which route on map to draw and card to highlight on UI.      |
 | `liveOccupancy`         | `[String: String]`            | Latest polled occupancy status for each currently ranked spot; keyed by `spaceid`. Contextual signal used by system to filter out occupied spots from current ranking (visually depicted to user as "grayed out" parking spot cards).        |
-| `selectedRoute`         | `MKRoute?`                    | Calculated driving route to the selected spot; rendered as a polyline.   |
+| `selectedRoute`         | `MKRoute?`                    | Driving route computed by `calculateRoute(to:)` via `MKDirections`; read by `MapView` and rendered as a blue polyline. `MapView` does not calculate the route — it only renders this value. `MKDirections` returns routes sorted by relevance/quality, so `routes.first` is Apple's recommended route rather than strictly the fastest. |
 | `showSpotOccupiedAlert` | `Bool`                        | True when the selected spot transitions VACANT → OCCUPIED; triggers occupancy alert.|
 | `journeyHistory`        | `[ScoredSpot]`                | Record of Every spot the user selected during the active journey, in order. Includes duplicates to show entire history.        |
 
@@ -223,7 +223,7 @@ Single source of truth for the main search and real-time journey flow. Marked `@
 | Method                         | Description                                                                                                     |
 | ------------------------------ | --------------------------------------------------------------------------------------------------------------- |
 | `searchParking(preserveHistory:)` | Stops polling, clears current selection/route/occupancy, and re-runs the parking search. When `preserveHistory: false` (default — "Begin Journey" button, `retry()`), also clears `journeyHistory` and `journeyStartTime` for a fresh journey. When `preserveHistory: true` ("Find More Parking" alert action), retains both so the full history across re-ranks is preserved and original journey start time carry into the eventual journey summary. `journeyStartTime` is only stamped if it was nil. |
-| `selectSpot(_ spot:)`          | Sets `selectedSpotID` as the given spot, appends spot to `journeyHistory`, triggers route calculation to that spot.                                 |
+| `selectSpot(_ spot:)`          | Sets `selectedSpotID` as the given spot, appends spot to `journeyHistory`, triggers `calculateRoute(to:)` which calls `MKDirections` and stores Apple's recommended route (sorted by relevance/quality, not strictly fastest) in `selectedRoute` for `MapView` to render. |
 | `deselectSpot()`               | Clears `selectedSpotID` and `selectedRoute`.                                                                    |
 | `selectNextBestUnoccupiedSpot()`   | Selects the highest-ranked non-occupied, non-selected spot; called by the "Select Next Best" alert action.      |
 | `startOccupancyPolling()`      | Starts a background `Task` loop that calls `refreshOccupancy()` every 7 seconds.                               |
@@ -261,7 +261,7 @@ SwiftUI **Map** (MapKit) with real-time user location and route rendering.
 
 - **`UserAnnotation()`** — always-visible blue dot showing the user's live GPS position.
 - **Spot pins** — `MeterPinView` annotation for each ranked spot when results are available.
-- **Route polyline** — `MapPolyline(viewModel.selectedRoute).stroke(.blue, lineWidth: 4)` renders the driving route to the selected spot.
+- **Route polyline** — renders `viewModel.selectedRoute` as a blue `MapPolyline` (lineWidth 4). `MapView` is purely responsible for display; the route is calculated in `ParkingViewModel.calculateRoute(to:)` via `MKDirections` and stored in `selectedRoute`, which `MapView` reads and draws.
 - **Dynamic camera:** `@State private var position: MapCameraPosition` initialises to Downtown LA. Two independent `onChange` handlers drive camera movement:
   - **GPS fix** (`onChange(of: viewModel.currentLocation)`): on the first GPS fix the camera re-centres on the user's position; `hasCenteredOnUser` guards this so it only fires once and subsequent panning is left to the user.
   - **New search results** (`onChange(of: viewModel.rankedResults)`): whenever a new ranked list arrives the camera zooms to a bounding region that fits all ranked pins, ensuring no spot is out of frame regardless of where the user is. The bounding region is derived from the min/max latitude and longitude of all spot coordinates with a 1.5× padding factor to prevent pins from being clipped at the frame edges.
