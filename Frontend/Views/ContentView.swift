@@ -33,7 +33,7 @@ struct ContentView: View {
             // "Select Next Best" is offered only when at least one other ranked spot is still vacant.
             if viewModel.hasAnyVacantRankedSpots {
                 Button("Select Next Best") {
-                    viewModel.selectNextBestVacantSpot()
+                    viewModel.selectNextBestUnoccupiedSpot()
                 }
             }
             Button("Find More Parking") { // Re-ranks while preserving the full journey history and original start time.
