@@ -220,7 +220,7 @@ struct ResultsListView: View {
                 .foregroundStyle(Theme.secondaryText)
             Text("No spots found")
                 .font(.headline)
-            Text("Try expanding your search radius or adjusting your preferences.")
+            Text("Try adjusting your preferences or looking for parking in a different area.")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryText)
                 .multilineTextAlignment(.center)

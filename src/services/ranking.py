@@ -11,9 +11,29 @@ from typing import List
 from src.models.user import UserQuery, BudgetRange, StayTime, Location
 from src.models.meter import CandidateMeter, OutputMeter
 
+# Proportion of the distance score derived from each component.
+# DEST_DISTANCE_WEIGHT governs meter→destination (the walk the user takes after parking)
+# and is weighted heavily because proximity to the destination is the primary concern.
+# USER_DISTANCE_WEIGHT governs user→meter (the drive the user takes to reach the spot)
+# and acts as a tiebreaker that favors spots lying along the user's natural approach path.
+# The two constants must sum to 1.0.
+DEST_DISTANCE_WEIGHT = 0.85
+USER_DISTANCE_WEIGHT = 0.15
+
 
 class MeterRanker:
-    """Ranks parking meters based on user preferences"""
+    """Ranks parking meters based on user preferences and location context.
+
+    The distance component of the score is a blend of two signals:
+      - meter→destination (primary, 85%): how far the user must walk after parking.
+      - user→meter (secondary, 15%): how far the user must drive to reach the spot.
+    Destination proximity dominates while the approach signal nudges ranking towards
+    spots that lie along the user's natural driving path ahead of spots that require
+    taking a detour.
+
+    To change the weighting of the distance component, adjust DEST_DISTANCE_WEIGHT 
+    or USER_DISTANCE_WEIGHT at the top of this module.
+    """
     
     def __init__(self):
         # Define preference weights for different user profiles
@@ -38,9 +58,10 @@ class MeterRanker:
     ) -> List[OutputMeter]:
         """
         Main ranking pipeline:
-        1. Score each meter (with penalties, not filtering)
-        2. Sort by score
-        3. Return top k as OutputMeters
+        1. Compute meter→destination and user→meter distances for each candidate.
+        2. Score each meter (cost, blended distance, time limit) with penalties, not hard filtering.
+        3. Sort by score descending.
+        4. Return top k as OutputMeters with rank assigned.
         """
         if not candidates:
             return []
@@ -48,12 +69,13 @@ class MeterRanker:
         # Score each meter
         scored_meters = []
         for meter in candidates:
-            distance = haversine_distance(meter.location, destination)
-            score = self._calculate_score(meter, user_query, destination, distance)
+            meter_to_dest = haversine_distance(meter.location, destination)
+            user_to_meter = haversine_distance(user_query.current_location, meter.location)
+            score = self._calculate_score(meter, user_query, destination, meter_to_dest, user_to_meter)
             scored_meters.append({
                 "meter": meter,
                 "score": score,
-                "distance": distance
+                "distance": meter_to_dest  # distance to destination retained for OutputMeter/walk time
             })
         
         # Sort by score (highest first)
@@ -77,9 +99,19 @@ class MeterRanker:
         meter: CandidateMeter,
         query: UserQuery,
         destination: Location,
-        distance: float
+        distance: float,
+        user_to_meter: float,
     ) -> float:
-        """Calculate weighted score for a meter (0-1 scale)"""
+        """Calculate weighted score for a meter (0-1 scale).
+
+        The distance component is a blended score composed of two sub-signals:
+          - meter→destination (walk distance after parking): weighted DEST_DISTANCE_WEIGHT (0.85)
+          - user→meter (drive distance to reach the spot):  weighted USER_DISTANCE_WEIGHT (0.15)
+
+        Destination proximity dominates so the user always gets spots close to where they
+        need to be. The approach signal favors spots lying along the user's natural driving path,
+        penalizing spots that require taking a detour.
+        """
         
         # Get weights based on user preferences
         budget_w = self.budget_weights[query.preferences.budget_range]
@@ -92,9 +124,15 @@ class MeterRanker:
             "time": (budget_w["time"] + stay_w["time"]) / 2,
         }
         
-        # Calculate component scores (with penalties, not filtering)
+        # Blend destination and approach distance scores.
+        # _score_distance is reused for both; the 800 m scale applies equally to
+        # meter→destination (walking) and user→meter (driving approach).
+        dest_score     = self._score_distance(distance)        # meter → destination
+        approach_score = self._score_distance(user_to_meter)   # user → meter
+        distance_score = DEST_DISTANCE_WEIGHT * dest_score + USER_DISTANCE_WEIGHT * approach_score
+
+        # Calculate remaining component scores (with penalties, not filtering)
         cost_score = self._score_cost(meter, query)
-        distance_score = self._score_distance(distance)
         time_score = self._score_time_limit(meter, query)
         
         # Weighted combination
