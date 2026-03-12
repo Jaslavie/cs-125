@@ -112,7 +112,7 @@ Represents the query augmented with personal model information and contextual si
 | Parameter       | Type              | Notes                                                               |
 | --------------- | ----------------- | ------------------------------------------------------------------- |
 | `targetLocation`| `String`          | Free-text destination; geocoded by backend.                         |
-| `currentLocation`| `Coordinate`     | User's current GPS position; Codable via Coordinate wrapper.        |
+| `currentLocation`| `Coordinate`     | User's current GPS position; Codable via Coordinate wrapper. Sent to the backend; ranking uses it to nudge results toward spots geographically closer to the user. |
 | `currentTime`   | `Date`            | Auto-captured at query time; ISO 8601 for API.                      |
 | `preferences`   | `UserPreferences` | Budget range and stay duration for this search; info sourced from SessionManager. |
 
@@ -203,7 +203,7 @@ Single source of truth for the main search and real-time journey flow. Marked `@
 | `targetLocation`        | `String`                      | Free-text destination where user want to park nearby. Entered in the search form.                              |
 | `budgetRangePreference` | `BudgetRangePreference`       | Picker value associated with user's budget range preference; synced with SessionManager to sync this preference with personal model.                                |
 | `stayTimePreference`    | `StayTimePreference`          | Picker value assocaited with user's stay time duration preference; synced with SessionManager to sync this preference with personal model.                                |
-| `currentLocation`       | `CLLocationCoordinate2D?`     | Context signal that represents live GPS position; updated continuously via `LocationDelegate`.          |
+| `currentLocation`       | `CLLocationCoordinate2D?`     | Context signal that represents live GPS position; updated continuously via `LocationDelegate`. Sent to the backend for ranking, which uses it to nudge toward spots geographically closer to the user.          |
 | `currentTime`           | `Date`                        | Represents the present time captured at search invocation.                                       |
 | `selectedSpotID`        | `String?`                     | `spaceid` of the currently selected parking spot; indicates which route on map to draw and card to highlight on UI.      |
 | `liveOccupancy`         | `[String: String]`            | Latest polled occupancy status for each currently ranked spot; keyed by `spaceid`. Contextual signal used by system to filter out occupied spots from current ranking (visually depicted to user as "grayed out" parking spot cards).        |

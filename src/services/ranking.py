@@ -15,7 +15,7 @@ from src.models.meter import CandidateMeter, OutputMeter
 # DEST_DISTANCE_WEIGHT governs meter→destination (the walk the user takes after parking)
 # and is weighted heavily because proximity to the destination is the primary concern.
 # USER_DISTANCE_WEIGHT governs user→meter (the drive the user takes to reach the spot)
-# and acts as a tiebreaker that favors spots lying along the user's natural approach path.
+# and acts as a tiebreaker that favors spots closer to the user's current location.
 # The two constants must sum to 1.0.
 DEST_DISTANCE_WEIGHT = 0.85
 USER_DISTANCE_WEIGHT = 0.15
@@ -28,10 +28,10 @@ class MeterRanker:
       - meter→destination (primary, 85%): how far the user must walk after parking.
       - user→meter (secondary, 15%): how far the user must drive to reach the spot.
     Destination proximity dominates while the approach signal nudges ranking towards
-    spots that lie along the user's natural driving path ahead of spots that require
-    taking a detour.
+    spots that are closer to the user's current location, serving as a tiebreaker for
+    equidistant spots near the final destination.
 
-    To change the weighting of the distance component, adjust DEST_DISTANCE_WEIGHT 
+    To change the weighting of the distance component, adjust DEST_DISTANCE_WEIGHT
     or USER_DISTANCE_WEIGHT at the top of this module.
     """
     
@@ -105,12 +105,12 @@ class MeterRanker:
         """Calculate weighted score for a meter (0-1 scale).
 
         The distance component is a blended score composed of two sub-signals:
-          - meter→destination (walk distance after parking): weighted DEST_DISTANCE_WEIGHT (0.85)
-          - user→meter (drive distance to reach the spot):  weighted USER_DISTANCE_WEIGHT (0.15)
+          - meter→destination: weighted DEST_DISTANCE_WEIGHT (0.85)
+          - user→meter: weighted USER_DISTANCE_WEIGHT (0.15)
 
         Destination proximity dominates so the user always gets spots close to where they
-        need to be. The approach signal favors spots lying along the user's natural driving path,
-        penalizing spots that require taking a detour.
+        need to be. The approach signal favors spots closer to the user's current location,
+        serving as a tiebreaker for equidistant spots near the final destination.
         """
         
         # Get weights based on user preferences
@@ -124,12 +124,12 @@ class MeterRanker:
             "time": (budget_w["time"] + stay_w["time"]) / 2,
         }
         
-        # Blend destination and approach distance scores.
+        # Blend destination and user-proximity distance scores.
         # _score_distance is reused for both; the 800 m scale applies equally to
-        # meter→destination (walking) and user→meter (driving approach).
-        dest_score     = self._score_distance(distance)        # meter → destination
-        approach_score = self._score_distance(user_to_meter)   # user → meter
-        distance_score = DEST_DISTANCE_WEIGHT * dest_score + USER_DISTANCE_WEIGHT * approach_score
+        # meter→destination (walking) and user→meter (straight-line from user to spot).
+        dest_score = self._score_distance(distance)        # meter → destination
+        user_proximity_score = self._score_distance(user_to_meter)   # user → meter
+        distance_score = DEST_DISTANCE_WEIGHT * dest_score + USER_DISTANCE_WEIGHT * user_proximity_score
 
         # Calculate remaining component scores (with penalties, not filtering)
         cost_score = self._score_cost(meter, query)
