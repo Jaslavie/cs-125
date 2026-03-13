@@ -140,12 +140,26 @@ Set `useMockMode = true` (line 19) to bypass the backend entirely. All network c
 
 ### SessionManager.swift
 
-Singleton **session manager** that manages the `UserPreferences` information in `UserDefaults`, where `UserPreferences` is persistently stored. The session manager enables personal model information to persist by managing this information (i.e. user preferences) persistently between app sessions. On launch, stored preferences are loaded and used to prefill the search form pickers. `ParkingViewModel` reads from `SessionManager.userPreferences` when constructing `UserQuery` so the backend always receives the user's stored budget range and stay duration range preference values.
+Singleton **session manager** that manages multi-user session state with persistent storage in `UserDefaults`. For each username it stores a password (plaintext, for demo/class purposes only), a budget preference, and a stay duration preference. On launch, it restores all known users, reinitializes the last active username (if present), and derives the active `userPreferences` for that user. `ParkingViewModel` reads from `SessionManager.userPreferences` when constructing `UserQuery` so the backend always receives the logged-in user's budget range and stay duration range preference values.
 
-| Attribute          | Type              | Notes                                                                                         |
-| ------------------ | ----------------- | --------------------------------------------------------------------------------------------- |
-| `shared`           | `SessionManager`  | Singleton instance; provides global access throughout the app.                                |
-| `userPreferences`  | `UserPreferences` | Published budget and stay preferences; persisted to `UserDefaults` and logged on every change. |
+| Attribute          | Type                           | Notes                                                                                                       |
+| ------------------ | ------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `shared`           | `SessionManager`               | Singleton instance; provides global access throughout the app.                                              |
+| `currentUsername`  | `String?`                      | Published name of the currently logged-in user; `nil` when no user is authenticated.                       |
+| `userPreferences`  | `UserPreferences`              | Published budget and stay preferences for the active user; persisted per username and logged on every change. |
+
+Internally, `SessionManager` keeps:
+
+- `usernames: [String]` — all registered usernames.
+- `passwordsByUsername: [String: String]` — username → plaintext password (for demo only).
+- `budgetByUsername: [String: BudgetRangePreference]` — username → stored budget preference.
+- `stayByUsername: [String: StayTimePreference]` — username → stored stay duration preference.
+
+**Key methods (auth):**
+
+- `createAccount(username:password:initialPreferences:)` — validates inputs, creates a new user entry, sets it as the active session, records `userPreferences`, and persists everything to `UserDefaults`.
+- `login(username:password:)` — checks that the username exists and the password matches; on success sets `currentUsername` and reloads `userPreferences` for that user.
+- `logout()` — clears `currentUsername`, resets `userPreferences` to neutral defaults (medium/medium), and persists the change so the next launch starts on the login screen.
 
 ---
 
@@ -244,7 +258,21 @@ The Views layer implements the UI described in the proposal: search form, map, a
 
 ### ContentView.swift
 
-Root container. Vertical stack: **SearchFormView** → **Divider** → **MapView** (280 pt fixed height) → **Divider** → **ResultsListView** (fills remaining space). Interacts with a single `@StateObject ParkingViewModel`. Disables the search form while loading.
+Root shell for the app. Wraps the authentication flow and the main parking experience in a `NavigationStack`. When no user is logged in (`SessionManager.currentUsername == nil`), it shows `LoginView` (which can push `CreateAccountView`); when a user is logged in, it shows `MainParkingView` backed by a single `@StateObject ParkingViewModel`. Switching users or logging out is handled by observing changes to `SessionManager.currentUsername`.
+
+### LoginView.swift
+
+Entry screen shown on app launch. Provides username and password fields with standard password masking. On successful login via `SessionManager.login(username:password:)`, `SessionManager.currentUsername` becomes non-nil, causing `ContentView` to transition into the main parking experience. Includes a **Create Account** navigation link that pushes `CreateAccountView` onto the shared `NavigationStack`. Login functionality includes standard login error handling. 
+
+### CreateAccountView.swift
+
+Account creation screen presented from `LoginView`. Collects a username, password, and initial budget/stay preferences via two pickers (reusing `BudgetRangePreference.displayName` and `StayTimePreference.displayName`). On success, calls `SessionManager.createAccount(username:password:initialPreferences:)`, which, upon success, sets the new user as active and persists credentials and preferences (performs standard create account error handling); the view is then exited and `ContentView` immediately shows the main parking experience for the new user.
+
+### MainParkingView.swift
+
+Wrapper around the existing parking experience. Contains the search form, map, and results list (backed by `ParkingViewModel`) plus the occupied-spot alert and a simple **Logout** button. Tapping **Logout** calls `SessionManager.logout()`, which clears the active user and resets preferences; `ContentView` then returns to showing `LoginView` on the next render.
+
+Vertical stack: SearchFormView → Divider → MapView (280 pt fixed height) → Divider → ResultsListView (fills remaining space). Interacts with a single @StateObject ParkingViewModel. Disables the search form while loading.
 
 **Occupied-spot alert:** A `.alert` modifier on the outer `VStack` that binds to `viewModel.showSpotOccupiedAlert`. When the selected spot transitions VACANT → OCCUPIED during a live journey, the alert appears with:
 - **"Select Next Best"** — only shown if `viewModel.hasAnyVacantRankedSpots` is true; calls `viewModel.selectNextBestVacantSpot()`.

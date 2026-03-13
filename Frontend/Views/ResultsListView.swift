@@ -80,7 +80,7 @@ struct ResultsListView: View {
      * Returns a View.
      */
     private func resultsState(_ results: RankedResults) -> some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 2) {
             Button("End Journey") {
                 viewModel.endJourney()
             }
@@ -220,7 +220,7 @@ struct ResultsListView: View {
                 .foregroundStyle(Theme.secondaryText)
             Text("No spots found")
                 .font(.headline)
-            Text("Try adjusting your preferences or looking for parking in a different area.")
+            Text("Try looking for parking in a different area.")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryText)
                 .multilineTextAlignment(.center)

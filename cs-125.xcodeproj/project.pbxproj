@@ -26,6 +26,9 @@
 		B00100000000000000000021 /* UserQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000022 /* UserQuery.swift */; };
 		B00100000000000000000023 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000024 /* Assets.xcassets */; };
 		B0010000000000000000003B /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0010000000000000000003C /* SessionManager.swift */; };
+		B0010000000000000000003D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0010000000000000000003E /* LoginView.swift */; };
+		B0010000000000000000003F /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000040 /* CreateAccountView.swift */; };
+		B00100000000000000000041 /* MainParkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000042 /* MainParkingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +53,9 @@
 		B00100000000000000000025 /* cs-125.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cs-125.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B00100000000000000000026 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B0010000000000000000003C /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		B0010000000000000000003E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		B00100000000000000000040 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
+		B00100000000000000000042 /* MainParkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainParkingView.swift; sourceTree = "<group>"; };
 		D915FF3B2F5BD31C00672377 /* LA.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LA.gpx; sourceTree = "<group>"; };
 		D915FF3C2F5BD3C900672377 /* LA.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LA.gpx; sourceTree = "<group>"; };
 		D94068A12F5BCFCC00C46EE9 /* LA.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LA.gpx; sourceTree = "<group>"; };
@@ -150,6 +156,9 @@
 			isa = PBXGroup;
 			children = (
 				B00100000000000000000004 /* ContentView.swift */,
+				B00100000000000000000040 /* CreateAccountView.swift */,
+				B0010000000000000000003E /* LoginView.swift */,
+				B00100000000000000000042 /* MainParkingView.swift */,
 				B00100000000000000000006 /* MapView.swift */,
 				B00100000000000000000008 /* MeterPinView.swift */,
 				B0010000000000000000000A /* PreferencesView.swift */,
@@ -247,6 +256,9 @@
 				B0010000000000000000001F /* UserPreferences.swift in Sources */,
 				B00100000000000000000021 /* UserQuery.swift in Sources */,
 				B0010000000000000000003B /* SessionManager.swift in Sources */,
+				B0010000000000000000003D /* LoginView.swift in Sources */,
+				B0010000000000000000003F /* CreateAccountView.swift in Sources */,
+				B00100000000000000000041 /* MainParkingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -141,6 +141,7 @@ final class ParkingViewModel: ObservableObject {
     // MARK: - Private State
     private var occupancyPollingTask: Task<Void, Never>?  // background task running the occupancy poll loop
     private var journeyStartTime: Date? = nil  // timestamp when results first appeared; used to compute journey duration
+    private var cancellables = Set<AnyCancellable>()
 
     static let laCenter = CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437)
 
@@ -199,6 +200,15 @@ final class ParkingViewModel: ObservableObject {
         // Initialize pickers from stored preferences so UI shows last-used values
         self.budgetRangePreference = sessionManager.userPreferences.budgetRange
         self.stayTimePreference = sessionManager.userPreferences.stayDuration
+        // Sync pickers whenever session preferences change (e.g. after login or create account) so the form reflects the active user's saved preferences
+        sessionManager.$userPreferences
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] prefs in
+                self?.budgetRangePreference = prefs.budgetRange
+                self?.stayTimePreference = prefs.stayDuration
+            }
+            .store(in: &cancellables)
     }
 
     /*
