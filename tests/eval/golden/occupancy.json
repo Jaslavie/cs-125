@@ -1,0 +1,397 @@
+[
+  {
+    "spaceid": "SV228",
+    "eventtime": "2026-03-18T02:57:14.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV305A",
+    "eventtime": "2026-03-18T02:56:32.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV307A",
+    "eventtime": "2026-03-18T02:55:41.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "66602",
+    "eventtime": "2026-03-18T02:55:36.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV284",
+    "eventtime": "2026-03-18T02:55:15.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV307",
+    "eventtime": "2026-03-18T02:54:59.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV309A",
+    "eventtime": "2026-03-18T02:54:49.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV944",
+    "eventtime": "2026-03-18T02:54:23.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV942",
+    "eventtime": "2026-03-18T02:53:14.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV289",
+    "eventtime": "2026-03-18T02:52:06.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV309",
+    "eventtime": "2026-03-18T02:50:30.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV288",
+    "eventtime": "2026-03-18T02:49:57.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV249",
+    "eventtime": "2026-03-18T02:47:57.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "HO525",
+    "eventtime": "2026-03-18T02:40:19.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "HO353",
+    "eventtime": "2026-03-18T02:40:15.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "HO404",
+    "eventtime": "2026-03-18T02:38:25.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV305",
+    "eventtime": "2026-03-18T02:37:09.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "HO927",
+    "eventtime": "2026-03-18T02:32:15.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SH386",
+    "eventtime": "2026-03-18T02:30:06.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV404",
+    "eventtime": "2026-03-18T02:29:39.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV306",
+    "eventtime": "2026-03-18T02:28:20.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV940",
+    "eventtime": "2026-03-18T02:27:44.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV291B",
+    "eventtime": "2026-03-18T02:26:18.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV301",
+    "eventtime": "2026-03-18T02:25:47.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "HO393",
+    "eventtime": "2026-03-18T02:25:03.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "66608",
+    "eventtime": "2026-03-18T02:18:28.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV291",
+    "eventtime": "2026-03-18T02:15:24.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV431",
+    "eventtime": "2026-03-18T02:14:59.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SH26A",
+    "eventtime": "2026-03-18T02:14:15.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV302",
+    "eventtime": "2026-03-18T02:11:47.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "HO235G",
+    "eventtime": "2026-03-18T02:10:49.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV428",
+    "eventtime": "2026-03-18T02:10:45.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV218A",
+    "eventtime": "2026-03-18T02:09:42.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "HO449",
+    "eventtime": "2026-03-18T02:06:07.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SH38",
+    "eventtime": "2026-03-18T02:01:25.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV303",
+    "eventtime": "2026-03-18T01:56:40.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV290",
+    "eventtime": "2026-03-18T01:54:51.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV241",
+    "eventtime": "2026-03-18T01:52:16.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV306A",
+    "eventtime": "2026-03-18T01:51:16.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "66609",
+    "eventtime": "2026-03-18T01:51:07.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV403A",
+    "eventtime": "2026-03-18T01:40:16.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV242",
+    "eventtime": "2026-03-18T01:38:01.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV243",
+    "eventtime": "2026-03-18T01:37:13.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV247",
+    "eventtime": "2026-03-18T01:35:54.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "66611",
+    "eventtime": "2026-03-18T01:24:41.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV287",
+    "eventtime": "2026-03-18T01:24:08.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV304",
+    "eventtime": "2026-03-18T01:19:25.000",
+    "occupancystate": "UNKNOWN"
+  },
+  {
+    "spaceid": "HO526",
+    "eventtime": "2026-03-18T01:18:23.000",
+    "occupancystate": "UNKNOWN"
+  },
+  {
+    "spaceid": "SV291A",
+    "eventtime": "2026-03-18T01:18:09.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "HO519",
+    "eventtime": "2026-03-18T01:17:12.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "HO385",
+    "eventtime": "2026-03-18T01:12:32.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "HO356",
+    "eventtime": "2026-03-18T01:04:41.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "HO450A",
+    "eventtime": "2026-03-18T01:01:44.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "HO518",
+    "eventtime": "2026-03-18T00:55:51.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV286",
+    "eventtime": "2026-03-18T00:53:07.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV285",
+    "eventtime": "2026-03-18T00:46:00.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "HO431",
+    "eventtime": "2026-03-18T00:45:01.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "HO462",
+    "eventtime": "2026-03-18T00:24:42.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "HO470",
+    "eventtime": "2026-03-18T00:15:31.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV402",
+    "eventtime": "2026-03-18T00:07:11.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV290A",
+    "eventtime": "2026-03-18T00:05:22.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV230",
+    "eventtime": "2026-03-17T23:53:41.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV425",
+    "eventtime": "2026-03-17T23:52:40.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "66604",
+    "eventtime": "2026-03-17T23:30:33.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SH17",
+    "eventtime": "2026-03-17T23:17:54.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV248",
+    "eventtime": "2026-03-17T23:04:22.000",
+    "occupancystate": "UNKNOWN"
+  },
+  {
+    "spaceid": "SH392",
+    "eventtime": "2026-03-17T22:50:39.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV420",
+    "eventtime": "2026-03-17T22:36:27.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV227",
+    "eventtime": "2026-03-17T22:34:45.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SH21",
+    "eventtime": "2026-03-17T22:22:05.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV409",
+    "eventtime": "2026-03-17T22:14:12.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV308",
+    "eventtime": "2026-03-17T21:59:20.000",
+    "occupancystate": "UNKNOWN"
+  },
+  {
+    "spaceid": "SV250",
+    "eventtime": "2026-03-17T21:23:21.000",
+    "occupancystate": "UNKNOWN"
+  },
+  {
+    "spaceid": "HO477",
+    "eventtime": "2026-03-17T20:15:57.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SH20",
+    "eventtime": "2026-03-17T19:27:25.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "66607",
+    "eventtime": "2026-03-17T18:31:54.000",
+    "occupancystate": "VACANT"
+  },
+  {
+    "spaceid": "SV405A",
+    "eventtime": "2026-03-17T17:48:07.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV945",
+    "eventtime": "2026-03-17T04:07:55.000",
+    "occupancystate": "OCCUPIED"
+  },
+  {
+    "spaceid": "SV406A",
+    "eventtime": "2026-03-03T22:56:50.000",
+    "occupancystate": "OCCUPIED"
+  }
+]

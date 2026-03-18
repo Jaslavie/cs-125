@@ -1,0 +1,2402 @@
+[
+  {
+    "spaceid": "SV411",
+    "blockface": "1200 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.093068",
+      "longitude": "-118.326516"
+    }
+  },
+  {
+    "spaceid": "SH27A",
+    "blockface": "1100 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.092324",
+      "longitude": "-118.326514"
+    }
+  },
+  {
+    "spaceid": "SV402",
+    "blockface": "1301 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.095563",
+      "longitude": "-118.326768"
+    }
+  },
+  {
+    "spaceid": "SV415",
+    "blockface": "1200 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.093835",
+      "longitude": "-118.326519"
+    }
+  },
+  {
+    "spaceid": "SV412A",
+    "blockface": "1200 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.093313",
+      "longitude": "-118.326518"
+    }
+  },
+  {
+    "spaceid": "SV413",
+    "blockface": "1200 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.093703",
+      "longitude": "-118.326518"
+    }
+  },
+  {
+    "spaceid": "SH399A",
+    "blockface": "6200 BANNER AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.091611",
+      "longitude": "-118.325387"
+    }
+  },
+  {
+    "spaceid": "SH26A",
+    "blockface": "1100 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.092069",
+      "longitude": "-118.326514"
+    }
+  },
+  {
+    "spaceid": "SH398",
+    "blockface": "6200 BANNER AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.091611",
+      "longitude": "-118.325794"
+    }
+  },
+  {
+    "spaceid": "SV403A",
+    "blockface": "1301 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.095091",
+      "longitude": "-118.326769"
+    }
+  },
+  {
+    "spaceid": "SV406A",
+    "blockface": "1201 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.093667",
+      "longitude": "-118.32676"
+    }
+  },
+  {
+    "spaceid": "SV416",
+    "blockface": "1200 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09389",
+      "longitude": "-118.326519"
+    }
+  },
+  {
+    "spaceid": "SV945",
+    "blockface": "6201 AFTON PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.095325",
+      "longitude": "-118.326283"
+    }
+  },
+  {
+    "spaceid": "SH395",
+    "blockface": "6200 BANNER AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.091608",
+      "longitude": "-118.326335"
+    }
+  },
+  {
+    "spaceid": "SH38",
+    "blockface": "1101 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "1HR",
+    "latlng": {
+      "latitude": "34.091345",
+      "longitude": "-118.32675"
+    }
+  },
+  {
+    "spaceid": "SH390",
+    "blockface": "6200 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090663",
+      "longitude": "-118.325066"
+    }
+  },
+  {
+    "spaceid": "SH22",
+    "blockface": "1100 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.091443",
+      "longitude": "-118.326508"
+    }
+  },
+  {
+    "spaceid": "SV886",
+    "blockface": "6201 LA MIRADA AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.093558",
+      "longitude": "-118.325971"
+    }
+  },
+  {
+    "spaceid": "SV431",
+    "blockface": "1300 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.095104",
+      "longitude": "-118.326525"
+    }
+  },
+  {
+    "spaceid": "SV420",
+    "blockface": "6200 FOUNTAIN AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09427",
+      "longitude": "-118.32578"
+    }
+  },
+  {
+    "spaceid": "SV405",
+    "blockface": "1201 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.093931",
+      "longitude": "-118.326762"
+    }
+  },
+  {
+    "spaceid": "SH4",
+    "blockface": "6201 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "1HR",
+    "latlng": {
+      "latitude": "34.090827",
+      "longitude": "-118.324971"
+    }
+  },
+  {
+    "spaceid": "SH399",
+    "blockface": "6200 BANNER AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09161",
+      "longitude": "-118.325491"
+    }
+  },
+  {
+    "spaceid": "SH18",
+    "blockface": "1100 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.091152",
+      "longitude": "-118.326508"
+    }
+  },
+  {
+    "spaceid": "SV425",
+    "blockface": "1300 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.094637",
+      "longitude": "-118.326524"
+    }
+  },
+  {
+    "spaceid": "SH35",
+    "blockface": "1101 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "1HR",
+    "latlng": {
+      "latitude": "34.091626",
+      "longitude": "-118.32675"
+    }
+  },
+  {
+    "spaceid": "SH384",
+    "blockface": "6200 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090661",
+      "longitude": "-118.32578"
+    }
+  },
+  {
+    "spaceid": "SV433",
+    "blockface": "6200 AFTON PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.095232",
+      "longitude": "-118.326254"
+    }
+  },
+  {
+    "spaceid": "SV404",
+    "blockface": "1201 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.094062",
+      "longitude": "-118.326764"
+    }
+  },
+  {
+    "spaceid": "SH391",
+    "blockface": "6200 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090664",
+      "longitude": "-118.324865"
+    }
+  },
+  {
+    "spaceid": "SV411A",
+    "blockface": "1200 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.093114",
+      "longitude": "-118.326517"
+    }
+  },
+  {
+    "spaceid": "SH25",
+    "blockface": "1100 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.091859",
+      "longitude": "-118.326513"
+    }
+  },
+  {
+    "spaceid": "SH397",
+    "blockface": "6200 BANNER AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.091609",
+      "longitude": "-118.325947"
+    }
+  },
+  {
+    "spaceid": "SV409",
+    "blockface": "1201 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.093014",
+      "longitude": "-118.326757"
+    }
+  },
+  {
+    "spaceid": "SH20",
+    "blockface": "1100 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.091315",
+      "longitude": "-118.326507"
+    }
+  },
+  {
+    "spaceid": "SH26",
+    "blockface": "1100 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.091992",
+      "longitude": "-118.326512"
+    }
+  },
+  {
+    "spaceid": "SH386",
+    "blockface": "6200 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090662",
+      "longitude": "-118.325621"
+    }
+  },
+  {
+    "spaceid": "SV944",
+    "blockface": "6201 AFTON PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.095325",
+      "longitude": "-118.326193"
+    }
+  },
+  {
+    "spaceid": "SV405A",
+    "blockface": "1201 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.093877",
+      "longitude": "-118.326762"
+    }
+  },
+  {
+    "spaceid": "SH395A",
+    "blockface": "6200 BANNER AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.091609",
+      "longitude": "-118.32627"
+    }
+  },
+  {
+    "spaceid": "SH396",
+    "blockface": "6200 BANNER AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09161",
+      "longitude": "-118.326114"
+    }
+  },
+  {
+    "spaceid": "SH397A",
+    "blockface": "6200 BANNER AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09161",
+      "longitude": "-118.325861"
+    }
+  },
+  {
+    "spaceid": "SH29",
+    "blockface": "1101 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "1HR",
+    "latlng": {
+      "latitude": "34.092394",
+      "longitude": "-118.326753"
+    }
+  },
+  {
+    "spaceid": "SH21",
+    "blockface": "1100 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.091389",
+      "longitude": "-118.326508"
+    }
+  },
+  {
+    "spaceid": "SH17",
+    "blockface": "1100 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.091097",
+      "longitude": "-118.326508"
+    }
+  },
+  {
+    "spaceid": "SV428",
+    "blockface": "1300 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.094816",
+      "longitude": "-118.326522"
+    }
+  },
+  {
+    "spaceid": "SH392",
+    "blockface": "6200 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090666",
+      "longitude": "-118.324789"
+    }
+  },
+  {
+    "spaceid": "SH27",
+    "blockface": "1100 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.092135",
+      "longitude": "-118.326511"
+    }
+  },
+  {
+    "spaceid": "SH31",
+    "blockface": "1101 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "1HR",
+    "latlng": {
+      "latitude": "34.092136",
+      "longitude": "-118.326753"
+    }
+  },
+  {
+    "spaceid": "SV406",
+    "blockface": "1201 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.093798",
+      "longitude": "-118.326762"
+    }
+  },
+  {
+    "spaceid": "SV261A",
+    "blockface": "1401 CAHUENGA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096639",
+      "longitude": "-118.3296"
+    }
+  },
+  {
+    "spaceid": "SV308",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097894",
+      "longitude": "-118.327356"
+    }
+  },
+  {
+    "spaceid": "SV386",
+    "blockface": "1400 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097604",
+      "longitude": "-118.330213"
+    }
+  },
+  {
+    "spaceid": "SV242",
+    "blockface": "1400 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096793",
+      "longitude": "-118.330931"
+    }
+  },
+  {
+    "spaceid": "SV287",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097586",
+      "longitude": "-118.328892"
+    }
+  },
+  {
+    "spaceid": "SH324A",
+    "blockface": "6500 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090641",
+      "longitude": "-118.33148"
+    }
+  },
+  {
+    "spaceid": "SV260",
+    "blockface": "1401 CAHUENGA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096781",
+      "longitude": "-118.329603"
+    }
+  },
+  {
+    "spaceid": "SV244A",
+    "blockface": "1400 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097002",
+      "longitude": "-118.330932"
+    }
+  },
+  {
+    "spaceid": "SH323",
+    "blockface": "6500 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090642",
+      "longitude": "-118.331852"
+    }
+  },
+  {
+    "spaceid": "SV227",
+    "blockface": "1401 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096931",
+      "longitude": "-118.331093"
+    }
+  },
+  {
+    "spaceid": "SH332",
+    "blockface": "6400 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090646",
+      "longitude": "-118.330537"
+    }
+  },
+  {
+    "spaceid": "SV286",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097641",
+      "longitude": "-118.328893"
+    }
+  },
+  {
+    "spaceid": "SV228",
+    "blockface": "1401 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096875",
+      "longitude": "-118.331093"
+    }
+  },
+  {
+    "spaceid": "SH335",
+    "blockface": "6400 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090647",
+      "longitude": "-118.330296"
+    }
+  },
+  {
+    "spaceid": "SH58",
+    "blockface": "1100 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "1HR",
+    "latlng": {
+      "latitude": "34.091132",
+      "longitude": "-118.330907"
+    }
+  },
+  {
+    "spaceid": "SV272",
+    "blockface": "1400 CAHUENGA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096868",
+      "longitude": "-118.329408"
+    }
+  },
+  {
+    "spaceid": "SV306A",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097894",
+      "longitude": "-118.327987"
+    }
+  },
+  {
+    "spaceid": "SV381",
+    "blockface": "1400 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09719",
+      "longitude": "-118.330209"
+    }
+  },
+  {
+    "spaceid": "SV292A",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09653",
+      "longitude": "-118.328887"
+    }
+  },
+  {
+    "spaceid": "SV289",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097447",
+      "longitude": "-118.328891"
+    }
+  },
+  {
+    "spaceid": "SH352",
+    "blockface": "6300 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090656",
+      "longitude": "-118.327505"
+    }
+  },
+  {
+    "spaceid": "SH327",
+    "blockface": "1001 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090463",
+      "longitude": "-118.331059"
+    }
+  },
+  {
+    "spaceid": "SV304",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097893",
+      "longitude": "-118.328287"
+    }
+  },
+  {
+    "spaceid": "SH334",
+    "blockface": "6400 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090648",
+      "longitude": "-118.330378"
+    }
+  },
+  {
+    "spaceid": "SV942",
+    "blockface": "6400 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097891",
+      "longitude": "-118.330579"
+    }
+  },
+  {
+    "spaceid": "SV388",
+    "blockface": "1400 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097741",
+      "longitude": "-118.330215"
+    }
+  },
+  {
+    "spaceid": "SV306",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097894",
+      "longitude": "-118.328024"
+    }
+  },
+  {
+    "spaceid": "SV292",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09658",
+      "longitude": "-118.328887"
+    }
+  },
+  {
+    "spaceid": "SV307A",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097893",
+      "longitude": "-118.327439"
+    }
+  },
+  {
+    "spaceid": "SH328",
+    "blockface": "1000 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090515",
+      "longitude": "-118.330915"
+    }
+  },
+  {
+    "spaceid": "SH336",
+    "blockface": "6400 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090648",
+      "longitude": "-118.330219"
+    }
+  },
+  {
+    "spaceid": "SV241",
+    "blockface": "1400 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09674",
+      "longitude": "-118.330931"
+    }
+  },
+  {
+    "spaceid": "SH57",
+    "blockface": "1100 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "1HR",
+    "latlng": {
+      "latitude": "34.091076",
+      "longitude": "-118.330906"
+    }
+  },
+  {
+    "spaceid": "SV270",
+    "blockface": "1400 CAHUENGA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096529",
+      "longitude": "-118.329404"
+    }
+  },
+  {
+    "spaceid": "SV275",
+    "blockface": "1400 CAHUENGA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097057",
+      "longitude": "-118.32941"
+    }
+  },
+  {
+    "spaceid": "SV309A",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097896",
+      "longitude": "-118.32713"
+    }
+  },
+  {
+    "spaceid": "SV305A",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097895",
+      "longitude": "-118.328119"
+    }
+  },
+  {
+    "spaceid": "SH331",
+    "blockface": "6400 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090646",
+      "longitude": "-118.330611"
+    }
+  },
+  {
+    "spaceid": "SH62",
+    "blockface": "6501 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "1HR",
+    "latlng": {
+      "latitude": "34.090813",
+      "longitude": "-118.332147"
+    }
+  },
+  {
+    "spaceid": "SV293",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096457",
+      "longitude": "-118.328886"
+    }
+  },
+  {
+    "spaceid": "SH330",
+    "blockface": "6400 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090646",
+      "longitude": "-118.330697"
+    }
+  },
+  {
+    "spaceid": "SV262",
+    "blockface": "1401 CAHUENGA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096586",
+      "longitude": "-118.329602"
+    }
+  },
+  {
+    "spaceid": "SV247",
+    "blockface": "1400 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097394",
+      "longitude": "-118.330934"
+    }
+  },
+  {
+    "spaceid": "SV269",
+    "blockface": "1400 CAHUENGA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096474",
+      "longitude": "-118.329406"
+    }
+  },
+  {
+    "spaceid": "SH324",
+    "blockface": "6500 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090642",
+      "longitude": "-118.331688"
+    }
+  },
+  {
+    "spaceid": "SV385",
+    "blockface": "1400 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097547",
+      "longitude": "-118.330214"
+    }
+  },
+  {
+    "spaceid": "SV368",
+    "blockface": "1401 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096778",
+      "longitude": "-118.330354"
+    }
+  },
+  {
+    "spaceid": "SV290",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097388",
+      "longitude": "-118.328892"
+    }
+  },
+  {
+    "spaceid": "SV250",
+    "blockface": "1400 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097586",
+      "longitude": "-118.330934"
+    }
+  },
+  {
+    "spaceid": "SV309",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097894",
+      "longitude": "-118.3272"
+    }
+  },
+  {
+    "spaceid": "SV369",
+    "blockface": "1401 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09672",
+      "longitude": "-118.330355"
+    }
+  },
+  {
+    "spaceid": "SV382",
+    "blockface": "1400 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09725",
+      "longitude": "-118.330209"
+    }
+  },
+  {
+    "spaceid": "SH56",
+    "blockface": "1100 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "1HR",
+    "latlng": {
+      "latitude": "34.090999",
+      "longitude": "-118.330905"
+    }
+  },
+  {
+    "spaceid": "SV230",
+    "blockface": "1401 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096651",
+      "longitude": "-118.331095"
+    }
+  },
+  {
+    "spaceid": "SV290A",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097336",
+      "longitude": "-118.328892"
+    }
+  },
+  {
+    "spaceid": "SH446A",
+    "blockface": "1000 LILLIAN WAY",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090399",
+      "longitude": "-118.327676"
+    }
+  },
+  {
+    "spaceid": "SV302",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097893",
+      "longitude": "-118.328436"
+    }
+  },
+  {
+    "spaceid": "SV271",
+    "blockface": "1400 CAHUENGA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096604",
+      "longitude": "-118.329406"
+    }
+  },
+  {
+    "spaceid": "SV291B",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096773",
+      "longitude": "-118.32889"
+    }
+  },
+  {
+    "spaceid": "SV248",
+    "blockface": "1400 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097453",
+      "longitude": "-118.330934"
+    }
+  },
+  {
+    "spaceid": "SV291A",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096857",
+      "longitude": "-118.32889"
+    }
+  },
+  {
+    "spaceid": "SH445",
+    "blockface": "1001 LILLIAN WAY",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090321",
+      "longitude": "-118.327786"
+    }
+  },
+  {
+    "spaceid": "SV243",
+    "blockface": "1400 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09687",
+      "longitude": "-118.330931"
+    }
+  },
+  {
+    "spaceid": "SV284",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097769",
+      "longitude": "-118.328893"
+    }
+  },
+  {
+    "spaceid": "SH447",
+    "blockface": "1000 LILLIAN WAY",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090467",
+      "longitude": "-118.327678"
+    }
+  },
+  {
+    "spaceid": "SH446",
+    "blockface": "1000 LILLIAN WAY",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090288",
+      "longitude": "-118.327675"
+    }
+  },
+  {
+    "spaceid": "SH333",
+    "blockface": "6400 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090647",
+      "longitude": "-118.330452"
+    }
+  },
+  {
+    "spaceid": "SV301",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097892",
+      "longitude": "-118.328494"
+    }
+  },
+  {
+    "spaceid": "SV940",
+    "blockface": "6400 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09789",
+      "longitude": "-118.330726"
+    }
+  },
+  {
+    "spaceid": "SV366",
+    "blockface": "1401 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096995",
+      "longitude": "-118.330357"
+    }
+  },
+  {
+    "spaceid": "SH351",
+    "blockface": "6300 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090656",
+      "longitude": "-118.327567"
+    }
+  },
+  {
+    "spaceid": "SH323A",
+    "blockface": "6500 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090641",
+      "longitude": "-118.331777"
+    }
+  },
+  {
+    "spaceid": "SV374",
+    "blockface": "1400 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09643",
+      "longitude": "-118.330208"
+    }
+  },
+  {
+    "spaceid": "SH49",
+    "blockface": "6301 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090819",
+      "longitude": "-118.327563"
+    }
+  },
+  {
+    "spaceid": "SV384",
+    "blockface": "1400 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097383",
+      "longitude": "-118.330211"
+    }
+  },
+  {
+    "spaceid": "SV288",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097509",
+      "longitude": "-118.328892"
+    }
+  },
+  {
+    "spaceid": "SV274",
+    "blockface": "1400 CAHUENGA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097002",
+      "longitude": "-118.329409"
+    }
+  },
+  {
+    "spaceid": "SV293A",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096407",
+      "longitude": "-118.328886"
+    }
+  },
+  {
+    "spaceid": "SV308A",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097893",
+      "longitude": "-118.327288"
+    }
+  },
+  {
+    "spaceid": "SH402",
+    "blockface": "1100 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "1HR",
+    "latlng": {
+      "latitude": "34.09134",
+      "longitude": "-118.330908"
+    }
+  },
+  {
+    "spaceid": "SV367",
+    "blockface": "1401 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096941",
+      "longitude": "-118.330357"
+    }
+  },
+  {
+    "spaceid": "SV358",
+    "blockface": "1401 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09769",
+      "longitude": "-118.33036"
+    }
+  },
+  {
+    "spaceid": "SV365",
+    "blockface": "1401 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097068",
+      "longitude": "-118.330356"
+    }
+  },
+  {
+    "spaceid": "SV305",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097893",
+      "longitude": "-118.328179"
+    }
+  },
+  {
+    "spaceid": "SV361",
+    "blockface": "1401 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097486",
+      "longitude": "-118.330359"
+    }
+  },
+  {
+    "spaceid": "SH337",
+    "blockface": "6400 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090647",
+      "longitude": "-118.330123"
+    }
+  },
+  {
+    "spaceid": "SV303",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097892",
+      "longitude": "-118.328345"
+    }
+  },
+  {
+    "spaceid": "SV244",
+    "blockface": "1400 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096926",
+      "longitude": "-118.330932"
+    }
+  },
+  {
+    "spaceid": "SV249",
+    "blockface": "1400 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097529",
+      "longitude": "-118.330934"
+    }
+  },
+  {
+    "spaceid": "SV273",
+    "blockface": "1400 CAHUENGA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096924",
+      "longitude": "-118.329408"
+    }
+  },
+  {
+    "spaceid": "SV285",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097716",
+      "longitude": "-118.328893"
+    }
+  },
+  {
+    "spaceid": "SV291",
+    "blockface": "1401 IVAR AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096901",
+      "longitude": "-118.32889"
+    }
+  },
+  {
+    "spaceid": "SH48",
+    "blockface": "6301 SANTA MONICA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09082",
+      "longitude": "-118.327496"
+    }
+  },
+  {
+    "spaceid": "SV380",
+    "blockface": "1400 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096995",
+      "longitude": "-118.330209"
+    }
+  },
+  {
+    "spaceid": "SV387",
+    "blockface": "1400 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097684",
+      "longitude": "-118.330215"
+    }
+  },
+  {
+    "spaceid": "SV259",
+    "blockface": "1401 CAHUENGA BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096952",
+      "longitude": "-118.329604"
+    }
+  },
+  {
+    "spaceid": "SH401",
+    "blockface": "1100 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "1HR",
+    "latlng": {
+      "latitude": "34.091262",
+      "longitude": "-118.330909"
+    }
+  },
+  {
+    "spaceid": "SV218A",
+    "blockface": "6500 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097887",
+      "longitude": "-118.331957"
+    }
+  },
+  {
+    "spaceid": "SV307",
+    "blockface": "6300 SUNSET BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097893",
+      "longitude": "-118.327505"
+    }
+  },
+  {
+    "spaceid": "SV377",
+    "blockface": "1400 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.096667",
+      "longitude": "-118.330208"
+    }
+  },
+  {
+    "spaceid": "SH444",
+    "blockface": "1001 LILLIAN WAY",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.090369",
+      "longitude": "-118.327787"
+    }
+  },
+  {
+    "spaceid": "SV383",
+    "blockface": "1400 COLE PL",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.097325",
+      "longitude": "-118.33021"
+    }
+  },
+  {
+    "spaceid": "SV221",
+    "blockface": "1401 WILCOX AVE",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$1.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09776",
+      "longitude": "-118.33112"
+    }
+  },
+  {
+    "spaceid": "HO353",
+    "blockface": "1600 ARGYLE AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.10009",
+      "longitude": "-118.325103"
+    }
+  },
+  {
+    "spaceid": "HO403",
+    "blockface": "6101 HOLLYWOOD BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.101746",
+      "longitude": "-118.323356"
+    }
+  },
+  {
+    "spaceid": "HO384",
+    "blockface": "1600 EL CENTRO AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$4.00 - $5.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100717",
+      "longitude": "-118.323674"
+    }
+  },
+  {
+    "spaceid": "HO432",
+    "blockface": "1700 ARGYLE AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.103154",
+      "longitude": "-118.32511"
+    }
+  },
+  {
+    "spaceid": "HO450A",
+    "blockface": "6201 HOLLYWOOD BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$2.00 - $4.00",
+    "timelimit": "1HR",
+    "latlng": {
+      "latitude": "34.10173",
+      "longitude": "-118.32601"
+    }
+  },
+  {
+    "spaceid": "HO373",
+    "blockface": "1601 EL CENTRO AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$3.00 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100752",
+      "longitude": "-118.323806"
+    }
+  },
+  {
+    "spaceid": "HO476",
+    "blockface": "6201 YUCCA ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $2.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.103848",
+      "longitude": "-118.326325"
+    }
+  },
+  {
+    "spaceid": "HO477",
+    "blockface": "6201 YUCCA ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $2.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.103848",
+      "longitude": "-118.326398"
+    }
+  },
+  {
+    "spaceid": "HO926",
+    "blockface": "6201 SELMA AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09987",
+      "longitude": "-118.324205"
+    }
+  },
+  {
+    "spaceid": "HO431",
+    "blockface": "1700 ARGYLE AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.103084",
+      "longitude": "-118.325109"
+    }
+  },
+  {
+    "spaceid": "66604",
+    "blockface": "1618 VINE ST",
+    "metertype": "Multi-Space",
+    "ratetype": "TOD",
+    "raterange": "$2.00 - $5.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100125",
+      "longitude": "-118.326568"
+    }
+  },
+  {
+    "spaceid": "HO429",
+    "blockface": "1700 ARGYLE AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.102954",
+      "longitude": "-118.325108"
+    }
+  },
+  {
+    "spaceid": "HO526",
+    "blockface": "1701 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.101956",
+      "longitude": "-118.326809"
+    }
+  },
+  {
+    "spaceid": "HO371",
+    "blockface": "1601 EL CENTRO AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$3.00 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.101296",
+      "longitude": "-118.323814"
+    }
+  },
+  {
+    "spaceid": "66608",
+    "blockface": "1610 VINE ST",
+    "metertype": "Multi-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.10037",
+      "longitude": "-118.326572"
+    }
+  },
+  {
+    "spaceid": "HO356",
+    "blockface": "1600 ARGYLE AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100266",
+      "longitude": "-118.325103"
+    }
+  },
+  {
+    "spaceid": "HO462",
+    "blockface": "1700 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.103219",
+      "longitude": "-118.326574"
+    }
+  },
+  {
+    "spaceid": "HO354",
+    "blockface": "1600 ARGYLE AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100138",
+      "longitude": "-118.325103"
+    }
+  },
+  {
+    "spaceid": "HO527",
+    "blockface": "1701 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.101886",
+      "longitude": "-118.326807"
+    }
+  },
+  {
+    "spaceid": "HO380",
+    "blockface": "1600 EL CENTRO AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$4.00 - $5.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100449",
+      "longitude": "-118.323669"
+    }
+  },
+  {
+    "spaceid": "HO518",
+    "blockface": "1701 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.103461",
+      "longitude": "-118.326819"
+    }
+  },
+  {
+    "spaceid": "HO235G",
+    "blockface": "1601 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100319",
+      "longitude": "-118.326797"
+    }
+  },
+  {
+    "spaceid": "HO352",
+    "blockface": "1600 ARGYLE AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100006",
+      "longitude": "-118.325101"
+    }
+  },
+  {
+    "spaceid": "HO519",
+    "blockface": "1701 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.1034",
+      "longitude": "-118.326819"
+    }
+  },
+  {
+    "spaceid": "66603",
+    "blockface": "1618 VINE ST",
+    "metertype": "Multi-Space",
+    "ratetype": "TOD",
+    "raterange": "$2.00 - $5.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100072",
+      "longitude": "-118.326568"
+    }
+  },
+  {
+    "spaceid": "HO449",
+    "blockface": "6201 HOLLYWOOD BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$2.00 - $4.00",
+    "timelimit": "1HR",
+    "latlng": {
+      "latitude": "34.101731",
+      "longitude": "-118.325858"
+    }
+  },
+  {
+    "spaceid": "HO525",
+    "blockface": "1701 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.102009",
+      "longitude": "-118.326811"
+    }
+  },
+  {
+    "spaceid": "HO468A",
+    "blockface": "6200 YUCCA ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.103637",
+      "longitude": "-118.325694"
+    }
+  },
+  {
+    "spaceid": "HO927",
+    "blockface": "6201 SELMA AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09987",
+      "longitude": "-118.32427"
+    }
+  },
+  {
+    "spaceid": "HO470",
+    "blockface": "6200 YUCCA ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.103638",
+      "longitude": "-118.325527"
+    }
+  },
+  {
+    "spaceid": "HO922",
+    "blockface": "6101 SELMA AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.099876",
+      "longitude": "-118.323244"
+    }
+  },
+  {
+    "spaceid": "HO465",
+    "blockface": "6200 YUCCA ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.103634",
+      "longitude": "-118.326305"
+    }
+  },
+  {
+    "spaceid": "66611",
+    "blockface": "1610 VINE ST",
+    "metertype": "Multi-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100562",
+      "longitude": "-118.326574"
+    }
+  },
+  {
+    "spaceid": "HO377",
+    "blockface": "1600 EL CENTRO AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$4.00 - $5.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100025",
+      "longitude": "-118.323665"
+    }
+  },
+  {
+    "spaceid": "HO917",
+    "blockface": "6101 SELMA AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.09988",
+      "longitude": "-118.32287"
+    }
+  },
+  {
+    "spaceid": "HO467",
+    "blockface": "6200 YUCCA ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.103636",
+      "longitude": "-118.326146"
+    }
+  },
+  {
+    "spaceid": "HO475",
+    "blockface": "6201 YUCCA ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $2.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.103849",
+      "longitude": "-118.3262"
+    }
+  },
+  {
+    "spaceid": "HO915",
+    "blockface": "6101 SELMA AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.099883",
+      "longitude": "-118.322559"
+    }
+  },
+  {
+    "spaceid": "HO404",
+    "blockface": "6101 HOLLYWOOD BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.101747",
+      "longitude": "-118.323414"
+    }
+  },
+  {
+    "spaceid": "66609",
+    "blockface": "1610 VINE ST",
+    "metertype": "Multi-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100446",
+      "longitude": "-118.326572"
+    }
+  },
+  {
+    "spaceid": "HO521",
+    "blockface": "1701 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $1.50",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.103273",
+      "longitude": "-118.326819"
+    }
+  },
+  {
+    "spaceid": "HO393",
+    "blockface": "6100 HOLLYWOOD BLVD",
+    "metertype": "Single-Space",
+    "ratetype": "FLAT",
+    "raterange": "$2.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.101544",
+      "longitude": "-118.323375"
+    }
+  },
+  {
+    "spaceid": "HO385",
+    "blockface": "1600 EL CENTRO AVE",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$4.00 - $5.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100793",
+      "longitude": "-118.323672"
+    }
+  },
+  {
+    "spaceid": "66607",
+    "blockface": "1610 VINE ST",
+    "metertype": "Multi-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100316",
+      "longitude": "-118.326571"
+    }
+  },
+  {
+    "spaceid": "HO454",
+    "blockface": "1700 VINE ST",
+    "metertype": "Single-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.00 - $4.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.102344",
+      "longitude": "-118.326568"
+    }
+  },
+  {
+    "spaceid": "66612",
+    "blockface": "1610 VINE ST",
+    "metertype": "Multi-Space",
+    "ratetype": "TOD",
+    "raterange": "$1.50 - $3.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100745",
+      "longitude": "-118.326575"
+    }
+  },
+  {
+    "spaceid": "66602",
+    "blockface": "1618 VINE ST",
+    "metertype": "Multi-Space",
+    "ratetype": "TOD",
+    "raterange": "$2.00 - $5.00",
+    "timelimit": "2HR",
+    "latlng": {
+      "latitude": "34.100004",
+      "longitude": "-118.326567"
+    }
+  }
+]
