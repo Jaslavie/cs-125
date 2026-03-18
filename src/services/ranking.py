@@ -10,6 +10,8 @@ Scores meters based on user preferences (budget, distance, stay time)
 from typing import List
 from src.models.user import UserQuery, BudgetRange, StayTime, Location
 from src.models.meter import CandidateMeter, OutputMeter
+from src.services.api_distance import get_walking_route
+from src.utils.haversine import haversine_distance  
 
 # Proportion of the distance score derived from each component.
 # DEST_DISTANCE_WEIGHT governs meter→destination (the walk the user takes after parking)
@@ -69,14 +71,13 @@ class MeterRanker:
         # Score each meter
         scored_meters = []
         for meter in candidates:
-            meter_to_dest = haversine_distance(meter.location, destination)
-            user_to_meter = haversine_distance(user_query.current_location, meter.location)
-            score = self._calculate_score(meter, user_query, destination, meter_to_dest, user_to_meter)
+            route = get_walking_route(meter.location, destination)
+            score = self._calculate_score(meter, user_query, destination, route["distance_meters"])
             scored_meters.append({
                 "meter": meter,
                 "score": score,
-                "distance": meter_to_dest  # distance to destination retained for OutputMeter/walk time
-            })
+                "route": route
+        })
         
         # Sort by score (highest first)
         scored_meters.sort(key=lambda x: x["score"], reverse=True)
@@ -84,12 +85,7 @@ class MeterRanker:
         # Convert to OutputMeter with rank
         output_meters = []
         for rank, item in enumerate(scored_meters[:top_k], start=1):
-            output_meter = self._to_output_meter(
-                item["meter"],
-                rank,
-                item["distance"],
-                user_query
-            )
+            output_meter = self._to_output_meter(item["meter"], rank, item["route"], user_query)
             output_meters.append(output_meter)
         
         return output_meters
@@ -212,7 +208,7 @@ class MeterRanker:
         self,
         meter: CandidateMeter,
         rank: int,
-        distance_meters: float,
+        route: float,
         query: UserQuery
     ) -> OutputMeter:
         """Convert CandidateMeter to OutputMeter with ranking info"""
@@ -224,28 +220,11 @@ class MeterRanker:
             rate_per_hour=sum(meter.rate_per_hour) / len(meter.rate_per_hour),
             time_limit_minutes=meter.time_limit_minutes,
             occupancy=meter.occupancy,
-            latitude=meter.location.lat,
-            longitude=meter.location.lon,
-            distance_to_destination_meters=distance_meters,
-            walk_time_minutes=int(distance_meters / 80),  # 80 m/min walking speed
+            distance_to_destination_meters=route["distance_meters"],
+            walk_time_minutes=route["walk_time_minutes"],
             estimated_total_cost=self._calculate_total_cost(meter, stay_minutes),
             rank=rank
         )
 
 
-def haversine_distance(loc1: Location, loc2: Location) -> float:
-    """Calculate distance between two lat/long points in meters"""
-    from math import radians, sin, cos, sqrt, atan2
-    
-    R = 6371000  # Earth radius in meters
-    
-    lat1, lon1 = radians(loc1.lat), radians(loc1.lon)
-    lat2, lon2 = radians(loc2.lat), radians(loc2.lon)
-    
-    dlat = lat2 - lat1
-    dlon = lon2 - lon1
-    
-    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-    c = 2 * atan2(sqrt(a), sqrt(1-a))
-    
-    return R * c 
+
