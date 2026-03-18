@@ -3,31 +3,22 @@ import SwiftUI
 // MARK: - Content View
 
 /*
- * Main layout: input widgets for destination and duration at top, interactive map in the center,
- * and a side panel that displays the ranked list. Uber-style: search form, map, then scrollable results cards.
- *
- * Attributes:
- * - viewModel: Single source of truth for search flow; user inputs and auto-captured context feed the recommendation engine.
+ * Root shell for the app. Wraps the authentication flow and the main parking experience in a
+ * NavigationStack. When no user is logged in, shows LoginView (with a link to CreateAccountView);
+ * when a user is logged in, shows MainParkingView with the full search/map/results journey UI.
  */
 struct ContentView: View {
-    @StateObject private var viewModel = ParkingViewModel()
+    @StateObject private var sessionManager = SessionManager.shared
+    @StateObject private var parkingViewModel = ParkingViewModel()
 
     var body: some View {
-        VStack(spacing: 0) {
-            SearchFormView(viewModel: viewModel)
-                .disabled(viewModel.uiState == .loading)  // Disabled while loading so user cannot submit twice.
-
-            Divider()
-
-            MapView(viewModel: viewModel)
-                .frame(height: 280)  // Fixed height keeps map visible above the list; each spot shown as a pin.
-
-            Divider()
-
-            ResultsListView(viewModel: viewModel)
-                .frame(maxHeight: .infinity)  // Side panel: ranked list as scrollable cards; states initial/loading/results/no results/error.
+        NavigationStack {
+            if sessionManager.currentUsername == nil {
+                LoginView(sessionManager: sessionManager)
+            } else {
+                MainParkingView(sessionManager: sessionManager, viewModel: parkingViewModel)
+            }
         }
-        .background(Color(.systemGroupedBackground))
     }
 }
 

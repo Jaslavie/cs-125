@@ -2,31 +2,6 @@ import Foundation
 import CoreLocation
 import SwiftUI
 
-// MARK: - Score card / ranked spot (single result)
-
-/* One item in the ranked list shown to the user. Each score card displays the meter identifier,
- * address, walk time, hourly rate, estimated total cost, time limit, and rank. Cards are
- * color-coded (green = highly recommended, yellow = good, orange = acceptable).
- *
- * Attributes:
- * - spaceid: Meter identifier (e.g. "HO108", "DT472") from LADOT data.
- * - meterAddress: Street address of the meter (e.g. "6233 Hollywood Blvd").
- * - latitude: Latitude coordinate for map pin placement.
- * - longitude: Longitude coordinate for map pin placement.
- * - walkTime: Walk time to destination in minutes (derived from distance; assumes ~80 m/min walking speed).
- * - rate: Hourly rate in dollars per hour.
- * - estimatedTotalCost: Estimated total cost for the user's stay (rate × duration).
- * - timelimit: Maximum allowed parking duration in minutes from meter policy.
- * - rank: Position in the ranked list (1 = best match).
- * - colorCode: Card color for UI styling; green, yellow, or orange by recommendation strength.
- * - occupancy: Real-time occupancy status (VACANT / OCCUPIED / UNKNOWN).
- * - priceScore: Optional backend scoring component for price; used for display or debugging if provided.
- * - walkTimeScore: Optional backend scoring component for walk time; used for display or debugging if provided.
- * - totalScore: Optional backend total scoring component; used for display or debugging if provided.
- * - id: Computed property; equals spaceid (for `Identifiable` protocol).
- * - coordinate: Computed property; converts latitude/longitude to `CLLocationCoordinate2D` for MapView pins.
- */
-
 // MARK: - Color Code
 
 /* Cards are color-coded based on recommendation strength to provide visual feedback on match quality.
@@ -58,6 +33,34 @@ enum ColorCode: String, Codable {
     }
 }
 
+// MARK: - Score card / ranked spot (single result)
+
+/* One ranked parking spot in the ranked list shown to the user, displayed as a score card with 
+ * information related to the ranked parking spot. Each score card contains ranked parking spot 
+ * information like the meter identifier, meter address, walk time, hourly rate, estimated total cost, 
+ * time limit, and rank. Cards are color-coded (green = highly recommended, yellow = good, orange = acceptable).
+ * Also, latitude and longitude information are included for map pin display purposes, where those coordinates are
+ * converted to `CLLocationCoordinate2D` for MapView pins. Optional backend score fields like price score, walk time 
+ * score, and total score are included when provided.
+ *
+ * Attributes:
+ * - spaceid: Meter identifier (e.g. "HO108", "DT472") from LADOT data.
+ * - meterAddress: Street address of the meter (e.g. "6233 Hollywood Blvd").
+ * - latitude: Latitude coordinate for map pin placement.
+ * - longitude: Longitude coordinate for map pin placement.
+ * - walkTime: Walk time to destination in minutes (derived from distance; assumes ~80 m/min walking speed).
+ * - rate: Hourly rate in dollars per hour.
+ * - estimatedTotalCost: Estimated total cost for the user's stay (rate × duration).
+ * - timelimit: Maximum allowed parking duration in minutes from meter policy.
+ * - rank: Position in the ranked list (1 = best match).
+ * - colorCode: Card color for UI styling; green, yellow, or orange by recommendation strength.
+ * - occupancy: Real-time occupancy status (VACANT / OCCUPIED / UNKNOWN).
+ * - priceScore: Optional backend scoring component for price; used for display or debugging if provided.
+ * - walkTimeScore: Optional backend scoring component for walk time; used for display or debugging if provided.
+ * - totalScore: Optional backend total scoring component; used for display or debugging if provided.
+ * - id: Computed property; equals spaceid (for `Identifiable` protocol).
+ * - coordinate: Computed property; converts latitude/longitude to `CLLocationCoordinate2D` for MapView pins.
+ */
 struct ScoredSpot: Codable, Identifiable, Equatable {
     let spaceid: String  // Meter identifier (e.g. "HO108", "DT472") from LADOT data
     let meterAddress: String  // Street address of the meter (e.g. "6233 Hollywood Blvd")

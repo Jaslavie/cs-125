@@ -12,6 +12,7 @@ from src.models.user import (
     UserQuery, Location, UserPreferences, BudgetRange, StayTime,
 )
 from src.services.retrieval import search_meters as run_search_pipeline
+from src.clients.ladot_client import get_occupancy
 
 app = FastAPI(title="CS-125 API")
 
@@ -59,6 +60,30 @@ def get_color_code(rank: int) -> str:
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.get("/meters/occupancy")
+def fetch_occupancy(
+    spaceids: str = Query(..., description="Comma-separated list of space IDs to query"),
+) -> dict[str, str]:
+    """
+    Fetches the current real-time occupancy status for a given list of parking space IDs.
+
+    Input: Comma-separated spaceid string (e.g. "HO108,DT472,HO829")
+    Output: Dict mapping each spaceid to its latest occupancystate ("VACANT", "OCCUPIED", or "UNKNOWN")
+    """
+    ids = [s.strip() for s in spaceids.split(",") if s.strip()]
+    occupancy_map = get_occupancy(ids)
+    result = {sid: occ.occupancystate for sid, occ in occupancy_map.items()}
+
+    timestamp = datetime.now(timezone.utc).isoformat()
+    print(f"\n[OCCUPANCY POLL] {timestamp}")
+    print(f"  Requested : {len(ids)} space IDs")
+    print(f"  Returned  : {len(result)} with sensor data ({len(ids) - len(result)} have no sensor coverage)")
+    for sid in ids:
+        status = result.get(sid, "NO SENSOR DATA")
+        print(f"  {sid:<12} → {status}")
+
+    return result
 
 @app.get("/meters/search", response_model=SearchResponse)
 def search_meters(

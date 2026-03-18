@@ -5,7 +5,7 @@ import CoreLocation
 
 /* Codable wrapper for `CLLocationCoordinate2D` to enable JSON serialization in API requests and responses.
  * `CLLocationCoordinate2D` is not natively Codable, so this struct bridges the gap between MapKit and JSON encoding.
- * Used in `UserQuery` for encoding the user's current location as `{ lat: float, lng: float }`.
+ * For example, used in `UserQuery` for encoding the user's current location as `{ lat: float, lng: float }`.
  *
  * Attributes:
  * - lat: Latitude coordinate in degrees.

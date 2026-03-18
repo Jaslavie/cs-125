@@ -6,13 +6,15 @@
 Frontend/
 ├── Assets.xcassets/
 ├── Models/
+│   ├── Coordinate.swift
 │   ├── RankedResults.swift
 │   ├── ScoredSpot.swift
 │   ├── UserPreferences.swift
 │   └── UserQuery.swift
 ├── PetrParkingApp.swift
 ├── Services/
-│   └── APIClient.swift
+│   ├── APIClient.swift
+│   └── SessionManager.swift
 ├── Utils/
 │   └── Theme.swift
 ├── ViewModels/
@@ -27,112 +29,228 @@ Frontend/
     └── SpotCardView.swift
 ```
 
-## PeterParkingApp.swift
+Also at the project root:
+- **`LA.gpx`** — Xcode location simulation file for testing GPS-dependent features without being in LA (see [Location Simulation](#location-simulation-lagpx)).
 
-The entry point for the app. Sets `ContentView` as the root view in the app entry: `WindowGroup`
+---
+
+## PetrParkingApp.swift
+
+The entry point for the app. Sets `ContentView` as the root view in the app entry: `WindowGroup`.
+
+---
 
 ## Models
 
-The Models layer holds the data types used for user input, API requests/responses, and the personal model. They align with the proposal’s user-query fields, personal framework, and ranked score-card output.
+The Models layer holds the swift models used for query handling, API requests/responses, the personal model, and frontend output display. 
 
 ### Coordinate.swift
 
-Defines a **Codable wrapper for `CLLocationCoordinate2D`**. The proposal specifies `currentLocation` as `{ lat: float, lng: float }`; `CLLocationCoordinate2D` is not `Codable`, so this struct is used in `UserQuery` (and anywhere else we need to encode/decode coordinates as JSON). It exposes `clLocation` for use with MapKit and other APIs that expect `CLLocationCoordinate2D`.
+Defines a **Codable wrapper for `CLLocationCoordinate2D`**. To properly handle API responses and requests, the user's current location needs to be `Codable` to be easily converted to and from JSON representation (i.e. `{ lat: float, lng: float }`); `CLLocationCoordinate2D` is not `Codable`, so this `Coordinate` struct wraps around `CLLocationCoordinate2D` to address this limitation. The attribute `clLocation` is used with MapKit and other APIs that expect `CLLocationCoordinate2D`.
 
-| Parameter   | Type                    | Notes                                                                 |
-| ----------- | ----------------------- | --------------------------------------------------------------------- |
-| `lat`       | `Double`                | Latitude.                                                             |
-| `lng`       | `Double`                | Longitude.                                                            |
-| `clLocation`| `CLLocationCoordinate2D`| Computed; use for MapKit and other APIs expecting `CLLocationCoordinate2D`. |
+| Parameter    | Type                     | Notes                                                                        |
+| ------------ | ------------------------ | ---------------------------------------------------------------------------- |
+| `lat`        | `Double`                 | Latitude.                                                                    |
+| `lng`        | `Double`                 | Longitude.                                                                   |
+| `clLocation` | `CLLocationCoordinate2D` | Computed; use for MapKit and other APIs expecting `CLLocationCoordinate2D`.  |
 
 ### RankedResults.swift
 
-Represents the **response from the backend search endpoint**: a ranked list of recommended parking spots. The proposal says the system “delivers a ranked list of optimal parking spots near the user’s desired location,” typically 5–8 options. It contains the array of `ScoredSpot` items (for the results panel and map pins), the number of candidates evaluated, and the query timestamp. Conforms to `Equatable` for use in `ParkingUIState`.
+Represents the **response from the backend search endpoint**: a ranked list of recommended parking spots accompanied by candidate evaluation and query timestamp metadata. Contains the array of `ScoredSpot` items (containing information needed for the results panel and map pins), the number of candidates evaluated before filtering and ranking, and the timestamp of the query prompting the ranked results to be delivered in the first place. Conforms to `Equatable` for use in `ParkingUIState`.
 
-| Parameter                   | Type            | Notes                                                                 |
-| --------------------------- | --------------- | --------------------------------------------------------------------- |
-| `spots`                     | `[ScoredSpot]`  | Ranked score cards (best match first); shown in results panel and map. |
-| `totalCandidatesEvaluated`  | `Int`           | Number of candidate spots considered before filtering/ranking.        |
-| `queryTimestamp`           | `Date`          | Time the query was processed (matches `UserQuery.currentTime`).       |
+| Parameter                  | Type           | Notes                                                               |
+| -------------------------- | -------------- | ------------------------------------------------------------------- |
+| `spots`                    | `[ScoredSpot]` | Ranked score cards (best match first); consists of information needed for accurately displaying ranked results info in the ranked results panel and map view pins. |
+| `totalCandidatesEvaluated` | `Int`          | Number of candidate spots considered before filtering/ranking.       |
+| `queryTimestamp`           | `Date`         | Time the query was processed (matches `UserQuery.currentTime`).      |
 
 ### ScoredSpot.swift
 
-Models **one item in the ranked list**—a single “score card” shown to the user. The proposal’s output schema includes: `spaceid`, meter address, walk time (minutes), hourly rate, estimated total cost, time limit (minutes), and rank. This file adds `latitude`/`longitude` for map pins and `colorCode` (green / yellow / orange) for card styling per the proposal (“green = highly recommended, yellow = good, orange = acceptable”). Optional backend score fields are included when the backend provides them.
+Models a **ranked parking spot in the ranked list**, visually displayed as a score card in the ranked list. Comprises information related to a ranked parking spot and color code information for card display purposes. Includes ranked parking spot information like `spaceid`, meter address, walk time, hourly rate, estimated total cost, time limit, rank, and real-time occupancy status. `colorCode` (green / yellow / orange) drives card styling. Optional backend score fields are included when provided. Also consists of latitude and longitude information for map pin display purposes, where those coordinates are converted to `CLLocationCoordinate2D` for MapView pins. Optional backend score fields like price score, walk time score, and total score are included when provided. 
 
-**ColorCode** (enum): `green` = highly recommended; `yellow` = good; `orange` = acceptable. Exposes `color: Color` for SwiftUI.
+**ColorCode** (enum): `green` = highly recommended; `yellow` = good; `orange` = acceptable. Provides `color: Color` for SwiftUI.
 
-| Parameter             | Type        | Notes                                                                 |
-| --------------------- | ----------- | --------------------------------------------------------------------- |
-| `spaceid`             | `String`    | Meter identifier (e.g. "HO108", "DT472"); from LADOT data.            |
-| `meterAddress`        | `String`    | Street address of the meter (e.g. "6233 Hollywood Blvd").             |
-| `latitude`, `longitude` | `Double`  | For map pin placement.                                                |
-| `walkTime`            | `Int`       | Walk time to destination in minutes (~80 m/min walking speed).        |
-| `rate`                | `Double`    | Hourly rate ($/hr).                                                   |
-| `estimatedTotalCost`  | `Double`    | Estimated total cost for the user's stay (rate × duration).           |
-| `timelimit`           | `Int`       | Max allowed parking duration in minutes (from meter policy).          |
-| `rank`                | `Int`       | Position in ranked list (1 = best match).                             |
-| `colorCode`           | `ColorCode` | Card color: green / yellow / orange by recommendation strength.       |
-| `priceScore`, `walkTimeScore`, `totalScore` | `Double?` | Optional backend scoring components; for display or debugging.  |
-| `id`                  | `String`    | Computed; equals `spaceid` (for `Identifiable`).                       |
-| `coordinate`          | `CLLocationCoordinate2D` | Computed; for MapView pins.                                    |
+| Parameter                                       | Type                     | Notes                                                             |
+| ----------------------------------------------- | ------------------------ | ----------------------------------------------------------------- |
+| `spaceid`                                       | `String`                 | Meter identifier (e.g. "HO108"); from LADOT data.                 |
+| `meterAddress`                                  | `String`                 | Street address of the meter (e.g. "6233 Hollywood Blvd").         |
+| `latitude`, `longitude`                         | `Double`                 | For map pin placement.                                            |
+| `walkTime`                                      | `Int`                    | Walk time to destination in minutes (~80 m/min walking speed).    |
+| `rate`                                          | `Double`                 | Hourly rate ($/hr).                                               |
+| `estimatedTotalCost`                            | `Double`                 | Estimated total cost for the user's stay (rate × duration).       |
+| `timelimit`                                     | `Int`                    | Max allowed parking duration in minutes.                          |
+| `rank`                                          | `Int`                    | Position in ranked list (1 = best match).                         |
+| `colorCode`                                     | `ColorCode`              | Card color: green / yellow / orange by recommendation strength.   |
+| `occupancy`                                     | `String`                 | Baseline occupancy at search time: "VACANT", "OCCUPIED", or "UNKNOWN". |
+| `priceScore`, `walkTimeScore`, `totalScore`     | `Double?`                | Optional backend scoring components; for display or debugging.    |
+| `id`                                            | `String`                 | Computed; equals `spaceid` (for `Identifiable`).                   |
+| `coordinate`                                    | `CLLocationCoordinate2D` | Computed; for MapView pins.                                        |
 
 ### SearchRequest.swift
 
-Defines the **request body sent to the backend search API**. It combines the per-query inputs (`UserQuery`) with the user’s stored preferences (`UserPreferences`) so the ranking engine can produce a context-aware ranked list. Used by `APIClient.searchParking` when encoding the POST body.
-
-| Parameter      | Type              | Notes                                                                 |
-| -------------- | ----------------- | --------------------------------------------------------------------- |
-| `query`        | `UserQuery`       | Per-search inputs (destination, location, time).                       |
-| `preferences`  | `UserPreferences` | Stored personal model (budget range, stay duration).                   |
+Deprecated `Codable` struct that pairs a `UserQuery` with `UserPreferences` for a POST body. Kept for potential future use; the current implementation uses GET with query params.
 
 ### UserPreferences.swift
 
-Implements the **personal model** (stored user preferences). The proposal’s “personal framework” has three main aspects: (1) **price sensitivity** (thrifty vs convenience-driven), (2) **distance acceptance** (exploration range, e.g. 200 m–800 m), and (3) **habitual parking length** (`typicalStayPreference`) for filtering out spots with insufficient time limits. These preferences are applied across searches; budget for a specific search is expressed in `UserQuery.budgetRangePreference`, not here.
+Represents the personal model. Defines two attributes in the personal model: `BudgetRangePreference` and `StayTimePreference`. The `UserPreferences` struct stores these two attributes.
 
-| Parameter                   | Type                    | Notes                                                                 |
-| --------------------------- | ----------------------- | --------------------------------------------------------------------- |
-| `budgetRange`               | `BudgetRangePreference` | Budget category (low / medium / high); influences ranking cost weight. |
-| `stayDuration`              | `StayTimePreference`   | Stay duration category (short / medium / long); influences time-limit scoring. |
+**BudgetRangePreference** (enum): `low` = $0–$10; `medium` = $10–$20; `high` = $20–$50. Conforms to `String`, `Codable`, `CaseIterable`. Used in parking spot scoring, where parking spots with a final total price that correlates most closely to the chosen range are prioritized in ranking.
 
-### SessionManager.swift
+**StayTimePreference** (enum): `short` = 0–60 min; `medium` = 60–120 min; `long` = 120–240 min. Filters out spots with inadequate time limits. Conforms to `String`, `Codable`, `CaseIterable`. Used in parking spot scoring, where parking spots with a time limit that correlates most closely to the chosen range are prioritized in ranking.
 
-Singleton **session manager** that persists user preferences in `UserDefaults`. On launch, stored preferences are loaded and used to prefill the search form pickers; when the user changes budget or stay in the form, `onChange` handlers update the session and log the change. `ParkingViewModel` uses `SessionManager.userPreferences` when performing a search so the API receives the stored budget and stay values for ranking.
+**UserPreferences** — the personal framework. Budget range and stay duration are persistently stored across sessions via `SessionManager`. Also embedded directly in `UserQuery` so preference context travels with each search request.
+
+| Parameter      | Type                    | Notes                                                                        |
+| -------------- | ----------------------- | ---------------------------------------------------------------------------- |
+| `budgetRange`  | `BudgetRangePreference` | Budget range category; influences price weight in ranking.                             |
+| `stayDuration` | `StayTimePreference`    | Stay duration category; influences time-limit weight in ranking.                       |
 
 ### UserQuery.swift
 
-Captures **per-search user input** for each parking request. Aligns with the proposal’s “User Need → System Response”: the user supplies an intended destination and stay duration; `currentLocation` and `currentTime` are auto-captured. Defines **BudgetRangePreference** (max total cost category: low / medium / high) and **StayTimePreference** (short / medium / long) as specified in the proposal’s category mappings. This struct is sent as part of `SearchRequest` and encoded with ISO 8601 for `currentTime` when calling the API.
+Represents the query augmented with personal model information and contextual signals, serving as the definintive model for the query processing pipeline. `currentLocation` is the context signal auto-captured at query time while `preferences` represents the personal model information correlating to the user.
 
-**BudgetRangePreference** (enum): `low` = $0–$10; `medium` = $10–$20; `high` = $20–$50 (max total cost user is willing to pay).
+| Parameter       | Type              | Notes                                                               |
+| --------------- | ----------------- | ------------------------------------------------------------------- |
+| `targetLocation`| `String`          | Free-text destination; geocoded by backend.                         |
+| `currentLocation`| `Coordinate`     | User's current GPS position; Codable via Coordinate wrapper. Sent to the backend; ranking uses it to nudge results toward spots geographically closer to the user. |
+| `currentTime`   | `Date`            | Auto-captured at query time; ISO 8601 for API.                      |
+| `preferences`   | `UserPreferences` | Budget range and stay duration for this search; info sourced from SessionManager. |
 
-**StayTimePreference** (enum): `short` = 0–60 min; `medium` = 60–120 min; `long` = 120–240 min (how long user plans to park).
-
-| Parameter                | Type                     | Notes                                                                 |
-| ------------------------ | ------------------------ | --------------------------------------------------------------------- |
-| `targetLocation`         | `String`                 | Free-text destination (e.g. "Pantages Theatre"); geocoded by backend.  |
-| `currentLocation`        | `Coordinate`             | User's current position from device GPS.                              |
-| `currentTime`            | `Date`                    | Time at which the query is processed; auto-captured; ISO 8601 for API. |
-| `budgetRangePreference`  | `BudgetRangePreference`   | Max total cost category for this search.                              |
-| `stayTimePreference`     | `StayTimePreference`     | Planned parking duration category for this search.                     |
+---
 
 ## Services
 
 ### APIClient.swift
 
-`APIClient.swift` is responsible for handling communication between the iOS app and the FastAPI backend service. It defines a shared singleton client that formats requests, encodes user query and preference data into JSON, sends asynchronous network requests, and decodes the backend’s ranked parking results into app-usable models. For development and testing, the client currently operates in a simulated mode using `useMockMode`, which bypasses real network calls and instead returns predefined mock data. This allows the app to demonstrate full API client behavior and UI data flow even when the backend is not yet connected or available.
+Handles all communication between the iOS app and the FastAPI backend. Singleton (`APIClient.shared`) that formats and encodes requests, sends asynchronous network calls, and decodes responses.
+
+**Methods:**
+
+- **`searchParking(query:)`** — `GET /meters/search`; builds query params from `UserQuery` (including `query.preferences` for budget and stay), decodes response as `RankedResults`. Budget preference and stay duration preference from personal model added to personal model. Also, current occupancy of candidate parking spots used as contextual signal to filter out occupied parking spots from candidates searched for (logic occurs in the backend). 
+- **`fetchOccupancy(spaceids:)`** — `GET /meters/occupancy?spaceids=...`; accepts an array of space IDs and returns a `[String: String]` dict mapping each to its current occupancy state (`"VACANT"`, `"OCCUPIED"`, or `"UNKNOWN"`). Called by `ParkingViewModel` on a 7-second polling interval during an active journey.
+- **`resetMockOccupancyOverrides()`** — Clears all mock occupancy overrides; called automatically at the start of each new search if the app is currently in mock mode.
+
+**Mock mode:**
+
+Set `useMockMode = true` (line 19) to bypass the backend entirely. All network calls return hardcoded data:
+- `searchParking` returns 5 predefined LA parking spots after an 800 ms simulated delay.
+- `fetchOccupancy` returns the state from `mockOccupancyOverrides` for each space ID, defaulting to `"VACANT"` for any ID not in the override dict.
+
+**`mockOccupancyOverrides: [String: String]`** — Per-spot occupancy state overrides populated by the in-app mock debug panel (visible only when `useMockMode = true`). Allows testers to manually flip any spot to `"OCCUPIED"` or `"UNKNOWN"` to exercise the full occupancy-transition UI flow without live LADOT data.
+
+### SessionManager.swift
+
+Singleton **session manager** that manages multi-user session state with persistent storage in `UserDefaults`. For each username it stores a password (plaintext, for demo/class purposes only), a budget preference, and a stay duration preference. On launch, it restores all known users, reinitializes the last active username (if present), and derives the active `userPreferences` for that user. `ParkingViewModel` reads from `SessionManager.userPreferences` when constructing `UserQuery` so the backend always receives the logged-in user's budget range and stay duration range preference values.
+
+| Attribute          | Type                           | Notes                                                                                                       |
+| ------------------ | ------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `shared`           | `SessionManager`               | Singleton instance; provides global access throughout the app.                                              |
+| `currentUsername`  | `String?`                      | Published name of the currently logged-in user; `nil` when no user is authenticated.                       |
+| `userPreferences`  | `UserPreferences`              | Published budget and stay preferences for the active user; persisted per username and logged on every change. |
+
+Internally, `SessionManager` keeps:
+
+- `usernames: [String]` — all registered usernames.
+- `passwordsByUsername: [String: String]` — username → plaintext password (for demo only).
+- `budgetByUsername: [String: BudgetRangePreference]` — username → stored budget preference.
+- `stayByUsername: [String: StayTimePreference]` — username → stored stay duration preference.
+
+**Key methods (auth):**
+
+- `createAccount(username:password:initialPreferences:)` — validates inputs, creates a new user entry, sets it as the active session, records `userPreferences`, and persists everything to `UserDefaults`.
+- `login(username:password:)` — checks that the username exists and the password matches; on success sets `currentUsername` and reloads `userPreferences` for that user.
+- `logout()` — clears `currentUsername`, resets `userPreferences` to neutral defaults (medium/medium), and persists the change so the next launch starts on the login screen.
+
+---
 
 ## Utils
 
 ### Theme.swift
 
-`Theme.swift` consists of the defined static variable definitions for the app's theme. These variables can be changed to give the app a different look. For example, `primary` represents the primary color of the app.
+Static color palette for the app. Variables can be changed to restyle the entire app. Key values: `primary` (black), `primaryInverse` (white), `accent` (blue `#0055C7`), `secondaryText` (gray), `cardBackground` (white), `cardShadow`, `divider`, `pinHighlight` (accent blue).
+
+---
 
 ## ViewModels
 
-The ViewModels layer holds the app’s presentation logic and state. It drives the UI by exposing observable state and actions that views bind to and invoke.
-
 ### ParkingViewModel.swift
 
-Single source of truth for the main search flow. Defines **ParkingUIState** (`.initial`, `.loading`, `.results(RankedResults)`, `.noResults`, `.error(String)`) and publishes it via `@Published var uiState`. Also publishes form inputs (`targetLocation`, `budgetRangePreference`, `stayTimePreference`), auto-captured **currentLocation** (from `CLLocationManager`) and **currentTime**, and exposes **mapCenter** (current location or fallback `laCenter` for Downtown LA) and **rankedResults** (the `RankedResults` when in `.results`). Integrates with **SessionManager** to persist user preferences; picker values are initialized from stored preferences on launch. **searchParking()** builds a `UserQuery` from form inputs and uses `SessionManager.userPreferences`, sets `uiState = .loading`, calls `APIClient.searchParking` in a `Task`, then sets `uiState` to `.results`, `.noResults`, or `.error` depending on the response. **updateBudgetPreference()** and **updateStayDurationPreference()** save picker changes to the session. **retry()** re-runs the search; **resetToInitial()** clears back to `.initial`. Uses `@MainActor` so all updates happen on the main thread for SwiftUI. Injected with `APIClient.shared` and `SessionManager.shared` by default so dependencies can be swapped for testing.
+Single source of truth for the main search and real-time journey flow. Marked `@MainActor` so all state mutations happen on the main thread. Views interact with this ViewModel as an intermediary to leverage Models for data handling and processing.
+
+#### ParkingViewModel Components
+
+**ParkingUIState** (enum): comprises all the potential UI states that the frontend can go through.
+
+| Case                               | Description                                                         |
+| ---------------------------------- | ------------------------------------------------------------------- |
+| `.initial`                         | Empty state before any search.                                      |
+| `.loading`                         | Search in progress; form disabled, spinner shown.                   |
+| `.results(RankedResults)`          | Ranked spots shown; map pins visible; results panel shows parking spot cards; occupancy polling active.     |
+| `.noResults`                       | No spots found; suggest expanding radius.                           |
+| `.error(String)`                   | Failure with message; retry option.                                 |
+| `.journeyComplete(JourneySummary)` | Journey ended; results panel shows the journey summary screen.      |
+
+**JourneySummary** (struct): snapshot produced by `endJourney()` capturing the full record of a completed journey.
+
+| Attribute         | Type           | Description                                                                                     |
+| ----------------- | -------------- | ----------------------------------------------------------------------------------------------- |
+| `chosenSpots`     | `[ScoredSpot]` | Chronological list of every spot the user selected during the journey.                          |
+| `finalSpot`       | `ScoredSpot?`  | The last spot in `chosenSpots`; the spot the user was navigating to when the journey ended.     |
+| `startTime`       | `Date`         | Timestamp when the first ranked results appeared (i.e. when the journey began).                 |
+| `endTime`         | `Date`         | Timestamp when the user tapped "End Journey".                                                   |
+| `durationMinutes` | `Int`          | Total elapsed time (in minutes) from `startTime` to `endTime`.                                  |
+
+**Location tracking — `LocationDelegate`:** A private `NSObject` / `CLLocationManagerDelegate` bridge class defined in the same file. Helps capture the current location context signal. Required because `CLLocationManagerDelegate` is an Objective-C protocol that cannot be adopted directly by an `@MainActor`-isolated class, which is what `ParkingViewModel` is. The delegate forwards `didUpdateLocations` and `didChangeAuthorization` callbacks back to the `ParkingViewModel`, the main actor, via closures.
+
+| Closure                  | Signature                              | Role                                                                                                  |
+| ------------------------ | -------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `onLocationUpdate`       | `(CLLocation) -> Void`                 | Invoked with the most recent device position each time `didUpdateLocations` fires (i.e. a new device position is recorded); updates `currentLocation` on the view model. |
+| `onAuthorizationChange`  | `(CLAuthorizationStatus) -> Void`      | Invoked when the app's location permission status changes via `didChangeAuthorization`, enabling `ParkingViewModel` to react appropriately to authorization change; triggers re-request if needed. |
+
+#### ParkingViewModel
+
+**Published Properties:**
+
+| Property                | Type                          | Description                                                              |
+| ----------------------- | ----------------------------- | ------------------------------------------------------------------------ |
+| `uiState`               | `ParkingUIState`              | Indicates what the current UI state is, driving the results panel and map.                                            |
+| `targetLocation`        | `String`                      | Free-text destination where user want to park nearby. Entered in the search form.                              |
+| `budgetRangePreference` | `BudgetRangePreference`       | Picker value associated with user's budget range preference; synced with SessionManager to sync this preference with personal model.                                |
+| `stayTimePreference`    | `StayTimePreference`          | Picker value assocaited with user's stay time duration preference; synced with SessionManager to sync this preference with personal model.                                |
+| `currentLocation`       | `CLLocationCoordinate2D?`     | Context signal that represents live GPS position; updated continuously via `LocationDelegate`. Sent to the backend for ranking, which uses it to nudge toward spots geographically closer to the user.          |
+| `currentTime`           | `Date`                        | Represents the present time captured at search invocation.                                       |
+| `selectedSpotID`        | `String?`                     | `spaceid` of the currently selected parking spot; indicates which route on map to draw and card to highlight on UI.      |
+| `liveOccupancy`         | `[String: String]`            | Latest polled occupancy status for each currently ranked spot; keyed by `spaceid`. Contextual signal used by system to filter out occupied spots from current ranking (visually depicted to user as "grayed out" parking spot cards).        |
+| `selectedRoute`         | `MKRoute?`                    | Driving route computed by `calculateRoute(to:)` via `MKDirections`; read by `MapView` and rendered as a blue polyline. `MapView` does not calculate the route — it only renders this value. `MKDirections` returns routes sorted by relevance/quality, so `routes.first` is Apple's recommended route rather than strictly the fastest. |
+| `showSpotOccupiedAlert` | `Bool`                        | True when the selected spot transitions VACANT → OCCUPIED; triggers occupancy alert.|
+| `journeyHistory`        | `[ScoredSpot]`                | Record of Every spot the user selected during the active journey, in order. Includes duplicates to show entire history.        |
+
+**Computed properties:**
+
+- `mapCenter` — `currentLocation ?? laCenter`
+- `hasResults` — true when `uiState == .results`
+- `rankedResults` — the `RankedResults` payload when in `.results` UI state, otherwise `nil`
+- `hasAnyVacantRankedSpots` — true if at least one non-selected ranked spot has live occupancy other than `"OCCUPIED"`; used to decide whether the occupancy alert requires prompting the user to begin a new journey or allowing the user to select the next best available parking spot.
+
+**Key methods:**
+
+| Method                         | Description                                                                                                     |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `searchParking(preserveHistory:)` | Stops polling, clears current selection/route/occupancy, and re-runs the parking search. When `preserveHistory: false` (default — "Begin Journey" button, `retry()`), also clears `journeyHistory` and `journeyStartTime` for a fresh journey. When `preserveHistory: true` ("Find More Parking" alert action), retains both so the full history across re-ranks is preserved and original journey start time carry into the eventual journey summary. `journeyStartTime` is only stamped if it was nil. |
+| `selectSpot(_ spot:)`          | Sets `selectedSpotID` as the given spot, appends spot to `journeyHistory`, triggers `calculateRoute(to:)` which calls `MKDirections` and stores Apple's recommended route (sorted by relevance/quality, not strictly fastest) in `selectedRoute` for `MapView` to render. |
+| `deselectSpot()`               | Clears `selectedSpotID` and `selectedRoute`.                                                                    |
+| `selectNextBestUnoccupiedSpot()`   | Selects the highest-ranked non-occupied, non-selected spot; called by the "Select Next Best" alert action.      |
+| `startOccupancyPolling()`      | Starts a background `Task` loop that calls `refreshOccupancy()` every 7 seconds.                               |
+| `stopOccupancyPolling()`       | Cancels the polling task.                                                                                       |
+| `refreshOccupancy()`           | Private async core of the polling loop. Fetches latest occupancy for all ranked spots, logs a full snapshot to the console, detects VACANT→OCCUPIED transitions on the selected spot (triggering the `showSpotOccupiedAlert`), and updates `liveOccupancy` with values retrieved by the latest occupancy poll, enabling each spot to retain its last known live occupancy value if it temporarily drops out of a poll response. Called by `startOccupancyPolling` on a 7-second interval and by `triggerMockOccupancyRefresh` on demand. |
+| `triggerMockOccupancyRefresh()`| Forces an immediate occupancy refresh outside the polling cycle; used by the mock debug panel.                  |
+| `endJourney()`                 | Stops polling, captures a `JourneySummary`, clears navigation state, transitions to `.journeyComplete`.         |
+| `resetToInitial()`             | Stops polling, clears all state, transitions to `.initial`.                                                     |
+| `retry()`                      | Re-runs `searchParking()`.                                                                                      |
+| `updateBudgetPreference(_ newValue:)`   | Saves budget picker change to SessionManager.                                                                   |
+| `updateStayDurationPreference(_ newValue:)` | Saves stay-duration picker change to SessionManager.                                                        |
+
+---
 
 ## Views
 
@@ -140,31 +258,136 @@ The Views layer implements the UI described in the proposal: search form, map, a
 
 ### ContentView.swift
 
-Root container for the main screen. Composes the layout in a single vertical stack: **SearchFormView** at the top, a **Divider**, **MapView** (fixed height 280 pt), another **Divider**, and **ResultsListView** filling the remaining space. Holds a single `@StateObject` `ParkingViewModel` and passes it to child views. Disables the search form while `uiState == .loading`. Uses `Color(.systemGroupedBackground)` for the background.
+Root shell for the app. Wraps the authentication flow and the main parking experience in a `NavigationStack`. When no user is logged in (`SessionManager.currentUsername == nil`), it shows `LoginView` (which can push `CreateAccountView`); when a user is logged in, it shows `MainParkingView` backed by a single `@StateObject ParkingViewModel`. Switching users or logging out is handled by observing changes to `SessionManager.currentUsername`.
+
+### LoginView.swift
+
+Entry screen shown on app launch. Provides username and password fields with standard password masking. On successful login via `SessionManager.login(username:password:)`, `SessionManager.currentUsername` becomes non-nil, causing `ContentView` to transition into the main parking experience. Includes a **Create Account** navigation link that pushes `CreateAccountView` onto the shared `NavigationStack`. Login functionality includes standard login error handling. 
+
+### CreateAccountView.swift
+
+Account creation screen presented from `LoginView`. Collects a username, password, and initial budget/stay preferences via two pickers (reusing `BudgetRangePreference.displayName` and `StayTimePreference.displayName`). On success, calls `SessionManager.createAccount(username:password:initialPreferences:)`, which, upon success, sets the new user as active and persists credentials and preferences (performs standard create account error handling); the view is then exited and `ContentView` immediately shows the main parking experience for the new user.
+
+### MainParkingView.swift
+
+Wrapper around the existing parking experience. Contains the search form, map, and results list (backed by `ParkingViewModel`) plus the occupied-spot alert and a simple **Logout** button. Tapping **Logout** calls `SessionManager.logout()`, which clears the active user and resets preferences; `ContentView` then returns to showing `LoginView` on the next render.
+
+Vertical stack: SearchFormView → Divider → MapView (280 pt fixed height) → Divider → ResultsListView (fills remaining space). Interacts with a single @StateObject ParkingViewModel. Disables the search form while loading.
+
+**Occupied-spot alert:** A `.alert` modifier on the outer `VStack` that binds to `viewModel.showSpotOccupiedAlert`. When the selected spot transitions VACANT → OCCUPIED during a live journey, the alert appears with:
+- **"Select Next Best"** — only shown if `viewModel.hasAnyVacantRankedSpots` is true; calls `viewModel.selectNextBestVacantSpot()`.
+- **"Find More Parking"** — always shown; calls `viewModel.searchParking(preserveHistory: true)` to re-rank while retaining the full `journeyHistory` and original `journeyStartTime`, so the eventual journey summary reflects all spots selected across every re-rank.
+- **"Dismiss"** — cancel action.
 
 ### SearchFormView.swift
 
-Search input area. Provides a **TextField** for destination (e.g. "Pantages Theatre") with a mappin icon, **Pickers** for budget range and stay time (bound to `viewModel.budgetRangePreference` and `viewModel.stayTimePreference`), and a **"Find Parking"** button that calls `viewModel.searchParking()`. Pickers are prefilled from stored session preferences on launch; `.onChange` handlers persist preference changes to `SessionManager`. On loading, the button shows a `ProgressView` instead of text. The button is disabled when the destination is empty or when already loading. Includes `BudgetRangePreference` and `StayTimePreference` display-name extensions for picker labels (e.g. "Low ($0–$10)", "Short (≤1 hr)").
+Search input area. **TextField** for destination, **Pickers** for budget range and stay time, and a **"Begin Journey"** button to find parking spots for the intended destination. A journey is defined as the time from when ranked results are delivered to when the user no longer needs the results (prompted by clicking **"End Journey"** in `ResultsListView`). Pickers prefill from stored preferences; `.onChange` handlers ensure changes persist and are saved to personal model. Button disabled when destination is empty or state is loading.
 
 ### MapView.swift
 
-SwiftUI **Map** (MapKit) centered on a fixed LA region (Downtown LA: lat 34.0522, lng -118.2437; span 0.03). When `viewModel.rankedResults` has spots, it renders an **Annotation** for each spot at `spot.coordinate`, using **MeterPinView** as the annotation content. Uses standard map style and allows hit testing. Does not show pins in initial, loading, no-results, or error states.
+SwiftUI **Map** (MapKit) with real-time user location and route rendering.
+
+- **`UserAnnotation()`** — always-visible blue dot showing the user's live GPS position.
+- **Spot pins** — `MeterPinView` annotation for each ranked spot when results are available.
+- **Route polyline** — renders `viewModel.selectedRoute` as a blue `MapPolyline` (lineWidth 4). `MapView` is purely responsible for display; the route is calculated in `ParkingViewModel.calculateRoute(to:)` via `MKDirections` and stored in `selectedRoute`, which `MapView` reads and draws.
+- **Dynamic camera:** `@State private var position: MapCameraPosition` initialises to Downtown LA. Three independent `onChange` handlers drive camera movement:
+  - **GPS fix** (`onChange(of: viewModel.currentLocation)`): on the first GPS fix the camera re-centres on the user's position; `hasCenteredOnUser` guards this so it only fires once and subsequent panning is left to the user.
+  - **New search results** (`onChange(of: viewModel.rankedResults)`): whenever a new ranked list arrives the camera zooms to a bounding region that fits all ranked pins, ensuring no spot is out of frame regardless of where the user is. The bounding region is derived from the min/max latitude and longitude of all spot coordinates with a 1.5× padding factor to prevent pins from being clipped at the frame edges.
+  - **Route selected** (`onChange(of: viewModel.selectedRoute)`): whenever a new route is set (i.e. the user taps a spot card), the camera pans and zooms to fit the entire route polyline so both the user's current location and the destination pin are simultaneously visible. The fit is derived from `route.polyline.boundingMapRect` expanded by 25% on each side to keep endpoints away from the frame edge.
+- **`CLLocationCoordinate2D: @retroactive Equatable`** — conformance extension added at the top of this file so `onChange(of: viewModel.currentLocation)` can differentiate successive GPS fixes (required because `CLLocationCoordinate2D` is a C struct that does not synthesize `Equatable`).
 
 ### ResultsListView.swift
 
-Bottom panel that switches on `viewModel.uiState`. **Initial:** placeholder with map icon and "Enter a destination and tap Find Parking". **Loading:** `ProgressView` and "Searching for spots...". **Results:** scrollable `LazyVStack` of **SpotCardView** for each spot. **No results:** message "No spots found", suggestion to expand radius or adjust preferences, and a Retry button. **Error:** warning icon, "Something went wrong", the error message, and a Retry button. Retry calls `viewModel.retry()`.
+Bottom panel switching on `viewModel.uiState`:
+
+| State                  | Content                                                                                                        |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `.initial`             | Map icon + "Enter a destination and tap Find Parking".                                                          |
+| `.loading`             | `ProgressView` + "Searching for spots…".                                                                       |
+| `.results`             | "End Journey" button + optional mock debug panel + scrollable `LazyVStack` of `SpotCardView` cards.            |
+| `.noResults`           | "No spots found" message + Retry button.                                                                       |
+| `.error`               | Warning icon + error message + Retry button.                                                                   |
+| `.journeyComplete`     | Journey summary screen (see below).                                                                            |
+
+**Spot selection:** each `SpotCardView` in the results list receives `isSelected`, `liveOccupancy`, and an `onTap` closure. Tapping a card calls `viewModel.selectSpot` (or `viewModel.deselectSpot` if the same card is tapped again), which updates the highlighted card and recalculates the map route.
+
+**End Journey button:** appears above the card list in `.results` state. Calls `viewModel.endJourney()`, which stops polling and transitions to `.journeyComplete`.
+
+**Journey complete view (`journeyCompleteState`):** displayed when `uiState == .journeyComplete(summary)`. Shows:
+- Header with checkmark icon, "Journey Complete" title, journey duration in minutes, and start/end times (time-of-day only, e.g. "9:41 AM").
+- Numbered chronological list of all spots the user selected (`summary.chosenSpots`).
+- Full read-only `SpotCardView` for `summary.finalSpot`.
+- "Start New Journey" button calling `viewModel.resetToInitial()`.
+
+**Mock debug panel (`mockDebugPanel`):** visible only when `APIClient.shared.useMockMode == true`. A compact (60 pt tall, scrollable) orange-tinted panel above the card list with a 3-way segmented picker (VACANT / OCCUPIED / UNKNOWN) per ranked spot and a "Reset All" button. Changes apply immediately via `viewModel.triggerMockOccupancyRefresh()`. Enables testing all occupancy-transition scenarios without live LADOT data:
+
+| Testable Scenario | How to trigger |
+| --- | --- |
+| Selected spot → OCCUPIED, "Select Next Best" available | Select a card; flip that spot to OCCUPIED in panel |
+| Selected spot → OCCUPIED, no vacancies remain | Select a card; flip all spots to OCCUPIED |
+| Unselected spot → OCCUPIED (gray-out, no alert) | Flip a non-selected spot to OCCUPIED |
+| OCCUPIED unselected spot restores | Flip an OCCUPIED unselected spot back to VACANT or UNKNOWN |
 
 ### SpotCardView.swift
 
-Single **score card** for one `ScoredSpot`. Displays meter ID and rank in a header row, the meter address, a row of labels (walk time, $/hr rate, time limit), and estimated total cost. Card has a colored border from `spot.colorCode.color` (green / yellow / orange), rounded corners, shadow, and uses `Theme.cardBackground`. Matches the proposal’s card content (spaceid, address, walk time, rate, timelimit, estimated cost, rank).
+Single score card for one `ScoredSpot`.
+
+**Signature:**
+```swift
+SpotCardView(spot: ScoredSpot, isSelected: Bool, liveOccupancy: String?, onTap: () -> Void)
+```
+
+**Visual states:**
+- **Default:** border color from `spot.colorCode.color` (green / yellow / orange).
+- **Selected:** accent-blue border, lineWidth 4.
+- **Occupied:** gray background (`Color.gray.opacity(0.3)`) and gray border.
+
+**Occupancy badge:** displayed in the info HStack alongside walk time, rate, and time limit.
+- `"VACANT"` → green text
+- `"OCCUPIED"` → red text
+- `"UNKNOWN"` → remapped to `"NO OCCUPANCY DATA"` in neutral gray — explicitly communicates that the absence of status is a LADOT sensor coverage gap, not an app error.
+
+The badge uses `effectiveOccupancy` (live-polled value if available, otherwise `spot.occupancy` from the search response) and `occupancyLabel` / `occupancyLabelColor` computed properties for display. `effectiveOccupancy` provides a fallback in case no live polling is able to take place.
 
 ### MeterPinView.swift
 
-Small view used as map **annotation** content for each spot. Shows a filled mappin SF Symbol tinted with `spot.colorCode.color` and the spot’s `spaceid` below in caption text. Used inside **MapView**’s `Annotation(spot.spaceid, coordinate: spot.coordinate, ...)` so each ranked spot appears as a labeled pin on the map.
+Map annotation content for each ranked spot. Shows a filled mappin SF Symbol tinted with `spot.colorCode.color` and labeled with the spot's `spaceid` in caption text.
 
 ### PreferencesView.swift
 
-Placeholder for the **personal model / preferences** screen. Currently only shows the text "Preferences". Users edit preferences via the search form pickers; PreferencesView remains a placeholder for future expansion.
+Placeholder for a future preferences screen. Currently renders `Text("Preferences")` only.
+
+---
+
+## Occupancy Polling
+
+Once search results arrive, `ParkingViewModel` starts a background polling loop (every 7 seconds) that calls `GET /meters/occupancy` with the space IDs of all ranked spots. On each response:
+
+1. The `liveOccupancy` dict is updated with the fresh values.
+2. Each `SpotCardView` re-renders with the updated occupancy badge and visual state.
+3. If the currently selected spot transitions from VACANT to OCCUPIED, `showSpotOccupiedAlert` is set to `true`, triggering the occupied-spot alert in `ContentView`.
+
+Polling stops automatically when the user taps "End Journey", the user taps the "Begin Journey" button in the search form, taps "Find More Parking" in the occupied-spot alert, or the system calls `resetToInitial()`.
+
+**Occupancy console logging:** every poll prints a timestamped summary to the Xcode debug console (Swift client) and the FastAPI server terminal (Python backend), showing each space ID, its status, which spot is selected (`◀ selected`), and a warning if the selected spot just became occupied.
+
+**Note on LADOT sensor coverage:** The LADOT Occupancy API only covers meters with IoT sensors installed. Many meters in the inventory dataset have no sensor, so `get_occupancy` returns no entry for them. These appear as `"UNKNOWN"` in the backend response and are displayed as `"NO OCCUPANCY DATA"` in the UI so this information is presented in a user-friendly way. This is a known limitation of the LADOT open data platform, not a bug in the app.
+
+---
+
+## Location Simulation (`LA.gpx`)
+
+Because the app is scoped to Los Angeles, `LA.gpx` at the project root provides a Xcode location simulation preset for testing GPS-dependent features (user location dot, camera re-centering, route polyline) without being physically in LA.
+
+**Setup:**
+1. In Xcode: **Product → Scheme → Edit Scheme…** (⌘<)
+2. Select **Run** → **Options** tab
+3. Under **Core Location**, check **Allow Location Simulation**
+4. Set **Default Location** to `LA.gpx` via the dropdown → "Add GPX File to Project…"
+
+After setup, every run automatically simulates a GPS fix at Downtown LA (34.0522, −118.2437).
+
+---
 
 ## Troubleshooting
 
@@ -199,10 +422,11 @@ INFO:     Application startup complete.
 
 **Important:** Keep the terminal window open while testing the app. Closing it will stop the server. If you need to run other commands, open a separate terminal tab (⌘T) instead of closing the server terminal.
 
-## Running Frontend Example
-Assuming that you have a Macbook Pro and have XCode installed, simply click open the `cs-125.xcodeproj` file in XCode. 
+---
 
-Once the project is successfully opened, there should be a play button that you can click to boot up the app. 
+## Running Frontend
+
+Assuming you have a MacBook Pro and Xcode installed, open `cs-125.xcodeproj` in Xcode. Click the play button to build and run. For UI testing without the backend, set `useMockMode = true` in `APIClient.swift` (line 19).
 
 ![User Interface Screenshot](frontend_example.png)
 

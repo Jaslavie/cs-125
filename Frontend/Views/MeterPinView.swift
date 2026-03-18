@@ -7,7 +7,7 @@ import MapKit
  * Map annotation for a single parking spot: shows spaceid (e.g. "HO108") and color by recommendation strength (green / yellow / orange).
  *
  * Attributes:
- * - spot: ScoredSpot; supplies spaceid and colorCode for pin label and tint.
+ * - spot: ScoredSpot; supplies spaceid and colorCode information for pin label and tint respectively.
  */
 struct MeterPinView: View {
     let spot: ScoredSpot

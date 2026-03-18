@@ -54,7 +54,7 @@ struct SearchFormView: View {
                             .progressViewStyle(.circular)
                             .tint(.white)
                     } else {
-                        Text("Find Parking") // Text for button.
+                        Text("Begin Journey") // Text for button.
                             .fontWeight(.semibold)
                     }
                 }
