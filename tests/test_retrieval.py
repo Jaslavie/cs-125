@@ -245,13 +245,13 @@ def test_full_pipeline(monkeypatch):
 
     # ── Verify parsed fields on a VACANT meter ──
     p01 = next(c for c in results if c.spaceid == "P01")
-    assert p01.rate_per_hour == (2.0, 3.0)
+    assert p01.rate_per_hour == 2.5
     assert p01.time_limit_minutes == 120
     assert p01.occupancy == OccupancyStatus.VACANT
     assert p01.address == "100 MAIN ST"  # uses blockface directly
 
     # ── Verify parsed fields on an UNKNOWN meter ──
     p03 = next(c for c in results if c.spaceid == "P03")
-    assert p03.rate_per_hour == (1.5, 1.5)
+    assert p03.rate_per_hour == 1.5
     assert p03.time_limit_minutes == 60
     assert p03.occupancy == OccupancyStatus.UNKNOWN

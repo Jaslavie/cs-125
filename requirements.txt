@@ -10,9 +10,12 @@ requests>=2.32.3
 # FastAPI app (ladot_client)
 fastapi>=0.104.1
 pydantic>=2.5.2
+uvicorn>=0.24.0
 
 # Testing
 pytest>=9.0.2
 
 #API call for distance
 requests
+# DB
+psycopg2-binary>=2.9.9
