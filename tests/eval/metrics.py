@@ -5,10 +5,10 @@ Ranking quality metrics for parking meter recommendations.
 Uses golden LADOT snapshots (tests/eval/golden/) as ground truth.
 
 Relevance rubric (see _relevance_score):
-  3 = ideal   — within budget, very close (≤400 m), generous time buffer
-  2 = good    — within budget, walkable (≤800 m), enough time
-  1 = okay    — meets 2 of 3 constraints
-  0 = poor    — meets ≤1 constraint
+  3 = ideal   — very cheap (≤25% of budget), very close (≤75 m), time ≥ stay length
+  2 = great   — cheap (≤50% of budget), close (≤150 m)
+  1 = usable  — within budget and walkable (≤400 m)
+  0 = poor    — over budget OR too far (>400 m)
 """
 
 import json
@@ -75,17 +75,17 @@ def _mean(fn: Callable, per_query: List[List[float]], k: int) -> float:
 # ---------------------------------------------------------------------------
 
 def _relevance_score(meter, budget: BudgetRange, stay: StayTime) -> int:
-    within_budget = meter.estimated_total_cost <= budget.value[1]
-    close = meter.distance_to_destination_meters <= 800
-    enough_time = meter.time_limit_minutes >= stay.value[1]
+    max_budget = budget.value[1]
+    cost = meter.estimated_total_cost
+    dist = meter.distance_to_destination_meters
 
-    if within_budget and meter.distance_to_destination_meters <= 400 and meter.time_limit_minutes >= stay.value[1] * 1.5:
+    if cost > max_budget or dist > 400:
+        return 0
+    if cost <= max_budget * 0.25 and dist <= 75 and meter.time_limit_minutes >= stay.value[1]:
         return 3
-    if within_budget and close and enough_time:
+    if cost <= max_budget * 0.50 and dist <= 150:
         return 2
-    if sum([within_budget, close, enough_time]) >= 2:
-        return 1
-    return 0
+    return 1
 
 
 # ---------------------------------------------------------------------------
@@ -129,6 +129,8 @@ QUERIES = [
     ("Q1  LOW / SHORT",     UserPreferences(BudgetRange.LOW,    StayTime.SHORT)),
     ("Q2  HIGH / LONG",     UserPreferences(BudgetRange.HIGH,   StayTime.LONG)),
     ("Q3  MEDIUM / MEDIUM", UserPreferences(BudgetRange.MEDIUM, StayTime.MEDIUM)),
+    ("Q4  LOW / LONG",      UserPreferences(BudgetRange.LOW,    StayTime.LONG)),     # hardest: tight budget + long stay
+    ("Q5  HIGH / SHORT",    UserPreferences(BudgetRange.HIGH,   StayTime.SHORT)),    # easiest: generous budget + quick stop
 ]
 
 
