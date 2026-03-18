@@ -27,6 +27,8 @@ def test_search_meters_returns_json():
             rate_per_hour=2.25,
             time_limit_minutes=120,
             occupancy=OccupancyStatus.VACANT,
+            latitude=34.0522,
+            longitude=-118.2437,
             distance_to_destination_meters=150.0,
             walk_time_minutes=2,
             estimated_total_cost=2.25,

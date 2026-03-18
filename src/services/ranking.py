@@ -203,6 +203,8 @@ class MeterRanker:
             rate_per_hour=sum(meter.rate_per_hour) / len(meter.rate_per_hour),
             time_limit_minutes=meter.time_limit_minutes,
             occupancy=meter.occupancy,
+            latitude=meter.location.lat,
+            longitude=meter.location.lon,
             distance_to_destination_meters=route["distance_meters"],
             walk_time_minutes=route["walk_time_minutes"],
             estimated_total_cost=self._calculate_total_cost(meter, stay_minutes),
