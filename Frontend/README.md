@@ -409,8 +409,7 @@ If you only see the `grep` command itself (no `uvicorn` process), the server is 
 
 **To restart the backend:**
 ```bash
-cd "/Users/dsetty/College/Classes/CS 125/cs-125"
-/Users/dsetty/Library/Python/3.10/bin/uvicorn src.api:app --reload --host 0.0.0.0 --port 8000
+uvicorn src.api:app --reload --host 0.0.0.0 --port 8000
 ```
 
 You should see output like:
@@ -428,7 +427,7 @@ INFO:     Application startup complete.
 
 Assuming you have a MacBook Pro and Xcode installed, open `cs-125.xcodeproj` in Xcode. Click the play button to build and run. For UI testing without the backend, set `useMockMode = true` in `APIClient.swift` (line 19).
 
-![User Interface Screenshot](frontend_example.png)
+![User Interface Screenshot](../image14.png)
 
 ---
 > AI Acknowledgement: AI tools were used during development for implementation support.
