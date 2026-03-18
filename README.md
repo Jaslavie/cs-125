@@ -21,9 +21,20 @@ source venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Set up environment variables
+# Set up environment variables (see below)
 cp .env.example .env
 ```
+
+### Environment Variables
+
+After copying `.env.example` to `.env`, fill in the two values:
+
+1. **LADOT_APP_TOKEN** — the LADOT meter data is served via the [Socrata SODA API](https://dev.socrata.com/docs/app-tokens.html). 
+- To get a token you need to create a free account on [data.lacity.org](https://data.lacity.org)
+- Go to your profile → **Developer Settings** → **Create New App Token**
+- Paste the generated token after `LADOT_APP_TOKEN=`.
+2. **SUPABASE_CONNECTION_STRING** — replace `[PASSWORD]` with the database password. 
+- **THE PASSWORD IS PROVIDED IN OUR PROJECT WRITEUP.**
 
 ### Running the API Server
 
