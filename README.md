@@ -258,3 +258,103 @@ Run the eval suite:
 ```bash
 source venv/bin/activate && python -m pytest tests/eval/metrics.py -s
 ```
+
+---
+
+## How To Run
+
+End-to-end steps to run the backend and iOS app (including location simulation for the simulator).
+
+### Prerequisites
+
+- **Python 3.11+**
+- **pip**
+- **macOS**
+- **Xcode 26.2** (or compatible version)
+
+### 1. Clone and set up the project
+
+Clone the repo and change into the project directory:
+
+```bash
+git clone https://github.com/Jaslavie/cs-125.git
+cd cs-125
+```
+
+Create and activate a virtual environment:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Install Python dependencies for the backend:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 2. Environment variables
+
+Add `LADOT_APP_TOKEN` and `SUPABASE_CONNECTION_STRING` for backend functionality:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and set your own values:
+
+- **LADOT_APP_TOKEN**
+  - Create a free account at [data.lacity.org](https://data.lacity.org).
+  - Go to **Profile → Developer Settings → Create New App Token**.
+  - Paste the generated token after `LADOT_APP_TOKEN=` in `.env`.
+
+- **SUPABASE_CONNECTION_STRING**
+  - Replace `[PASSWORD]` in the connection string with the database password.
+  - **The database password is provided in the highlighted text on page one of our submitted final report.**
+
+### 3. Start the backend
+
+From the project root (with your virtual environment activated):
+
+```bash
+uvicorn src.api:app --reload --host 0.0.0.0 --port 8000
+```
+
+You should see output similar to:
+
+```
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [...]
+INFO:     Started server process [...]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+```
+
+If so, the backend is running successfully.
+
+### 4. Open the project in Xcode
+
+1. Open the **Xcode** app on your Mac.
+2. Click **Open Existing Project...** (or **File → Open**).
+3. In the Finder window, go to the **cs-125** directory.
+4. Select **cs-125.xcodeproj** and click **Open**.
+
+You should see the Xcode workspace with the project loaded (e.g. **cs-125** in the toolbar and the project navigator on the left).
+
+### 5. Simulate the user’s current location
+
+The app uses the device location for ranking and route display. In the simulator, you need to provide a simulated location.
+
+1. In the Xcode menu bar, choose **Product → Scheme → Edit Scheme...**.
+2. In the left sidebar, select **Run** (under the **Debug** group).
+3. Open the **Options** tab.
+4. Under **Default Location**, open the dropdown and choose **Add GPX File to Project...**.
+5. In the Finder window, go to the **cs-125** directory and select **LA.gpx**. Click **Add**.
+6. Close the scheme editor.
+
+### 6. Run the app
+
+Click the **Play** (Run) button in the top-left of the Xcode window (or press **⌃R**).
+
+After startup, the iOS simulator should open and you should see the **PetrParker** login screen (username, password, Login, and Create Account). If you are starting the app for the first time and have not left the simulator while logged in, you will land on this login screen.
