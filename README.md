@@ -224,12 +224,26 @@ This is what is displayed on the frontend and should follow the desired logical 
 - DB stores: List of CandidateMeters (all meters within search radius)
 
 # Evaluations
-Our system measures recommendation quality in two ways: 
-- Objective correctness: measures if the recommended result followed constraints
-- Subjective quality: measures if it understood what the user wanted.
 
-We address these by collecting the following metrics:
-- Pareto principle: if meter A has higher scores on more variables than meter B, it should always dominate meter B in all ranking scores
-- Preference monotonicity: If one variable changed with all else held constant, expect ranking shifts in a select direction
-- Hard constraint enforcement: conditions required for a valid recommendation (ex: OCCUPIED meters are never in the output)
-- NDCG@k with rubric: measures if the most relevant meters are in the top-k given a rubric
+We evaluate ranking quality by running the ranker against a golden LADOT snapshot (200 real meters near Hollywood & Vine) and scoring each output meter with an independent relevance rubric (0–3 scale based on budget, distance, and time constraints). Five query profiles are tested, including edge cases (LOW/LONG stress test, HIGH/SHORT control).
+
+### Metrics
+- **NDCG@K** — are the best meters ranked first? Measures graded ordering quality with position discount
+- **MAP@K** — are relevant meters packed at the top without poor ones interleaved?
+- **MRR@K** — how quickly does the user see a usable meter? (1/rank of first relevant)
+- **Precision@K** — what fraction of the top-K results are actually usable?
+
+### Test files
+| File | Purpose |
+|------|---------|
+| `tests/eval/metrics.py` | Metric functions + eval runner against golden data |
+| `tests/eval/golden/meters.json` | Frozen LADOT meter inventory snapshot (200 meters) |
+| `tests/eval/golden/occupancy.json` | Frozen LADOT occupancy snapshot (79 records) |
+| `tests/test_ranking.py` | Unit tests for scoring components, preference weighting, penalties |
+| `tests/test_retrieval.py` | Unit tests for geohash indexing, spatial lookup, pipeline |
+| `tests/test_db.py` | API endpoint and database integration tests |
+
+Run the eval suite:
+```bash
+source venv/bin/activate && python -m pytest tests/eval/metrics.py -s
+```
