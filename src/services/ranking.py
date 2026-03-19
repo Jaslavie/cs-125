@@ -50,6 +50,7 @@ class MeterRanker:
     ) -> List[OutputMeter]:
         """
         Main ranking pipeline:
+        0. pre rank using haversine --> saving api calls!
         1. Compute meter→destination (OSRM) and user→meter (Haversine) distances.
         2. Blend distances: 85% destination-based, 15% user-proximity-based.
         3. Score each meter (cost, blended distance, time limit) with penalties, not hard filtering.
@@ -58,10 +59,26 @@ class MeterRanker:
         """
         if not candidates:
             return []
+        #0. # Compute approximate distance for ALL candidates locally
+        rough_candidates = []
+        for meter in candidates:
+            approx_dist = haversine_distance(meter.location, destination)
+            rough_candidates.append((meter, approx_dist))
+
+        # Sort by closest (approximate)
+        rough_candidates.sort(key=lambda x: x[1])
+
+        # Keep only top N for expensive OSRM calls
+        OSRM_CANDIDATE_LIMIT = 30  # 🔥 tune this (20–50 works well)
+        top_candidates = [m for m, _ in rough_candidates[:OSRM_CANDIDATE_LIMIT]]
+
 
         # Score each meter
         scored_meters = []
-        for meter in candidates:
+        for meter in top_candidates:
+
+            print("OSRM CALL:", meter.spaceid)  # ✅ ADD HERE
+
             # Primary: real walking distance from meter to destination (85% influence)
             dest_route = get_walking_route(meter.location, destination)
 
@@ -203,6 +220,8 @@ class MeterRanker:
             rate_per_hour=sum(meter.rate_per_hour) / len(meter.rate_per_hour),
             time_limit_minutes=meter.time_limit_minutes,
             occupancy=meter.occupancy,
+            latitude=meter.location.lat,
+            longitude=meter.location.lon,
             distance_to_destination_meters=route["distance_meters"],
             walk_time_minutes=route["walk_time_minutes"],
             estimated_total_cost=self._calculate_total_cost(meter, stay_minutes),
