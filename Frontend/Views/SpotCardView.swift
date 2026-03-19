@@ -88,7 +88,7 @@ struct SpotCardView: View {
                 .foregroundStyle(Theme.secondaryText)  // Street address of the meter (e.g. "6233 Hollywood Blvd").
 
             HStack(spacing: 16) {
-                Label("\(spot.walkTime) min walk", systemImage: "figure.walk")
+                Label("Roughly estimated walktime: \(spot.walkTime) min walk", systemImage: "figure.walk")
                 Label("$\(String(format: "%.2f", spot.rate))/hr", systemImage: "dollarsign.circle")
                 Label("\(spot.timelimit) min limit", systemImage: "clock")
                 Text(occupancyLabel)  // Live occupancy badge; green for VACANT, red for OCCUPIED, gray for no sensor data.
