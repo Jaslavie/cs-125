@@ -1,5 +1,7 @@
 # cs-125: Petr Parking
 
+**NOTE: This README is present as another piece of documentation for our project. If you are our TA please treat our final subnitted report as the primary source of truth for our project and treat this as a secondary source.**
+
 ## Getting Started
 
 ### Prerequisites
@@ -34,8 +36,13 @@ After copying `.env.example` to `.env`, fill in the two values:
 - Go to your profile → **Developer Settings** → **Create New App Token**
 - Paste the generated token after `LADOT_APP_TOKEN=`.
 2. **SUPABASE_CONNECTION_STRING** — replace `[PASSWORD]` with the database password. 
-- **THE PASSWORD IS PROVIDED IN OUR PROJECT WRITEUP.**
+- **THE PASSWORD FOR SUPABASE IS PROVIDED IN OUR PROJECT WRITEUP.**
 
+Your .env file should look like this:
+```
+LADOT_APP_TOKEN=<YOUR_GENERATED_TOKEN>
+SUPABASE_CONNECTION_STRING= postgresql://postgres.dveanciavnhmxeruofhc:[PASSWORD_FROM_WRITEUP]@aws-1-us-east-2.pooler.supabase.com:5432/postgres
+```
 ### Running the API Server
 
 ```bash
@@ -358,3 +365,7 @@ The app uses the device location for ranking and route display. In the simulator
 Click the **Play** (Run) button in the top-left of the Xcode window (or press **⌃R**).
 
 After startup, the iOS simulator should open and you should see the **PetrParker** login screen (username, password, Login, and Create Account). If you are starting the app for the first time and have not left the simulator while logged in, you will land on this login screen.
+
+### Misc
+
+**Note:** The latest version of our app uses OSRM for calculating walking distance, which trades ranking time in exchange for accuracy. To see our old haversine implementation, which is much faster but less accurate, please switch to the "real-time-occupancy" branch.
