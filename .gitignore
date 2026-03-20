@@ -6,3 +6,6 @@
 .env
 venv
 *__pycache__
+
+# Xcode: ignore per-user workspace UI state
+cs-125.xcodeproj/project.xcworkspace/xcuserdata/
