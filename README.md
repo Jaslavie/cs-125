@@ -1,5 +1,7 @@
 # cs-125: Petr Parking
 
+**NOTE: This README is present as another piece of documentation for our project. If you are our TA please treat our final subnitted report as the primary source of truth for our project and treat this as a secondary source.**
+
 ## Getting Started
 
 ### Prerequisites
