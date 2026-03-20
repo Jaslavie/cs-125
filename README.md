@@ -368,4 +368,8 @@ After startup, the iOS simulator should open and you should see the **PetrParker
 
 ### Misc
 
-**Note:** The latest version of our app uses OSRM for calculating walking distance, which trades ranking time in exchange for accuracy. To see our old haversine implementation, which is much faster but less accurate, please switch to the "real-time-occupancy" branch.
+#### OSRM vs Haversine
+The latest version of our app uses OSRM for calculating walking distance, which trades ranking time in exchange for accuracy. To see our old haversine implementation, which is much faster but less accurate, please switch to the old `real-time-occupancy` branch.
+
+**Note:** The `real-time-occupancy` branch is an older version of our app and does not include suites that are in the current version, like the eval suites. Therefore, use the `real-time-occupancy` branch only for seeing how our app worked with the haversine implementation.
+
