@@ -34,8 +34,13 @@ After copying `.env.example` to `.env`, fill in the two values:
 - Go to your profile → **Developer Settings** → **Create New App Token**
 - Paste the generated token after `LADOT_APP_TOKEN=`.
 2. **SUPABASE_CONNECTION_STRING** — replace `[PASSWORD]` with the database password. 
-- **THE PASSWORD IS PROVIDED IN OUR PROJECT WRITEUP.**
+- **THE PASSWORD FOR SUPABASE IS PROVIDED IN OUR PROJECT WRITEUP.**
 
+Your .env file should look like this:
+```
+LADOT_APP_TOKEN=<YOUR_GENERATED_TOKEN>
+SUPABASE_CONNECTION_STRING= postgresql://postgres.dveanciavnhmxeruofhc:[PASSWORD_FROM_WRITEUP]@aws-1-us-east-2.pooler.supabase.com:5432/postgres
+```
 ### Running the API Server
 
 ```bash
