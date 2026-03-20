@@ -373,3 +373,5 @@ The latest version of our app uses OSRM for calculating walking distance, which 
 
 **Note:** The `real-time-occupancy` branch is an older version of our app and does not include suites that are in the current version, like the eval suites. Therefore, use the `real-time-occupancy` branch only for seeing how our app worked with the haversine implementation.
 
+**Note:** The old `real-time-occupancy` branch's version of gitignore does not have functionality for ignoring local xcuserdata changes. If you encounter an error where you have uncommited changes from that file, feel free to use `git reset --hard`. 
+
