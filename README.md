@@ -363,3 +363,7 @@ The app uses the device location for ranking and route display. In the simulator
 Click the **Play** (Run) button in the top-left of the Xcode window (or press **⌃R**).
 
 After startup, the iOS simulator should open and you should see the **PetrParker** login screen (username, password, Login, and Create Account). If you are starting the app for the first time and have not left the simulator while logged in, you will land on this login screen.
+
+### Misc
+
+**Note:** The latest version of our app uses OSRM for calculating walking distance, which trades ranking time in exchange for accuracy. To see our old haversine implementation, which is much faster but less accurate, please switch to the "real-time-occupancy" branch.
